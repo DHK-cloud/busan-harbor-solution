@@ -1200,6 +1200,7 @@ async function callGeminiAPI(prompt) {
     }
 
     // Server handles the API call
+    const data = await response.json();
     console.log('✓ 서버로부터 AI 응답 받음');
 
     if (data.success && data.result) {
