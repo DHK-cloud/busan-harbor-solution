@@ -1,3 +1,5 @@
+// api/gemini.js
+
 export default async function handler(req, res) {
   console.log('=== Gemini API Request ===');
 
@@ -36,9 +38,10 @@ export default async function handler(req, res) {
       });
     }
 
-    // ✅ 여기 URL이 매우 중요합니다
-    const url ='https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' +
-    apiKey;
+    // ✅ Gemini 2.5 Flash 엔드포인트
+    const url =
+      'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' +
+      apiKey;
 
     console.log('Calling Gemini API...', url.replace(apiKey, 'HIDDEN'));
 
