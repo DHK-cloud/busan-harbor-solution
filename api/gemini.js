@@ -38,7 +38,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // ✅ Gemini 2.5 Flash 엔드포인트
+    // ✅ Gemini 2.5 Flash 모델
     const url =
       'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' +
       apiKey;
