@@ -1187,7 +1187,7 @@ const GEMINI_API_KEY = "";
 async function callGeminiAPI(prompt) {
   try {
     console.log('🔒 서버에 AI 분석 요청 중...');
-    const response = await fetch('/api/getApikey', {
+    const response = await fetch('/api/gemini'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt: prompt })
