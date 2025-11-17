@@ -38,8 +38,9 @@ export default async function handler(req, res) {
 
     // ✅ 여기 URL이 매우 중요합니다
     const url =
-      'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=' +
+      const url ='https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' +
       apiKey;
+
     // 만약 1.5 Pro가 안 되면 이걸로 바꿔도 됩니다:
     // const url =
     //   'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=' +
