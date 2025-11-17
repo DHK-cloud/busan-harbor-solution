@@ -1,6 +1,5 @@
 {
   "name": "busan-harbor-solution",
   "version": "1.0.0",
-  "type": "module",
-  "description": "부산항 해양 스마트 출장 솔루션"
+  "type": "module"
 }

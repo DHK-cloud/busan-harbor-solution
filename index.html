@@ -1180,35 +1180,38 @@
   </div>
   
 <script>
-    // API 키는 서버에서 관리
-let GEMINI_API_KEY = "";
+    // API 키는 서버에서만 관리
+const GEMINI_API_KEY = "";
 
-// 서버에서 안전하게 Gemini API 호출
+// 서버를 통해 Gemini API 호출
 async function callGeminiAPI(prompt) {
   try {
+    console.log('🔒 서버에 AI 분석 요청 중...');
     const response = await fetch('/api/gemini', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt })
+      body: JSON.stringify({ prompt: prompt })
     });
 
     if (!response.ok) {
-      console.error('Server API failed:', response.status);
-      return null;
+      const errorText = await response.text();
+      console.error('서버 응답 오류:', response.status, errorText);
+      throw new Error(`Server error: ${response.status}`);
     }
 
-    const data = await response.json();
-    return data.result;
+    // Server handles the API call
+    console.log('✓ 서버로부터 AI 응답 받음');
+
+    if (data.success && data.result) {
+      return data.result;
+    } else {
+      throw new Error('Invalid response format');
+    }
   } catch (error) {
-    console.error('API call error:', error);
+    console.error('API 호출 실패:', error);
     return null;
   }
 }
-
-// 페이지 로드 시 초기화
-document.addEventListener('DOMContentLoaded', function() {
-  console.log('✓ 페이지 로드 완료');
-});
   
     const defaultConfig = {
       app_title: "해양 스마트 출장 솔루션",
