@@ -18,7 +18,11 @@ export default async function handler(req, res) {
     const { prompt } = req.body;
 
     if (!prompt) {
-      return res.status(400).json({ error: 'Prompt is required', result: null, success: false });
+      return res.status(400).json({
+        error: 'Prompt is required',
+        result: null,
+        success: false
+      });
     }
 
     const apiKey = process.env.GEMINI_API_KEY;
@@ -32,14 +36,16 @@ export default async function handler(req, res) {
       });
     }
 
-    // ❗❗ 여기 URL을 정확히 이렇게 사용해야 합니다
+    // ✅ 여기 URL이 매우 중요합니다
     const url =
-      `https://generativelanguage.googleapis.com/` +
-      `v1beta/models/gemini-1.5-pro:generateContent?key=${apiKey}`;
-    // 또는 구버전:
-    // const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
+      'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=' +
+      apiKey;
+    // 만약 1.5 Pro가 안 되면 이걸로 바꿔도 됩니다:
+    // const url =
+    //   'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=' +
+    //   apiKey;
 
-    console.log('Calling Gemini API...');
+    console.log('Calling Gemini API...', url.replace(apiKey, 'HIDDEN'));
 
     const geminiResponse = await fetch(url, {
       method: 'POST',
