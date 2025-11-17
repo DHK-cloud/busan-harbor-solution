@@ -1,49 +1,46 @@
 export default async function handler(req, res) {
   console.log('=== Gemini API Request ===');
   
-  // CORS 설정
+  // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   
-  // OPTIONS 처리
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
   
-  // POST만 허용
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
   
   try {
-    // 요청에서 prompt 가져오기
     const { prompt } = req.body;
     
     if (!prompt) {
       return res.status(400).json({ error: 'Prompt is required' });
     }
     
-    // 환경 변수에서 API 키 가져오기
     const apiKey = process.env.GEMINI_API_KEY;
-    
     console.log('API Key exists:', !!apiKey);
     
     if (!apiKey) {
-      console.error('GEMINI_API_KEY not set!');
       return res.status(500).json({ 
-        error: 'API key not configured',
-        message: 'Please set GEMINI_API_KEY in Vercel Environment Variables'
+        error: 'API key not configured'
       });
     }
     
-    // Gemini API 호출
-    console.log('Calling Gemini API...');
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
+    // ⚡ 정확한 Gemini API URL
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
     
-    const geminiResponse = await fetch(geminiUrl, {
+    console.log('Calling Gemini API...');
+    console.log('URL:', url.replace(apiKey, 'HIDDEN'));
+    
+    const response = await fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({
         contents: [{
           parts: [{
@@ -53,13 +50,21 @@ export default async function handler(req, res) {
       })
     });
     
-    if (!geminiResponse.ok) {
-      const errorText = await geminiResponse.text();
-      console.error('Gemini API error:', errorText);
-      throw new Error(`Gemini API failed: ${geminiResponse.status}`);
+    console.log('Gemini response status:', response.status);
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('Gemini error:', errorText);
+      return res.status(500).json({ 
+        error: 'Gemini API failed',
+        status: response.status,
+        message: errorText,
+        success: false
+      });
     }
     
-    const data = await geminiResponse.json();
+    const data = await response.json();
+    console.log('Gemini response received');
     
     // 결과 추출
     let result = 'No response';
