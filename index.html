@@ -1180,21 +1180,35 @@
   </div>
   
 <script>
-    let GEMINI_API_KEY = "";
+    // API 키는 서버에서 관리
+let GEMINI_API_KEY = "";
 
-    // API 키를 서버리스 함수에서 가져오기
-    async function loadApiKey() {
-      try {
-        const response = await fetch('/api/getApiKey');
-        const data = await response.json();
-        GEMINI_API_KEY = data.apiKey || "";
-        console.log('✓ API Key loaded from server');
-        return true;
-      } catch (error) {
-        console.error('✗ API Key load failed:', error);
-        return false;
-      }
+// 서버에서 안전하게 Gemini API 호출
+async function callGeminiAPI(prompt) {
+  try {
+    const response = await fetch('/api/gemini', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
+    });
+
+    if (!response.ok) {
+      console.error('Server API failed:', response.status);
+      return null;
     }
+
+    const data = await response.json();
+    return data.result;
+  } catch (error) {
+    console.error('API call error:', error);
+    return null;
+  }
+}
+
+// 페이지 로드 시 초기화
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('✓ 페이지 로드 완료');
+});
   
     const defaultConfig = {
       app_title: "해양 스마트 출장 솔루션",
@@ -2824,35 +2838,25 @@ function checkMarkerClick(x, y) {
 
 
     async function initializeSdkAndMap() {
+      // SDK 초기화 및 기본 맵 설정만 포함 (AI 분석 호출 제외)
       return new Promise(async (resolve) => {
-          console.log('=== 앱 초기화 시작 ===');
-
-          try {
-            // API 키 로드
-            await loadApiKey();
-            console.log('✓ API 키 로드 완료');
-
-            // 기본 설정
-            if (defaultConfig) {
-              const titleEl = document.getElementById('appTitle');
-              const subtitleEl = document.getElementById('subtitle');
-              if (titleEl) titleEl.textContent = defaultConfig.app_title;
-              if (subtitleEl) subtitleEl.textContent = defaultConfig.subtitle;
-            }
-
-            // 캔버스 초기화
-            const canvas = document.getElementById('mapCanvas');
-            if (canvas) {
-              resizeCanvas();
-              setTimeout(() => renderMap(), 100);
-            }
-
-            console.log('✓ 초기화 완료');
-            resolve(true);
-          } catch (error) {
-            console.error('✗ 초기화 실패:', error);
-            resolve(false);
+          let elementSdkReady = false;
+          
+          if (window.elementSdk) {
+            elementSdkReady = initElementSdk(defaultConfig);
+            await onConfigChange(window.elementSdk?.config || defaultConfig);
           }
+          
+          if (!elementSdkReady) {
+             await onConfigChange(defaultConfig);
+          }
+
+          preprocessHarbors();
+          initMap();
+          
+          setupScrollInteraction();
+
+          resolve(true);
       });
     }
 
