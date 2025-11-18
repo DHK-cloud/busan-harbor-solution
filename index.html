@@ -1181,7 +1181,7 @@
   
 <script>
     // API 키는 서버에서만 관리
-const GEMINI_API_KEY = "";
+//const GEMINI_API_KEY = "";
 
 // 서버(/api/gemini)를 통해 Gemini 호출 (클라이언트에는 키 없음)
 async function callGeminiAPI(prompt) {
@@ -2057,8 +2057,16 @@ function checkMarkerClick(x, y) {
     }
 
 
-    async function getStaticAnalysis(harbor) {
-      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${GEMINI_API_KEY}`;
+async function getStaticAnalysis(staticPrompt) {
+  try {
+    const prompt = `[Static 분석]\n${staticPrompt}`;
+    const resultText = await callGeminiAPI(prompt);
+    return resultText;
+  } catch (error) {
+    console.error('Gemini (Static) 분석 중 오류:', error);
+    throw error;
+  }
+}
       
       const prompt = `
         당신은 KCA(한국방송통신전파진흥원)의 베테랑 무선국 검사관을 돕는 AI 어시스턴트입니다.
@@ -2110,73 +2118,16 @@ function checkMarkerClick(x, y) {
       }
     }
 
-    async function getRealtimeAnalysis(harbor, userLat, userLon) {
-      
-      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${GEMINI_API_KEY}`;
-      
-      let departurePoint = "한국방송통신전파진흥원 부산본부 (부산광역시 동구 중앙대로 340)";
-      if (userLat && userLon) {
-          departurePoint = `현재 GPS 위치 (위도: ${userLat}, 경도: ${userLon})`;
-      }
-      
-      const prompt = `
-        [출발지]: "${departurePoint}"
-        [도착지]: "${harbor.harbor} (${harbor.address})"
-
-        [요청]
-        출발지에서 도착지까지 가는 상황을 가정하여, 다음 모든 항목을 실시간으로 검색해 분석해주세요.
-        응답은 반드시 요청한 JSON 형식 *그대로* 반환해야 하며, 다른 설명은 덧붙이지 마세요.
-
-        [JSON 출력 형식]
-        {
-          "travelTime": "('약 1시간 30분' 처럼 시간만 간략하게)",
-          "precautions": "('출퇴근 시간 정체' 처럼 매우 짧게 압축)",
-          "wind": "('북동 3m/s' 처럼 수치와 단위만)",
-          "wave": "('0.5m' 처럼 수치와 단위만)",
-          "tide": "('1.2 knots' 처럼 수치와 단위만)",
-          "warning": "(특보 없으면 '특보 없음')",
-          "highTide": "('09:15, 21:30' 처럼 시간만)",
-          "lowTide": "('15:30, 03:45' 처럼 시간만)"
-        }
-      `;
-      
-      const payload = { 
-          contents: [{ parts: [{ text: prompt }] }],
-          tools: [{ "google_search": {} }]
-      };
-
-      try {
-          const response = await fetch(apiUrl, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload)
-          });
-          if (!response.ok) {
-              const errorBody = await response.json().catch(() => ({ error: { message: response.statusText } }));
-              throw new Error(`(Realtime) ${errorBody.error?.message || response.statusText}`);
-          }
-          const result = await response.json();
-          const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (!text) throw new Error('정적 분석 AI로부터 유효한 응답을 받지 못했습니다.');
-          
-          let jsonText = text.replace(/^```json\n/, '').replace(/\n```$/, '').trim();
-          const aiData = JSON.parse(jsonText);
-          return aiData;
-
-      } catch (error) {
-          console.error("Gemini (Realtime) 분석 중 오류:", error);
-          return {
-            travelTime: "오류",
-            precautions: "오류",
-            wind: "오류",
-            wave: "오류",
-            tide: "오류",
-            warning: "정보 로드 실패",
-            highTide: "오류",
-            lowTide: "오류"
-          };
-      }
-    }
+async function getRealtimeAnalysis(realtimePrompt) {
+  try {
+    const prompt = `[Realtime 분석]\n${realtimePrompt}`;
+    const resultText = await callGeminiAPI(prompt);
+    return resultText;
+  } catch (error) {
+    console.error('Gemini (Realtime) 분석 중 오류:', error);
+    throw error;
+  }
+}
 
     async function updateLocationInfo(location) {
       const labelWrapper = document.getElementById('locationLabelWrapper');
@@ -2855,6 +2806,27 @@ function checkMarkerClick(x, y) {
           resolve(true);
       });
     }
+  async function callGeminiAPI(prompt) {
+  try {
+    const response = await fetch('/api/gemini', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
+    });
+
+    const data = await response.json();
+
+    if (!data.success) {
+      console.error('Gemini API 오류:', data);
+      throw new Error(data.error || data.message || 'Gemini API failed');
+    }
+
+    return data.result;
+  } catch (error) {
+    console.error('API 호출 실패:', error);
+    throw error;
+  }
+}
 
     window.addEventListener('load', () => {
         const splashScreen = document.getElementById('splash-screen');
@@ -2891,6 +2863,8 @@ function checkMarkerClick(x, y) {
             splashScreen.classList.add('hidden');
             appContainer.style.display = 'flex';
             resizeCanvas();
+
+          
         });
     });
 
