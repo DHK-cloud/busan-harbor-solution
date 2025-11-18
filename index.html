@@ -1180,8 +1180,6 @@
   </div>
   
 <script>
-    // API 키는 서버에서만 관리
-//const GEMINI_API_KEY = "";
 
 // 서버(/api/gemini)를 통해 Gemini 호출 (클라이언트에는 키 없음)
 async function callGeminiAPI(prompt) {
@@ -1221,7 +1219,7 @@ async function callGeminiAPI(prompt) {
     };
 
     const sampleHarbors = [ 
-{harbor: '한화오션', region: '경남-거제', address: '경상남도 거제 거제대로 3370', lat: 34.869797, lon: 128.697627, advice : '통신실장에게 내방인 출입신청으로 들어가야함'},
+{harbor: '한화오션', region: '경남-거제', address: '경상남도 거제 거제대로 3370', lat: 34.869797, lon: 128.697627, advice : '통신실장에게 내방인 출입신청 필요'},
 {harbor: '내간항', region: '경남-거제', address: '경상남도 거제 거제면 내간리 50-17', lat: 34.846273, lon: 128.567096, advice : ''},
 {harbor: '법동항', region: '경남-거제', address: '경상남도 거제 거제면 법동리 1056-4', lat: 34.82242, lon: 128.519491, advice : ''}
    ];
@@ -2057,75 +2055,97 @@ function checkMarkerClick(x, y) {
     }
 
 
-async function getStaticAnalysis(staticPrompt) {
+sync function getStaticAnalysis(harbor) {
+  const prompt = `
+당신은 KCA(한국방송통신전파진흥원)의 베테랑 무선국 검사관을 돕는 AI 어시스턴트입니다.
+
+[분석 대상 항구]
+- 이름: ${harbor.harbor}
+- 주소: ${harbor.address}
+- 기존 조언: ${harbor.advice || ''}
+
+[요청]
+위 정보만을 바탕으로, 다음 항목을 JSON 형식으로 작성하세요.
+
+{
+  "keyFeatures": "무선국 검사/선박 안전 관점에서 이 항·포·구의 핵심 특징을 2~3문장으로 요약",
+  "overallOpinion": "검사관을 위한 종합 의견을 1문장으로 요약"
+}
+`.trim();
+
   try {
-    const prompt = `[Static 분석]\n${staticPrompt}`;
-    const resultText = await callGeminiAPI(prompt);
-    return resultText;
+    const text = await callGeminiAPI(prompt);
+
+    let jsonText = text
+      .replace(/^```
+      .replace(/\n?```$/, '')
+      .trim();
+
+    const aiData = JSON.parse(jsonText);
+    return aiData;
   } catch (error) {
     console.error('Gemini (Static) 분석 중 오류:', error);
-    throw error;
+    return {
+      keyFeatures: `AI 요약 실패: ${error.message}`,
+      overallOpinion: 'AI 요약 실패'
+    };
   }
 }
       
-      const prompt = `
-        당신은 KCA(한국방송통신전파진흥원)의 베테랑 무선국 검사관을 돕는 AI 어시스턴트입니다.
-        [분석 대상 항구]: 
-        - 이름: ${harbor.harbor}
-        - 주소: ${harbor.address}
-        - 기존 조언: ${harbor.advice}
+async function getRealtimeAnalysis(harbor, userLat, userLon) {
+  let departurePoint = '한국방송통신전파진흥원 부산본부 (부산광역시 동구 중앙대로 340)';
+  if (userLat && userLon) {
+    departurePoint = `현재 GPS 위치 (위도: ${userLat}, 경도: ${userLon})`;
+  }
 
-        [요청]
-        오직 위에 제공된 항구 정보와 당신의 지식만을 바탕으로 (웹 검색 없이) 다음 항목을 분석해주세요.
-        응답은 반드시 요청한 JSON 형식 *그대로* 반환해야 하며, 다른 설명은 덧붙이지 마세요.
+  const prompt = `
+당신은 KCA 부산본부 검사관의 출장을 돕는 AI 항해 플래너입니다.
 
-        [JSON 출력 형식]
-        {
-          "keyFeatures": "(무선국 검사관점에서 본 항구의 핵심 특징. 1줄로 매우 함축적이게 요약)",
-          "overallOpinion": "(검사관을 위한 최종 안전/환경 조언. '교통' 관련 내용은 제외. 1줄로 매우 함축적이게 요약)"
-        }
-      `;
-      
-      const payload = { 
-          contents: [{ parts: [{ text: prompt }] }],
-          tools: [{ "google_search": {} }] 
-      };
-      
-      try {
-          const response = await fetch(apiUrl, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload)
-          });
-          if (!response.ok) {
-              const errorBody = await response.json().catch(() => ({ error: { message: response.statusText } }));
-              throw new Error(`(Static) ${errorBody.error?.message || response.statusText}`);
-          }
-          const result = await response.json();
-          const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (!text) throw new Error('정적 분석 AI로부터 유효한 응답을 받지 못했습니다.');
-          
-          let jsonText = text.replace(/^```json\n/, '').replace(/\n```$/, '').trim();
-          const aiData = JSON.parse(jsonText);
-          return aiData;
-          
-      } catch (error) {
-          console.error("Gemini (Static) 분석 중 오류:", error);
-          return {
-            keyFeatures: `AI 요약 실패: ${error.message}`,
-            overallOpinion: "AI 요약 실패"
-          };
-      }
-    }
+[출발지]
+- ${departurePoint}
 
-async function getRealtimeAnalysis(realtimePrompt) {
+[도착지]
+- 항만명: ${harbor.harbor}
+- 주소: ${harbor.address}
+
+[요청]
+출발지에서 도착지까지 이동과 현장 작업을 고려하여,
+다음 항목을 JSON 형식으로 작성하세요.
+
+{
+  "travelTime": "예: 약 1시간 20분",
+  "precautions": "예: 출퇴근 시간대 북항대교 정체, 항만 진입로 공사 구간 서행 등",
+  "wind": "예: 북동풍 4m/s",
+  "wave": "예: 파고 0.5~1.0m",
+  "tide": "예: 조류 1~2kn",
+  "warning": "예: 특보 없음 / 풍랑주의보 등",
+  "highTide": "예: 09:10 / 21:25",
+  "lowTide": "예: 03:40 / 15:50"
+}
+`.trim();
+
   try {
-    const prompt = `[Realtime 분석]\n${realtimePrompt}`;
-    const resultText = await callGeminiAPI(prompt);
-    return resultText;
+    const text = await callGeminiAPI(prompt);
+
+    let jsonText = text
+      .replace(/^```
+      .replace(/\n?```$/, '')
+      .trim();
+
+    const aiData = JSON.parse(jsonText);
+    return aiData;
   } catch (error) {
     console.error('Gemini (Realtime) 분석 중 오류:', error);
-    throw error;
+    return {
+      travelTime: '오류',
+      precautions: '오류',
+      wind: '정보 로드 실패',
+      wave: '정보 로드 실패',
+      tide: '정보 로드 실패',
+      warning: '정보 로드 실패',
+      highTide: '정보 로드 실패',
+      lowTide: '정보 로드 실패'
+    };
   }
 }
 
