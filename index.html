@@ -6,7 +6,7 @@
   <title>해양 스마트 출장 솔루션</title>
   
   <style>
-    /* --- 기본 설정 --- */
+    /* --- 1. 기본 설정 --- */
     body {
       box-sizing: border-box; margin: 0; padding: 0;
       font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -97,11 +97,9 @@
       border-bottom: 2px solid #1565c0; padding-bottom: 0.4rem;
     }
 
-    /* ★ 항구 이름 및 구분선 수정 ★ */
     #selectedHarborName {
         color: #1565c0; font-size: 1.4rem; font-weight: 800;
-        margin: 0 0 10px 0; padding-bottom: 10px; 
-        border-bottom: 3px solid #1565c0; /* 파란색 굵은 줄 */
+        margin: 0 0 10px 0; padding-bottom: 10px; border-bottom: 3px solid #1565c0;
     }
 
     .address-row {
@@ -153,6 +151,8 @@
     .search-results.active { display: block; }
     .search-result-item { padding: 10px; border-bottom: 1px solid #eee; cursor: pointer; transition: background 0.2s; }
     .search-result-item:hover { background: #e3f2fd; }
+    .search-result-item strong { display: block; color: #1565c0; margin-bottom: 2px; }
+    .search-result-item span { font-size: 0.8rem; color: #666; }
 
     #navButtons a { transition: background-color 0.2s; }
     #navButtons a:hover { opacity: 0.9; }
@@ -629,7 +629,6 @@ function handleWheel(e) {
     drawMap();
 }
 
-// --- 지도 홀딩 문제 해결: 빈 공간 클릭 시 선택 해제 ---
 function checkClick(e) {
     const rect = canvas.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
@@ -655,13 +654,6 @@ function checkClick(e) {
             updateLocationInfo(clicked);
             drawMap();
         }
-    } else {
-        // 선택 해제
-        selectedLocation = null;
-        document.getElementById('analysisContent').style.display = 'none';
-        document.getElementById('locationLabelWrapper').style.display = 'block';
-        document.getElementById('mapImagePreview').classList.remove('active');
-        drawMap();
     }
 }
 
@@ -879,8 +871,27 @@ window.addEventListener('load', () => {
     });
     document.getElementById('searchInput').addEventListener('input', (e) => {
         const val = e.target.value.trim();
-        if(val.length > 0) performSearch();
-        else document.getElementById('searchResults').style.display = 'none';
+        if(val.length > 0) {
+             // 자동완성 기능은 사용자가 원할 때만 검색버튼/엔터로 작동하도록 변경 요청됨 -> 여기서는 리스트만 갱신
+             // 하지만 검색창 엔터키 전용 요청이 있었으므로, 여기서는 리스트 갱신 로직을 제거하거나 유지할 수 있음.
+             // 사용자 요청: "검색창에 엔터키만 쳐도 작동되었으면 좋겠어"
+             // 따라서 input 이벤트에서는 리스트 갱신을 하고, 엔터키에서는 performSearch 호출.
+             const matched = allHarbors.filter(h => h.harbor.includes(val));
+             if(matched.length > 0) {
+                 const resultsDiv = document.getElementById('searchResults');
+                 resultsDiv.innerHTML = matched.map(h => 
+                    `<div class="search-result-item" onclick='selectHarbor(${JSON.stringify(h)})'>
+                        <strong>${h.harbor}</strong>
+                        <span>${h.region}</span>
+                    </div>`
+                 ).join('');
+                 resultsDiv.style.display = 'block';
+             } else {
+                 document.getElementById('searchResults').style.display = 'none';
+             }
+        } else {
+            document.getElementById('searchResults').style.display = 'none';
+        }
     });
 });
 </script>
