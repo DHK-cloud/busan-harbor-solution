@@ -278,7 +278,7 @@
             </div>
 
             <div class="analysis-section">
-                <h4>이동 경로 & 안전 (최소 시간)</h4>
+                <h4>이동 경로 & 안전</h4>
                 <div class="route-info-grid">
                     <div class="info-block">
                         <h5>예상 소요시간</h5>
@@ -292,7 +292,7 @@
             </div>
 
             <div class="analysis-section">
-                <h4>실시간 해상 날씨 (수치)</h4>
+                <h4>실시간 해상 날씨</h4>
                 <div class="safety-info-grid">
                     <div class="info-block">
                         <h5>풍속/풍향</h5>
@@ -1218,84 +1218,107 @@ function checkClick(e) {
 }
 
 async function getAnalysis(harbor) {
-    // 1. 텍스트 분석 (기존 로직 유지)
+    // -----------------------------------------------------------
+    // [설정] 화면 초기화 (로딩 표시)
+    // -----------------------------------------------------------
+    const ids = ['aiKeyFeatures', 'aiInspectionTips', 'aiTravelTime', 'aiPrecautions', 
+                 'safetyWind', 'safetyWave', 'safetyTide', 'tideHighTime', 'tideLowTime'];
+    
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        el.innerHTML = '<span class="spinner"></span> 분석 중...';
+        el.classList.add('loading');
+        el.classList.remove('small');
+    });
+
+    // 출발지 정보 확인 (GPS가 있으면 내 위치, 없으면 부산본부)
+    const startLat = userLocation ? userLocation.lat : KCA_BUSAN_LAT;
+    const startLon = userLocation ? userLocation.lon : KCA_BUSAN_LON;
+    const startName = userLocation ? "현재 내 위치(GPS)" : "KCA 부산본부";
+
+    // -----------------------------------------------------------
+    // [프롬프트 1] 텍스트 정보 (특징, 팁)
+    // -----------------------------------------------------------
     const textPrompt = `
     역할: KCA 부산본부 선박 무선국 검사 지원 AI.
     대상: ${harbor.harbor} (${harbor.address})
     참고: "${harbor.advice || '없음'}"
-    요청: '핵심 특징'과 '검사 고려사항'만 작성.
-    규칙: 2~3줄 내외로 줄바꿈하여 작성.
-    JSON: { "keyFeatures": "- 특징1\\n- 특징2", "inspectionTips": "- 팁1\\n- 팁2" }
+    요청: 대상 항포구의 '핵심 특징'과 '검사 고려사항'을 작성.
+    규칙:
+    1. 핵심 특징은 항구의 성격(어항, 무역항 등) 위주로 2줄.
+    2. 검사 고려사항은 주차, 도보 이동 등 현장 팁 위주로 2줄.
+    JSON 포맷: { "keyFeatures": "- 특징1\\n- 특징2", "inspectionTips": "- 팁1\\n- 팁2" }
     `;
 
-    // 2. 데이터 분석 (★여기가 수정된 부분입니다★)
-    // 사용자의 GPS 위치가 있으면 그것을 쓰고, 없으면 KCA 부산본부 좌표를 기본값으로 사용
-    const startLat = userLocation ? userLocation.lat : KCA_BUSAN_LAT;
-    const startLon = userLocation ? userLocation.lon : KCA_BUSAN_LON;
-    const startName = userLocation ? "현재 나의 위치" : "한국방송통신전파진흥원 부산본부";
-
+    // -----------------------------------------------------------
+    // [프롬프트 2] 데이터 정보 (소요시간, 날씨, 교통) - ★ AI에게 추론 요청
+    // -----------------------------------------------------------
     const dataPrompt = `
-    역할: 숙련된 운전자이자 해양 데이터 분석가.
+    역할: 숙련된 운전자이자 해양 데이터 전문가.
     
-    [이동 경로 정보]
-    1. 출발지: ${startName} (좌표: ${startLat}, ${startLon})
-    2. 목적지: ${harbor.harbor} (좌표: ${harbor.lat}, ${harbor.lon})
-    3. 목적지 주소: ${harbor.address}
+    [이동 경로]
+    - 출발: ${startName} (좌표: ${startLat}, ${startLon})
+    - 도착: ${harbor.harbor} (좌표: ${harbor.lat}, ${harbor.lon})
+    - 도착지 주소: ${harbor.address}
     
     [요청 사항]
-    위 좌표를 기반으로 차량 이동 시 '예상 소요시간'을 추론하고, 교통 및 해상 날씨 정보를 JSON으로 반환하라.
+    위 좌표를 참고하여 실제 도로 주행 시 예상되는 '소요 시간'과 '교통/날씨' 정보를 추론하여 JSON으로 반환하시오.
     
     [작성 규칙]
-    1. travelTime: 직선거리가 아닌 실제 도로 주행을 가정한 현실적인 예상 시간 (예: "약 50분", "약 1시간 10분").
-    2. precautions: 진입로 협소, 공사 구간 등 운전 주의사항 (20자 내외 줄바꿈).
-    3. 날씨 데이터: 풍속, 파고 등은 일반적인 해상 예보 수치 추정.
+    1. travelTime: 직선거리가 아닌 '실제 도로 상황'을 고려한 현실적인 예상 시간 (예: "약 1시간 20분").
+    2. precautions: 진입로 협소, 비포장, 공사 구간 등 운전 주의사항 (20자 내외).
+    3. 해상 날씨: 해당 지역의 풍속, 파고, 조류 수치 추정.
     
     JSON 포맷: 
     { 
-      "travelTime": "약 00분", 
-      "precautions": "내용", 
-      "wind": "0m/s", 
-      "wave": "0.0m", 
-      "tide": "0.0kn", 
-      "highTide": "00:00", 
-      "lowTide": "00:00" 
+      "travelTime": "약 00시간 00분", 
+      "precautions": "진입로 협소 주의", 
+      "wind": "4~6m/s", 
+      "wave": "0.5~1.0m", 
+      "tide": "0.5kn", 
+      "highTide": "09:00", 
+      "lowTide": "15:00" 
     }
     `;
 
-    // --- API 호출 로직 (기존과 동일) ---
+    // -----------------------------------------------------------
+    // [API 호출] Gemini에게 요청 전송
+    // -----------------------------------------------------------
 
-    // 1. 텍스트 정보 호출
+    // 1. 텍스트 정보 요청
     callGeminiAPI(textPrompt).then(text => {
         const data = extractJSON(text);
         document.getElementById('aiKeyFeatures').innerText = data.keyFeatures;
         document.getElementById('aiInspectionTips').innerText = data.inspectionTips;
         document.getElementById('aiKeyFeatures').classList.remove('loading');
         document.getElementById('aiInspectionTips').classList.remove('loading');
-    }).catch(() => {
+    }).catch(err => {
+        console.error(err);
         document.getElementById('aiKeyFeatures').innerText = "분석 실패";
+        document.getElementById('aiInspectionTips').classList.remove('loading');
     });
 
-    // 2. 데이터 정보 호출
+    // 2. 데이터 정보(시간 포함) 요청
     callGeminiAPI(dataPrompt).then(text => {
         const data = extractJSON(text);
         
-        // 시간 표시 (AI가 추론한 시간)
+        // AI가 계산한 시간 표시
         document.getElementById('aiTravelTime').innerText = data.travelTime;
         
-        // 교통 주의사항
+        // 나머지 정보 표시
         document.getElementById('aiPrecautions').innerText = data.precautions;
         if(data.precautions.length > 15) document.getElementById('aiPrecautions').classList.add('small');
         
-        // 날씨 정보
         document.getElementById('safetyWind').innerText = data.wind;
         document.getElementById('safetyWave').innerText = data.wave;
         document.getElementById('safetyTide').innerText = data.tide;
         document.getElementById('tideHighTime').innerText = data.highTide;
         document.getElementById('tideLowTime').innerText = data.lowTide;
         
-        // 로딩 제거
+        // 로딩 클래스 제거
         document.querySelectorAll('.loading').forEach(el => el.classList.remove('loading'));
-    }).catch(() => {
+    }).catch(err => {
+        console.error(err);
         document.getElementById('aiTravelTime').innerText = "정보 없음";
         document.querySelectorAll('.loading').forEach(el => el.classList.remove('loading'));
     });
