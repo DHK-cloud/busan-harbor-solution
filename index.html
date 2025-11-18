@@ -1,5 +1,3 @@
-
-
 <!doctype html>
 <html lang="ko">
 <head>
@@ -196,7 +194,7 @@
     .region-selector {
       position: absolute;
       top: 20px; 
-      right: 74px; 
+      right: 74px;
       background: rgba(255, 255, 255, 0.95);
       border-radius: 12px;
       padding: 12px;
@@ -500,7 +498,7 @@
     }
     
     .nav-buttons a {
-        flex: 1; 
+        flex: 1;
     }
 
     .nav-button {
@@ -701,7 +699,7 @@
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
       max-width: 500px;
       width: 75%; 
-      max-height: 85vh; /* 태블릿/데스크탑용 최대 높이 */
+      max-height: 85vh;
       overflow-y: auto; 
       color: #333;
     }
@@ -715,12 +713,12 @@
         align-items: center; 
         flex-direction: row; 
         flex-wrap: wrap; 
-        justify-content: space-evenly; 
+        justify-content: space-evenly;
     }
 
     .modal-content #clonedRegionSelector .region-btn {
         width: 45%; 
-        min-width: 100px; 
+        min-width: 100px;
         max-width: 120px; 
         margin: 0; 
         margin-bottom: 8px;
@@ -861,8 +859,8 @@
     /* 태블릿 미디어 쿼리 (769px 이상 1200px 미만) */
     @media (min-width: 769px) and (max-width: 1200px) {
         .modal-content {
-            width: 60%; 
-            max-height: 85vh; /* 높이 제한 및 스크롤 적용 */
+            width: 60%;
+            max-height: 85vh; 
             padding: 20px;
         }
         
@@ -873,7 +871,7 @@
         }
 
         .modal-content #clonedRegionSelector .region-btn {
-            width: 45%; /* 2열 정렬 */
+            width: 45%;
             min-width: 100px;
             max-width: 150px;
             margin: 0;
@@ -882,15 +880,14 @@
         }
         
         .modal-content h3 {
-            margin: 0 0 15px 0; /* 태블릿 제목 마진 조정 */
+            margin: 0 0 15px 0;
         }
     }
 
 
     @media (max-width: 768px) {
-      /* 모바일 기본 폰트 크기 조정 (16px -> 14px) */
       html {
-        font-size: 87.5%; 
+        font-size: 87.5%;
       }
       
       .main-content {
@@ -902,18 +899,18 @@
         max-height: 50%;
         border-left: none;
         border-top: 2px solid #4a90e2;
-        transition: max-height 0.4s ease-out; 
+        transition: max-height 0.4s ease-out;
       }
 
       .header {
         flex-direction: row; 
-        justify-content: flex-start; 
+        justify-content: flex-start;
         gap: 0.5rem;
         padding: 1rem;
       }
 
       .header-logo {
-        height: 35px; 
+        height: 35px;
       }
 
       .header-content {
@@ -928,37 +925,35 @@
       }
 
       .header p {
-        display: none; 
+        display: none;
       }
       
       .zoom-controls {
-        top: 10px; 
+        top: 10px;
         right: 10px;
         z-index: 10;
       }
       
-      /* 모달 영역 */
       .modal-content {
-          width: 90%; 
+          width: 90%;
           max-width: 450px;
-          padding: 10px; /* 수정: 모바일 패딩을 더 줄여 공간 확보 */
-          max-height: 75vh; /* 수정: 모바일 높이를 75vh로 줄여서 스크롤 확보 */
+          padding: 10px; 
+          max-height: 75vh;
       }
 
       .modal-content h3 {
-          margin: 0 0 5px 0; /* 수정: 모바일 제목 마진을 더 줄여 공간 확보 */
+          margin: 0 0 5px 0;
       }
       
-      /* 모달 내부의 복제된 지역 선택기 스타일 */
       .modal-content #clonedRegionSelector {
-          display: flex !important; 
+          display: flex !important;
           flex-direction: row !important; 
           justify-content: space-evenly; 
           margin-top: 5px;
       }
       
       .modal-content #clonedRegionSelector .region-btn {
-          width: 45%; 
+          width: 45%;
           min-width: 80px; 
           max-width: 120px;
           margin: 0; 
@@ -1028,12 +1023,12 @@
 </head>
 <body>
   <div id="splash-screen">
-    <img src="https://www.kca.kr/home/www/images/main_2020/ft_logo.png" alt="로고">
+    <img src="[https://www.kca.kr/home/www/images/main_2020/ft_logo.png](https://www.kca.kr/home/www/images/main_2020/ft_logo.png)" alt="로고">
   </div>
 
   <div class="container" id="app-container">
     <div class="header">
-      <img src="https://www.kca.kr/home/www/images/main_2020/ft_logo.png" alt="한국방송통신전파진흥원" class="header-logo" onerror="this.style.display='none'; this.alt='로고 로드 실패';">
+      <img src="[https://www.kca.kr/home/www/images/main_2020/ft_logo.png](https://www.kca.kr/home/www/images/main_2020/ft_logo.png)" alt="한국방송통신전파진흥원" class="header-logo" onerror="this.style.display='none'; this.alt='로고 로드 실패';">
       <div class="header-content">
         <h1 id="appTitle">해양 스마트 출장 솔루션</h1>
         <p id="subtitle">KCA 부산본부 항, 포, 구 출장 솔루션</p>
@@ -1045,6 +1040,7 @@
         <div class="zoom-controls">
           <button class="zoom-btn map-control-btn" id="zoomIn">+</button>
           <button class="zoom-btn map-control-btn" id="zoomOut">−</button>
+   
           <button class="map-control-btn" id="gpsBtn" title="내 위치로 이동">🛰️</button>
           <button class="location-toggle map-control-btn" id="locationToggle" title="위치 메뉴">📍</button>
         </div>
@@ -1053,6 +1049,7 @@
           <button class="region-btn" data-region="ulsan">울산</button>
           <button class="region-btn" data-region="changwon">창원</button>
           <button class="region-btn" data-region="tongyeong">통영</button>
+       
           <button class="region-btn" data-region="geoje">거제</button>
           <button class="region-btn" data-region="namhae">남해</button>
           <button class="region-btn" data-region="sacheon">사천</button>
@@ -1061,13 +1058,13 @@
           <button class="region-btn" data-region="all">전체보기</button>
         </div>
         <div class="tile-loading" id="tileLoading" style="display: none;">
-          <span class="spinner"></span>지도 로딩 중...
+            <span class="spinner"></span><span>지도 로딩 중...</span>
         </div>
         
         <div class="map-image-preview" id="mapImagePreview">
           <div class="map-image-preview-header">
             <span class="map-image-preview-close" id="closePreviewBtn" title="닫기">&times;</span>
-            <img id="previewImg" src="https://placehold.co/250x150/e3f2fd/1565c0?text=Harbor+Image" alt="항구 이미지 미리보기">
+            <img id="previewImg" src="[https://placehold.co/250x150/e3f2fd/1565c0?text=Harbor+Image](https://placehold.co/250x150/e3f2fd/1565c0?text=Harbor+Image)" alt="항구 이미지 미리보기">
             <div class="map-image-preview-title" id="previewImgTitle">항구 이름</div>
           </div>
         </div>
@@ -1080,6 +1077,7 @@
           <input type="text" id="searchInput" placeholder="항포구 이름 또는 지역 검색...">
           <button id="searchBtn" class="search-btn">🔍</button>
         </div>
+        
         
         <div id="searchResults" class="search-results"></div>
 
@@ -1101,6 +1099,7 @@
 
             <div class="analysis-section">
                 <h4>핵심 특징</h4>
+                
                 <p id="aiKeyFeatures" class="loading"><span class="spinner"></span> AI 분석 중...</p>
             </div>
             <div class="analysis-section">
@@ -1108,6 +1107,7 @@
                 <p id="aiFieldAdvice"></p>
             </div>
             <div class="analysis-section">
+          
                 <h4>종합 의견</h4>
                 <p id="aiOverallOpinion" class="loading"><span class="spinner"></span> AI 분석 중...</p>
             </div>
@@ -1115,30 +1115,36 @@
             <div class="analysis-section">
                 <h4>AI 맞춤 출장 경로</h4>
                 <div class="route-info-grid">
+          
                     <div class="info-block">
                         <h5>예상 소요시간</h5>
                         <p id="aiTravelTime" class="loading"><span class="spinner"></span> AI 분석 중...</p>
                     </div>
+              
                     <div class="info-block">
                         <h5>교통 유의사항</h5>
                         <p id="aiPrecautions" class="loading"><span class="spinner"></span> AI 분석 중...</p>
                     </div>
                 </div>
+  
             </div>
 
             <div class="analysis-section">
                 <h4>실시간 해상 안전정보</h4>
                 <div class="safety-info-grid">
                     <div class="info-block">
+                     
                         <h5>풍속/풍향</h5>
                         <p id="safetyWind" class="loading"><span class="spinner"></span> 정보 로딩중...</p>
                     </div>
                     <div class="info-block">
                         <h5>파고</h5>
+   
                         <p id="safetyWave" class="loading"><span class="spinner"></span> 정보 로딩중...</p>
                     </div>
                     <div class="info-block">
                         <h5>조류</h5>
+         
                         <p id="safetyTide" class="loading"><span class="spinner"></span> 정보 로딩중...</p>
                     </div>
                 </div>
@@ -1146,12 +1152,14 @@
 
             <div class="analysis-section">
                 <h4>특보 정보</h4>
+  
                 <div class="warning-info">
                     <p id="safetyWarning" class="loading"><span class="spinner"></span> 정보 로딩중...</p>
                 </div>
             </div>
             
             <div class="analysis-section">
+       
                 <h4>물때 정보</h4>
                 <div class="route-info-grid">
                     <div class="info-block">
@@ -1161,6 +1169,7 @@
                     <div class="info-block">
                         <h5>간조</h5>
                         <p id="tideLowTime" class="loading"><span class="spinner"></span> AI 분석 중...</p>
+   
                     </div>
                 </div>
             </div>
@@ -1179,26 +1188,45 @@
   
 <script>
 
-// 서버(/api/gemini)를 통해 Gemini 호출 (클라이언트에는 키 없음)
+// 서버 호출 함수
 async function callGeminiAPI(prompt) {
   try {
-    const response = await fetch('/api/gemini', {
+    const response = await fetch('api/gemini', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ prompt })
     });
-
     const data = await response.json();
 
     if (!data.success) {
-      console.error('Gemini API 오류:', data);
+      console.error('Gemini API 오류', data);
       throw new Error(data.error || data.message || 'Gemini API failed');
     }
 
     return data.result;
   } catch (error) {
-    console.error('API 호출 실패:', error);
+    console.error('API 호출 실패', error);
     throw error;
+  }
+}
+
+// AI 응답 텍스트에서 순수 JSON 부분만 추출하는 함수 (추가됨)
+function extractJSON(text) {
+  try {
+    const startIndex = text.indexOf('{');
+    const endIndex = text.lastIndexOf('}');
+
+    if (startIndex !== -1 && endIndex !== -1) {
+      const jsonString = text.substring(startIndex, endIndex + 1);
+      return JSON.parse(jsonString);
+    } else {
+      // JSON 형식이 명확하지 않으면 전체를 파싱 시도
+      return JSON.parse(text);
+    }
+  } catch (e) {
+    console.error("JSON 파싱 실패:", e);
+    // 실패 시 에러 객체 반환이 아닌 throw로 호출자에게 알림
+    throw new Error("JSON 형식 변환 실패");
   }
 }
   
@@ -1217,11 +1245,10 @@ async function callGeminiAPI(prompt) {
     };
 
     const sampleHarbors = [ 
-{harbor: '한화오션', region: '경남-거제', address: '경상남도 거제 거제대로 3370', lat: 34.869797, lon: 128.697627, advice : '통신실장에게 내방인 출입신청 필요'},
-{harbor: '내간항', region: '경남-거제', address: '경상남도 거제 거제면 내간리 50-17', lat: 34.846273, lon: 128.567096, advice : ''},
-{harbor: '법동항', region: '경남-거제', address: '경상남도 거제 거제면 법동리 1056-4', lat: 34.82242, lon: 128.519491, advice : ''}
+        {harbor: '한화오션', region: '경남-거제', address: '경상남도 거제 거제대로 3370', lat: 34.869797, lon: 128.697627, advice:  '통신실장에게 내방인 출입신청 필요'},
+        {harbor: '내간항', region: '경남-거제', address: '경상남도 거제 거제면 내간리 50-17', lat: 34.846273, lon: 128.567096, advice:  ''},
+        {harbor: '법동항', region: '경남-거제', address: '경상남도 거제 거제면 법동리 1056-4', lat: 34.82242, lon: 128.519491, advice:  ''}
    ];
-
     let allHarbors = sampleHarbors;
     let selectedLocation = null;
     let canvas, ctx;
@@ -1242,48 +1269,43 @@ async function callGeminiAPI(prompt) {
     let lastRenderTime = 0;
     let isEditMode = false;
     let editingHarbor = null;
-    
     let isRegionalView = true;
     let detailedRegion = null;
     
     const isSmartphoneView = () => window.innerWidth <= 768;
-
-
     const KOREA_BOUNDS = {
       minLat: 32,
       maxLat: 43,
       minLon: 124,
       maxLon: 132
     };
-
     const TILE_SIZE = 256;
-    const OSM_TILE_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+    const OSM_TILE_URL = '[https://tile.openstreetmap.org/](https://tile.openstreetmap.org/){z}/{x}/{y}.png';
 
     const regionImages = {
-      '부산': 'https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F001%2F2024%2F07%2F25%2FPCM20231118000008051_P4_20240725184131104.jpg&type=l340_165',
-      '울산': 'https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F5277%2F2018%2F11%2F14%2F0000155402_003_20181114221331811.jpg&type=a340',
-      '경남-거제': 'https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F5217%2F2023%2F01%2F02%2F0000232921_004_20230102003605996.jpg&type=l340_165',
-      '경남-고성': 'https://search.pstatic.net/sunny/?src=https%3A%2F%2Fimg1.daumcdn.net%2Fthumb%2FR1280x0.fwebp%2F%3Ffname%3Dhttp%3A%2F%2Ft1.daumcdn.net%2Fbrunch%2Fservice%2Fuser%2FwlQ%2Fimage%2FvO85k5zfAXrRGA9dRapdflKcTc8&type=a340',
-      '경남-남해': 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDExMDVfNTUg%2FMDAxNzMwNzY5Mjc3Mzc4.UvfopuyZSkpS8geZ2z0Mp00Rk3J0omIXRfL-jehuC7sg.WsbCqTEQ8wmmuigHJ9zXrVMu_Swk_046JB14PAea0UUg.JPEG%2F1730723049942.jpg&type=a340',
-      '경남-사천': 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNzEyMzFfMjIw%2FMDAxNTE0NzA2ODUxNDYw.NFN3QeevzrFFkQADD69H8WfmIjDatgPdZgKF6iaIfTYg.gPpyGtOUU92Vs_lNgch4y8f-DDE7AINop5v8W5hDRbsg.JPEG.bolikeme%2F%25B0%25AD%25B8%25AA%25BF%25A9%25C7%25E0IMG_3456-20171203.jpg&type=a340',
-      '경남-창원': 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNTA3MjNfMjk1%2FMDAxNzUzMjM4MDA5NTU1.FcNZWPDyLX1fDkS-8XcPKTMXn5oSFpihWwSnZLNs5YYg.KV-FxcwmfRSva7_qygX6JZTx1sxDe69jwwZ8d6JoCs4g.JPEG%2F14.jpg&type=a340',
-     '경남-통영': 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzA0MTNfMTEg%2FMDAxNjgxMzU3NjY3Njk3.eHfMmbpy0RssGWVORuaQvOvk515bhhJ6aMDxiXlv_50g.oc-Lta20lYiA4CMRrx3YEUu6OByKEi83g7CjIsZqwW0g.JPEG.hgkim3%2F25991%25A3%25DF41271%25A3%25DF5233.jpg&type=a340',
-      '경남-하동': 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzAyMTJfNDAg%2FMDAxNjc2MTk5NjkzNjgz.lsNEBado0DCaXjagjkOrQ_zWvU8JQlxWo7fT_ZFs_gkg.3_nYICUhx2OlbTAtjopaqc9D3rQF9nUod8j2pc1wJqAg.JPEG.jhmspark00%2F20230205-IMGL3595.jpg&type=a340',
-      '경남': 'https://placehold.co/250x150/0d47a1/ffffff?text=경남+대표+이미지'
+      '부산': '[https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F001%2F2024%2F07%2F25%2FPCM20231118000008051_P4_20240725184131104.jpg&type=l340_165](https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F001%2F2024%2F07%2F25%2FPCM20231118000008051_P4_20240725184131104.jpg&type=l340_165)',
+      '울산': '[https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F5277%2F2018%2F11%2F14%2F0000155402_003_20181114221331811.jpg&type=a340](https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F5277%2F2018%2F11%2F14%2F0000155402_003_20181114221331811.jpg&type=a340)',
+      '경남-거제': '[https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F5217%2F2023%2F01%2F02%2F0000232921_004_20230102003605996.jpg&type=l340_165](https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F5217%2F2023%2F01%2F02%2F0000232921_004_20230102003605996.jpg&type=l340_165)',
+      '경남-고성': '[https://search.pstatic.net/sunny/?src=https%3A%2F%2Fimg1.daumcdn.net%2Fthumb%2FR1280x0.fwebp%2F%3Ffname%3Dhttp%3A%2F%2Ft1.daumcdn.net%2Fbrunch%2Fservice%2Fuser%2FwlQ%2Fimage%2FvO85k5zfAXrRGA9dRapdflKcTc8&type=a340](https://search.pstatic.net/sunny/?src=https%3A%2F%2Fimg1.daumcdn.net%2Fthumb%2FR1280x0.fwebp%2F%3Ffname%3Dhttp%3A%2F%2Ft1.daumcdn.net%2Fbrunch%2Fservice%2Fuser%2FwlQ%2Fimage%2FvO85k5zfAXrRGA9dRapdflKcTc8&type=a340)',
+      '경남-남해': '[https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDExMDVfNTUg%2FMDAxNzMwNzY5Mjc3Mzc4.UvfopuyZSkpS8geZ2z0Mp00Rk3J0omIXRfL-jehuC7sg.WsbCqTEQ8wmmuigHJ9zXrVMu_Swk_046JB14PAea0UUg.JPEG%2F1730723049942.jpg&type=a340](https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDExMDVfNTUg%2FMDAxNzMwNzY5Mjc3Mzc4.UvfopuyZSkpS8geZ2z0Mp00Rk3J0omIXRfL-jehuC7sg.WsbCqTEQ8wmmuigHJ9zXrVMu_Swk_046JB14PAea0UUg.JPEG%2F1730723049942.jpg&type=a340)',
+      '경남-사천': '[https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNzEyMzFfMjIw%2FMDAxNTE0NzA2ODUxNDYw.NFN3QeevzrFFkQADD69H8WfmIjDatgPdZgKF6iaIfTYg.gPpyGtOUU92Vs_lNgch4y8f-DDE7AINop5v8W5hDRbsg.JPEG.bolikeme%2F%25B0%25AD%25B8%25AA%25BF%25A9%25C7%25E0IMG_3456-20171203.jpg&type=a340](https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNzEyMzFfMjIw%2FMDAxNTE0NzA2ODUxNDYw.NFN3QeevzrFFkQADD69H8WfmIjDatgPdZgKF6iaIfTYg.gPpyGtOUU92Vs_lNgch4y8f-DDE7AINop5v8W5hDRbsg.JPEG.bolikeme%2F%25B0%25AD%25B8%25AA%25BF%25A9%25C7%25E0IMG_3456-20171203.jpg&type=a340)',
+      '경남-창원': '[https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNTA3MjNfMjk1%2FMDAxNzUzMjM4MDA5NTU1.FcNZWPDyLX1fDkS-8XcPKTMXn5oSFpihWwSnZLNs5YYg.KV-FxcwmfRSva7_qygX6JZTx1sxDe69jwwZ8d6JoCs4g.JPEG%2F14.jpg&type=a340](https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNTA3MjNfMjk1%2FMDAxNzUzMjM4MDA5NTU1.FcNZWPDyLX1fDkS-8XcPKTMXn5oSFpihWwSnZLNs5YYg.KV-FxcwmfRSva7_qygX6JZTx1sxDe69jwwZ8d6JoCs4g.JPEG%2F14.jpg&type=a340)',
+     '경남-통영': '[https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzA0MTNfMTEg%2FMDAxNjgxMzU3NjY3Njk3.eHfMmbpy0RssGWVORuaQvOvk515bhhJ6aMDxiXlv_50g.oc-Lta20lYiA4CMRrx3YEUu6OByKEi83g7CjIsZqwW0g.JPEG.hgkim3%2F25991%25A3%25DF41271%25A3%25DF5233.jpg&type=a340](https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzA0MTNfMTEg%2FMDAxNjgxMzU3NjY3Njk3.eHfMmbpy0RssGWVORuaQvOvk515bhhJ6aMDxiXlv_50g.oc-Lta20lYiA4CMRrx3YEUu6OByKEi83g7CjIsZqwW0g.JPEG.hgkim3%2F25991%25A3%25DF41271%25A3%25DF5233.jpg&type=a340)',
+      '경남-하동': '[https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzAyMTJfNDAg%2FMDAxNjc2MTk5NjkzNjgz.lsNEBado0DCaXjagjkOrQ_zWvU8JQlxWo7fT_ZFs_gkg.3_nYICUhx2OlbTAtjopaqc9D3rQF9nUod8j2pc1wJqAg.JPEG.jhmspark00%2F20230205-IMGL3595.jpg&type=a340](https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzAyMTJfNDAg%2FMDAxNjc2MTk5NjkzNjgz.lsNEBado0DCaXjagjkOrQ_zWvU8JQlxWo7fT_ZFs_gkg.3_nYICUhx2OlbTAtjopaqc9D3rQF9nUod8j2pc1wJqAg.JPEG.jhmspark00%2F20230205-IMGL3595.jpg&type=a340)',
+      '경남': '[https://placehold.co/250x150/0d47a1/ffffff?text=경남+대표+이미지](https://placehold.co/250x150/0d47a1/ffffff?text=경남+대표+이미지)'
     };
-    
     const regionalMarkers = {
         '부산': { lat: 35.18, lon: 129.08, count: 0, regionKey: '부산' },
         '울산': { lat: 35.53, lon: 129.35, count: 0, regionKey: '울산' },
         '경남-창원': { lat: 35.1978, lon: 128.5756, count: 0, regionKey: '경남-창원' },
         '경남-통영': { lat: 34.8442, lon: 128.4331, count: 0, regionKey: '경남-통영' },
         '경남-거제': { lat: 34.8897, lon: 128.6997, count: 0, regionKey: '경남-거제' },
+       
         '경남-남해': { lat: 34.83, lon: 127.89, count: 0, regionKey: '경남-남해' },
         '경남-사천': { lat: 34.92, lon: 128.06, count: 0, regionKey: '경남-사천' },
         '경남-하동': { lat: 34.94, lon: 127.87, count: 0, regionKey: '경남-하동' },
         '경남-고성': { lat: 34.97, lon: 128.32, count: 0, regionKey: '경남-고성' }
     };
-    
     const subRegionCenters = {
         '경남-창원': { lat: 35.1978, lon: 128.5756 },
         '경남-통영': { lat: 34.8442, lon: 128.4331 },
@@ -1307,16 +1329,16 @@ async function callGeminiAPI(prompt) {
       goseong: { lat: 34.97, lon: 128.32, zoom: 11 },
       all: { lat: 35.5, lon: 128.8, zoom: 8 }
     };
-    
+
     function preprocessHarbors() {
         Object.values(regionalMarkers).forEach(marker => marker.count = 0);
-
         allHarbors.forEach(harbor => {
             if (harbor.region && harbor.region.includes('부산')) {
                 regionalMarkers['부산'].count++;
             } else if (harbor.region && harbor.region.includes('울산')) {
                 regionalMarkers['울산'].count++;
             } else if (harbor.region && harbor.region.includes('경남')) {
+              
                 const subRegionKey = Object.keys(regionalMarkers).find(key => key.includes('경남') && harbor.region.includes(key.replace('경남-', '')));
                 if (subRegionKey) {
                     regionalMarkers[subRegionKey].count++;
@@ -1329,7 +1351,6 @@ async function callGeminiAPI(prompt) {
     function showModal(message) {
       const modalOverlay = document.getElementById('modalOverlay');
       const modalContent = document.getElementById('modalContent');
-      
       modalContent.innerHTML = `
         <p id="modalMessage">${message.replace(/\n/g, '<br>')}</p>
         <button class="modal-button" id="modalClose">확인</button>
@@ -1364,8 +1385,7 @@ async function callGeminiAPI(prompt) {
     }
 
     function getRegionImage(regionStr) {
-      if (!regionStr) return 'https://placehold.co/250x150/e3f2fd/1565c0?text=No+Image';
-
+      if (!regionStr) return '[https://placehold.co/250x150/e3f2fd/1565c0?text=No+Image](https://placehold.co/250x150/e3f2fd/1565c0?text=No+Image)';
       if (regionImages[regionStr]) {
         return regionImages[regionStr];
       }
@@ -1380,7 +1400,7 @@ async function callGeminiAPI(prompt) {
         return regionImages['울산'];
       }
       
-      return 'https://placehold.co/250x150/e3f2fd/1565c0?text=Harbor+Image';
+      return '[https://placehold.co/250x150/e3f2fd/1565c0?text=Harbor+Image](https://placehold.co/250x150/e3f2fd/1565c0?text=Harbor+Image)';
     }
 
     function initMap() {
@@ -1431,13 +1451,11 @@ async function callGeminiAPI(prompt) {
       const scale = Math.pow(2, mapZoom);
       const worldX = (lon + 180) / 360 * TILE_SIZE * scale;
       const worldY = (1 - Math.log(Math.tan(lat * Math.PI / 180) + 1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * TILE_SIZE * scale;
-      
       const centerTile = latLonToTile(mapCenter.lat, mapCenter.lon, mapZoom);
       const centerWorld = {
         x: centerTile.x * TILE_SIZE + TILE_SIZE / 2,
         y: centerTile.y * TILE_SIZE + TILE_SIZE / 2
       };
-      
       if (!canvas) return { x: 0, y: 0 };
       const x = canvas.width / 2 + (worldX - centerWorld.x);
       const y = canvas.height / 2 + (worldY - centerWorld.y);
@@ -1447,14 +1465,12 @@ async function callGeminiAPI(prompt) {
 
     function loadTile(x, y, z) {
       const key = `${z}/${x}/${y}`;
-      
       if (tileCache[key]) {
         return tileCache[key];
       }
       
       const img = new Image();
       img.crossOrigin = 'anonymous';
-      
       loadingTiles++;
       updateLoadingIndicator();
       
@@ -1463,12 +1479,10 @@ async function callGeminiAPI(prompt) {
         updateLoadingIndicator();
         drawMap();
       };
-      
       img.onerror = () => {
         loadingTiles--;
         updateLoadingIndicator();
       };
-      
       img.src = OSM_TILE_URL.replace('{z}', z).replace('{x}', x).replace('{y}', y);
       tileCache[key] = img;
       
@@ -1507,7 +1521,6 @@ async function callGeminiAPI(prompt) {
       
       ctx.fillStyle = '#aadaff';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      
       const centerTile = latLonToTile(mapCenter.lat, mapCenter.lon, mapZoom);
       
       const tilesX = Math.ceil(canvas.width / TILE_SIZE) + 2;
@@ -1527,7 +1540,6 @@ async function callGeminiAPI(prompt) {
           }
           
           const tile = loadTile(tileX, tileY, mapZoom);
-          
           if (tile.complete && tile.naturalWidth > 0) {
             const tileLatLon = tileToLatLon(tileX, tileY, mapZoom);
             const pixelPos = latLonToPixel(tileLatLon.lat, tileLatLon.lon);
@@ -1546,27 +1558,28 @@ async function callGeminiAPI(prompt) {
         detailedRegion = null;
       } else if (mapZoom <= 9 && !detailedRegion) {
         isRegionalView = true;
-        
         Object.keys(regionalMarkers).forEach(key => {
             const markerData = regionalMarkers[key];
             if (markerData.count > 0) {
                 const pos = latLonToPixel(markerData.lat, markerData.lon);
                 markers.push({ 
                     harbor: key, 
+        
                     region: key, 
                     address: `${key} 지역 대표 마커`, 
                     lat: markerData.lat, 
                     lon: markerData.lon, 
+                 
                     x: pos.x, 
                     y: pos.y,
                     isRegional: true,
                     count: markerData.count
                 });
             }
+    
         });
       } else {
         isRegionalView = false;
-        
         let filteredHarbors = allHarbors;
         
         if (detailedRegion) {
@@ -1577,6 +1590,7 @@ async function callGeminiAPI(prompt) {
                 'ulsan': '울산',
                 'changwon': '경남-창원',
                 'tongyeong': '경남-통영',
+           
                 'geoje': '경남-거제',
                 'namhae': '경남-남해',
                 'sacheon': '경남-사천',
@@ -1593,6 +1607,7 @@ async function callGeminiAPI(prompt) {
             }
             const pos = latLonToPixel(parseFloat(location.lat), parseFloat(location.lon));
             return { ...location, x: pos.x, y: pos.y };
+    
         }).filter(l => l);
         
         markers = locationsToShow;
@@ -1605,7 +1620,8 @@ async function callGeminiAPI(prompt) {
         const isSelected = selectedLocation && selectedLocation.harbor === location.harbor;
         const isNearby = location.isNearby;
         let markerSize = location.isRegional ? 18 : 12;
-        let fillColor = isSelected ? '#ff5722' : (location.isRegional ? '#388e3c' : (isNearby ? '#42a5f5' : '#1e88e5'));
+        let fillColor = isSelected ? '#ff5722' : 
+        (location.isRegional ? '#388e3c' : (isNearby ? '#42a5f5' : '#1e88e5'));
 
         
         ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
@@ -1615,6 +1631,7 @@ async function callGeminiAPI(prompt) {
         if (isSelected) {
           ctx.beginPath();
           ctx.arc(pos.x, pos.y - markerSize * 0.8, markerSize * 2.5, 0, Math.PI * 2);
+ 
           ctx.fillStyle = 'rgba(21, 101, 192, 0.15)';
           ctx.fill();
         }
@@ -1624,7 +1641,6 @@ async function callGeminiAPI(prompt) {
         
         ctx.fillStyle = fillColor;
         ctx.fill();
-        
         ctx.strokeStyle = '#ffffff';
         ctx.lineWidth = 2;
         ctx.stroke();
@@ -1656,8 +1672,7 @@ async function callGeminiAPI(prompt) {
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText(location.count, pos.x, pos.y - markerSize * 1.5);
-            
-            ctx.font = 'bold 14px Noto Sans KR, sans-serif';
+            ctx.font = 'bold 14px "Noto Sans KR", sans-serif';
             ctx.fillStyle = '#1a237e';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'top';
@@ -1665,7 +1680,7 @@ async function callGeminiAPI(prompt) {
         }
 
         if (isSelected) {
-          ctx.font = 'bold 12px Noto Sans KR, sans-serif';
+          ctx.font = 'bold 12px "Noto Sans KR", sans-serif';
           const text = location.harbor + (location.isRegional ? ` (${location.count}곳)` : '');
           const textWidth = ctx.measureText(text).width;
           const labelPadding = 12;
@@ -1713,10 +1728,8 @@ async function callGeminiAPI(prompt) {
       
       if (userLocation) {
         const pos = latLonToPixel(userLocation.lat, userLocation.lon);
-        
         if (pos.x >= -50 && pos.x <= canvas.width + 50 && pos.y >= -50 && pos.y <= canvas.height + 50) {
           const size = 24;
-          
           ctx.shadowColor = 'rgba(76, 175, 80, 0.6)';
           ctx.shadowBlur = 20;
           
@@ -1747,14 +1760,12 @@ async function callGeminiAPI(prompt) {
       ctx.fillText('© OpenStreetMap contributors', canvas.width - 10, canvas.height - 10);
     }
     
-    // 지도 중심 좌표의 유효성을 검사하고 제한하는 함수
     function clampMapCenter(lat, lon) {
       let newLat = Math.max(-85, Math.min(85, lat));
       let newLon = lon;
       
       newLat = Math.max(KOREA_BOUNDS.minLat, Math.min(KOREA_BOUNDS.maxLat, newLat));
       newLon = Math.max(KOREA_BOUNDS.minLon, Math.min(KOREA_BOUNDS.maxLon, newLon));
-
       return { lat: newLat, lon: newLon };
     }
 
@@ -1767,7 +1778,6 @@ async function callGeminiAPI(prompt) {
 
     function handleMouseMove(e) {
       if (!isDragging) return;
-      
       const dx = e.clientX - dragStart.x;
       const dy = e.clientY - dragStart.y;
       
@@ -1775,7 +1785,6 @@ async function callGeminiAPI(prompt) {
       const worldPixelsPerDegree = TILE_SIZE * scale / 360;
       
       let nextLon = mapCenter.lon - dx / worldPixelsPerDegree;
-      
       const latRad = mapCenter.lat * Math.PI / 180;
       const worldPixelsPerRadianLat = TILE_SIZE * scale / (2 * Math.PI) * Math.cos(latRad);
       let nextLat = mapCenter.lat + dy / worldPixelsPerRadianLat * 180 / Math.PI;
@@ -1791,16 +1800,7 @@ async function callGeminiAPI(prompt) {
 
 
     function handleMouseUp(e) {
-      // 마우스 클릭 시, 드래그 상태였는지 확인하여 클릭 처리
       if (isDragging) {
-        // NOTE: dragStart는 handleMouseDown에서 설정되고, handleMouseMove에서 업데이트되므로,
-        // 이 로직은 마지막 dragStart와 현재 마우스 위치를 비교합니다.
-        // 마우스 드래그를 짧게 했을 경우를 감지하려면 handleMouseDown 시점의 좌표를 별도로 저장해야 합니다.
-        // (현재 코드에서는 handleMouseMove에서 dragStart를 업데이트하므로, 이 로직은 클릭 감지에 불리합니다.)
-        // **클릭 감지 안정화를 위해, dragStart를 handleMouseDown에서만 초기화하고, 
-        // handleMouseMove에서는 lastClientPos 같은 변수를 사용하는 것이 더 좋습니다.** // 하지만 기존 코드의 구조를 유지하며, `dx < 5 && dy < 5` 로직을 실행하기 위해 
-        // `handleMouseMove`에서 `dragStart`가 업데이트되지 않았다는 가정을 전제로 수정합니다.
-        
         const finalDragPos = { x: e.clientX, y: e.clientY };
         const dx = Math.abs(finalDragPos.x - dragStart.x);
         const dy = Math.abs(finalDragPos.y - dragStart.y);
@@ -1813,7 +1813,6 @@ async function callGeminiAPI(prompt) {
         }
       }
       
-      // 드래그 여부와 상관없이 마우스 업 시점에 상태를 해제
       isDragging = false;
       canvas.style.cursor = 'grab';
     }
@@ -1833,14 +1832,12 @@ async function callGeminiAPI(prompt) {
               Math.pow(touch2.clientY - touch1.clientY, 2)
           );
           lastTouch = { distance: distance, touch1: touch1, touch2: touch2 }; 
-          isDragging = false; 
+          isDragging = false;
       }
     }
 
     function handleTouchMove(e) {
       e.preventDefault();
-      
-      // 한 손가락 드래그 로직
       if (e.touches.length === 1 && isDragging) {
           const touch = e.touches[0];
           const dx = touch.clientX - lastTouch.x;
@@ -1850,7 +1847,6 @@ async function callGeminiAPI(prompt) {
           const worldPixelsPerDegree = TILE_SIZE * scale / 360;
           
           let nextLon = mapCenter.lon - dx / worldPixelsPerDegree;
-          
           const latRad = mapCenter.lat * Math.PI / 180;
           const worldPixelsPerRadianLat = TILE_SIZE * scale / (2 * Math.PI) * Math.cos(latRad);
           let nextLat = mapCenter.lat + dy / worldPixelsPerRadianLat * 180 / Math.PI;
@@ -1861,9 +1857,7 @@ async function callGeminiAPI(prompt) {
 
           lastTouch = { x: touch.clientX, y: touch.clientY };
           scheduleMapRender();
-          
       } 
-      // 두 손가락 핀치 줌 로직 및 패닝 로직
       else if (e.touches.length === 2 && lastTouch && lastTouch.distance) {
           const touch1 = e.touches[0];
           const touch2 = e.touches[1];
@@ -1871,28 +1865,25 @@ async function callGeminiAPI(prompt) {
               Math.pow(touch2.clientX - touch1.clientX, 2) + 
               Math.pow(touch2.clientY - touch1.clientY, 2)
           );
-          
           const scaleFactor = newDistance / lastTouch.distance;
           const zoomChange = Math.log2(scaleFactor);
-          
           if (Math.abs(zoomChange) > 0.1) { 
               
               const newZoom = zoomChange > 0 ? mapZoom + 1 : mapZoom - 1;
-
               if (newZoom >= 5 && newZoom <= 18) {
                 mapZoom = newZoom;
                 mapCenter = clampMapCenter(mapCenter.lat, mapCenter.lon);
                 
                 if (mapZoom >= 10 && isRegionalView) {
                     isRegionalView = false;
-                    detailedRegion = currentRegionFilter === 'all' ? null : regionalMarkers[currentRegionFilter]?.regionKey;
+                    detailedRegion = currentRegionFilter === 'all' ? null : regionalMarkers[currentRegionFilter].regionKey;
                     if (detailedRegion && !detailedRegion.includes('경남')) detailedRegion = null;
                 } else if (mapZoom <= 9 && !isRegionalView) {
                     isRegionalView = true;
                     detailedRegion = null;
                 }
               }
-              lastTouch.distance = newDistance; 
+              lastTouch.distance = newDistance;
           }
 
           const dx = (touch1.clientX + touch2.clientX) / 2 - (lastTouch.touch1.clientX + lastTouch.touch2.clientX) / 2;
@@ -1916,40 +1907,25 @@ async function callGeminiAPI(prompt) {
       }
     }
 
-// 🌟🌟🌟 터치 드래그 상태 미해제 문제 해결을 위한 수정 🌟🌟🌟
     function handleTouchEnd(e) {
       e.preventDefault();
-      
-      // 1. 모든 터치(손가락)가 떼어진 경우
       if (e.touches.length === 0) {
-        // 마지막 동작이 드래그였고, 움직임이 거의 없었다면 클릭으로 처리
         if (isDragging && lastTouch) {
-          // dragStart가 마지막 터치 좌표를 저장하도록 수정했으므로, 
-          // 클릭 판별은 dragStart와 마지막 touchmove의 좌표를 비교해야 합니다.
-          // 현재 로직은 dragStart와 handleTouchStart 시점의 좌표를 비교하므로, 
-          // dragStart를 touchstart 시점의 좌표로 가정하고 로직을 유지합니다.
           const dx = Math.abs(lastTouch.x - dragStart.x);
           const dy = Math.abs(lastTouch.y - dragStart.y);
-
-          // 임계값을 10px로 설정 (클릭/탭 감지)
           if (dx < 10 && dy < 10) {
             const rect = canvas.getBoundingClientRect();
-            // dragStart의 초기 좌표 (touchstart 시점)를 사용하여 클릭 처리
-            const x = dragStart.x - rect.left; 
+            const x = dragStart.x - rect.left;
             const y = dragStart.y - rect.top;
             checkMarkerClick(x, y);
           }
         }
         
-        // 드래그 상태 및 터치 정보 초기화 (가장 중요한 수정)
-        isDragging = false; 
+        isDragging = false;
         lastTouch = null; 
         
       } 
-      // 2. 두 손가락 중 하나만 뗄 경우 (핀치 줌 -> 드래그 모드로 전환 준비)
       else if (e.touches.length === 1) {
-          // 남아있는 한 손가락의 정보로 lastTouch와 dragStart를 업데이트하여
-          // 새로운 단일 손가락 드래그(패닝)를 준비합니다.
           lastTouch = { x: e.touches[0].clientX, y: e.touches[0].clientY };
           dragStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
           isDragging = true;
@@ -1957,7 +1933,6 @@ async function callGeminiAPI(prompt) {
     }
     function handleWheel(e) {
       e.preventDefault();
-      
       if (e.deltaY < 0) {
         zoomIn();
       } else {
@@ -1965,24 +1940,21 @@ async function callGeminiAPI(prompt) {
       }
     }
 
-function checkMarkerClick(x, y) {
+    function checkMarkerClick(x, y) {
       let closestMarker = null;
       let minDistance = Infinity;
       
-      const isSmartphoneView = window.innerWidth <= 768; // 함수 재호출 방지
+      const isSmartphoneView = window.innerWidth <= 768;
 
       markers.forEach(marker => {
         const markerCenterY = marker.y - (marker.isRegional ? 18 : 12) * 1.5; 
         const markerRadius = (marker.isRegional ? 18 : 12) * 0.8;
         
-        // 원형 마커 영역 (선택 허용 반경)
         const hitRadius = isSmartphoneView ? markerRadius + 30 : markerRadius + 10;
         const distanceToCenter = Math.sqrt(Math.pow(x - marker.x, 2) + Math.pow(y - markerCenterY, 2));
 
-        // 꼬리 부분의 히트박스
         const isTailHit = x >= marker.x - 5 && x <= marker.x + 5 && y >= markerCenterY && y <= marker.y + 5;
 
-        // 원형 영역 또는 꼬리 영역에 들어오면 선택 가능
         if ((distanceToCenter < hitRadius || isTailHit) && distanceToCenter < minDistance) {
           minDistance = distanceToCenter;
           closestMarker = marker;
@@ -1990,13 +1962,11 @@ function checkMarkerClick(x, y) {
       });
 
       if (closestMarker) {
-        // 1. 마커가 발견되었을 경우의 로직
         if (closestMarker.isRegional) {
             enterDetailedRegion(closestMarker.region);
             return;
         }
         
-        // 같은 마커를 다시 클릭하면 해제
         if (selectedLocation && selectedLocation.harbor === closestMarker.harbor) {
              selectedLocation = null;
              updateLocationInfo(null);
@@ -2007,10 +1977,7 @@ function checkMarkerClick(x, y) {
         selectedLocation = closestMarker;
         updateLocationInfo(selectedLocation); 
         drawMap();
-        
       } else {
-        // 2. 마커가 발견되지 않았을 경우 (지도 빈 공간 클릭)
-        // 선택된 마커가 있었다면 해제합니다.
         if (selectedLocation) { 
             selectedLocation = null;
             updateLocationInfo(null);
@@ -2025,6 +1992,7 @@ function checkMarkerClick(x, y) {
             '경남-창원': 'changwon',
             '경남-통영': 'tongyeong',
             '경남-거제': 'geoje',
+        
             '경남-남해': 'namhae',
             '경남-사천': 'sacheon',
             '경남-하동': 'hadong',
@@ -2053,33 +2021,29 @@ function checkMarkerClick(x, y) {
     }
 
 
+// AI 분석 요청 함수들 (수정됨)
 async function getStaticAnalysis(harbor) {
-  const prompt = `...`.trim();
+  const prompt = `
+당신은 KCA(한국방송통신전파진흥원)의 베테랑 무선국 검사관을 돕는 AI 어시스턴트입니다.
+[분석 대상 항구]
+- 이름: ${harbor.harbor}
+- 주소: ${harbor.address}
+- 기존 조언: ${harbor.advice || ''}
 
+[요청]
+위 정보만을 바탕으로, 다음 항목을 JSON 형식으로 작성하세요.
+{
+  "keyFeatures": "무선국 검사/선박 안전 관점에서 이 항·포·구의 핵심 특징을 2~3문장으로 요약",
+  "overallOpinion": "검사관을 위한 종합 의견을 1문장으로 요약"
+}
+`.trim();
   try {
     const text = await callGeminiAPI(prompt);
-
-    let jsonText = text
-      .replace(/^```json\s*/,'')
-      .replace(/^```
-      .replace(/\n?```$/, '')
-      .trim();
-
-    let aiData;
-
-    try {
-      aiData = JSON.parse(jsonText);
-    } catch (e) {
-      console.error('Static JSON 파싱 실패, 원문 사용:', jsonText);
-      aiData = {
-        keyFeatures: jsonText,
-        overallOpinion: jsonText
-      };
-    }
-
+    // 수정된 추출 로직 사용
+    const aiData = extractJSON(text);
     return aiData;
   } catch (error) {
-    console.error('Gemini (Static) 분석 중 오류:', error);
+    console.error('Gemini (Static) 분석 중 오류', error);
     return {
       keyFeatures: `AI 요약 실패: ${error.message}`,
       overallOpinion: 'AI 요약 실패'
@@ -2090,42 +2054,39 @@ async function getStaticAnalysis(harbor) {
 async function getRealtimeAnalysis(harbor, userLat, userLon) {
   let departurePoint = '한국방송통신전파진흥원 부산본부 (부산광역시 동구 중앙대로 340)';
   if (userLat && userLon) {
-    departurePoint = `현재 GPS 위치 (위도: ${userLat}, 경도: ${userLon})`;
+    departurePoint = `현재 GPS 위치 (위도 ${userLat}, 경도 ${userLon})`;
   }
 
-  const prompt = `...위에서 수정한 프롬프트...`.trim();
+  const prompt = `
+당신은 KCA 부산본부 검사관의 출장을 돕는 AI 항해 플래너입니다.
+[출발지]
+- ${departurePoint}
 
+[도착지]
+- 항만명: ${harbor.harbor}
+- 주소: ${harbor.address}
+
+[요청]
+출발지에서 도착지까지 이동과 현장 작업을 고려하여,
+다음 항목을 JSON 형식으로 작성하세요.
+{
+  "travelTime": "예: 약 1시간 20분",
+  "precautions": "예: 출퇴근 시간대 북항대교 정체, 항만 진입로 공사 구간 서행 등",
+  "wind": "예: 북동풍 4m/s",
+  "wave": "예: 파고 0.5~1.0m",
+  "tide": "예: 조류 1~2kn",
+  "warning": "예: 특보 없음 / 풍랑주의보 등",
+  "highTide": "예: 09:10 / 21:25",
+  "lowTide": "예: 03:40 / 15:50"
+}
+`.trim();
   try {
     const text = await callGeminiAPI(prompt);
-
-    let jsonText = text
-      .replace(/^```
-      .replace(/^```/,'')
-      .replace(/\n?```
-      .trim();
-
-    let aiData;
-
-    try {
-      aiData = JSON.parse(jsonText);
-    } catch (e) {
-      console.error('JSON 파싱 실패, 원문 사용:', jsonText);
-      // JSON이 아니면 단일 문자열로 취급
-      aiData = {
-        travelTime: jsonText,
-        precautions: jsonText,
-        wind: jsonText,
-        wave: jsonText,
-        tide: jsonText,
-        warning: jsonText,
-        highTide: jsonText,
-        lowTide: jsonText
-      };
-    }
-
+    // 수정된 추출 로직 사용
+    const aiData = extractJSON(text);
     return aiData;
   } catch (error) {
-    console.error('Gemini (Realtime) 분석 중 오류:', error);
+    console.error('Gemini (Realtime) 분석 중 오류', error);
     return {
       travelTime: '오류',
       precautions: '오류',
@@ -2145,27 +2106,22 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
       const imgPreview = document.getElementById('mapImagePreview');
       const naverBtn = document.getElementById('naverBtn');
       const tmapBtn = document.getElementById('tmapBtn');
-
-
       if (location) {
         labelWrapper.style.display = 'none';
         analysisWrapper.style.display = 'block';
         document.getElementById('searchResults').classList.remove('active');
-
         document.getElementById('selectedHarborName').textContent = `${location.harbor} AI 분석`;
         document.getElementById('harborAddress').textContent = `주소: ${location.address || '정보 없음'}`;
         document.getElementById('navButtons').style.display = 'flex';
-        
         const destinationAddress = location.address || location.harbor;
         const encodedDestinationAddress = encodeURIComponent(destinationAddress);
-        const encodedDestinationName = encodeURIComponent(location.harbor); // 🌟 목적지 이름 인코딩 🌟
+        const encodedDestinationName = encodeURIComponent(location.harbor);
 
-        // 출발지 위/경도 (userLocation 또는 기본값)
-        let startLat = userLocation?.lat || 35.105481; // KCA 부산본부 근처
+        let startLat = userLocation?.lat || 35.105481;
         let startLon = userLocation?.lon || 129.043394;
         const startName = encodeURIComponent("현재 위치");
 
-        // 목적지 위/경도
+         // 목적지 위경도
         const destLat = location.lat;
         const destLon = location.lon;
 
@@ -2173,74 +2129,51 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
         tmapBtn.href = '#';
         naverBtn.href = '#';
 
- // TMAP과 네이버 지도 버튼을 초기화
-        tmapBtn.href = '#';
-        naverBtn.href = '#';
-
-        // --- 네비게이션 로직 (수정 제안 반영) ---
         if (window.innerWidth <= 1500) { 
-            // 1. 스마트폰/태블릿 뷰 (1500px 이하): 딥링크(앱 실행) 시도
             tmapBtn.style.display = 'block';
             naverBtn.style.display = 'block';
             
-            // TMAP 딥링크 URL (출발지를 명시하지 않으면 현 위치 기준)
             const tmapUrl = `tmap://route?goalname=${encodedDestinationName}&goaly=${destLat}&goalx=${destLon}`;
-            
-            // 네이버 지도 딥링크 URL (차량 모드, 도착지 이름과 위경도 명시)
-            const URL_NAME = 'kcabusansafecheck.my.canva.site/busanshipsolution'; // 앱 이름은 URL로 설정
-            const naverUrl = `nmap://route/car?dlat=${destLat}&dlng=${destLon}&dname=${encodedDestinationName}&appname=${URL_NAME}`;
-            
-            // NOTE: 모바일 환경에서 <a> 태그의 href를 딥링크로 설정하면 
-            // 앱이 설치되어 있을 경우 바로 실행되고, 설치되어 있지 않을 경우 오류가 발생
-            // 여기서는 웹페이지 폴백 없이 단순 딥링크만 설정합니다.
+            const URL_NAME = 'kcabusansafecheck.my.canva.site/busanshipsolution';
+            const naverUrl = `nmap://route/card?lat=${destLat}&dlng=${destLon}&dname=${encodedDestinationName}&appname=${URL_NAME}`;
             tmapBtn.href = tmapUrl;
             naverBtn.href = naverUrl;
 
         } else {
-            // 2. 데스크톱 뷰 (1400px 초과): 웹 길찾기
-            tmapBtn.style.display = 'none'; // 티맵 웹 길찾기는 복잡하므로 네이버만 남깁니다.
+            tmapBtn.style.display = 'none';
             naverBtn.style.display = 'block';
             
-            // 네이버 지도 웹 길찾기 URL (출발지: 현 위치 또는 -/-, 차량 모드)
-            // 출발지: -/-, 도착지: 위경도, 도착지명, 모드: 차량
             const naverWebUrl = `https://map.naver.com/v5/directions/-/${destLat},${destLon},${encodedDestinationName}/-/car?c=15,0,0,0,dh`;
             naverBtn.href = naverWebUrl;
         }
         
-        document.getElementById('aiFieldAdvice').textContent = location.advice || '등록된 현장 조언이 없습니다. 출장 시 주변을 잘 살피세요.';
+        document.getElementById('aiFieldAdvice').textContent = location.advice || '등록된 현장 조언이 없습니다.\n출장 시 주변을 잘 살피세요.';
         
         document.getElementById('editDeleteButtons').innerHTML = '';
 
         const imgEl = document.getElementById('previewImg');
         const imgTitleEl = document.getElementById('previewImgTitle');
-        imgEl.onerror = () => { imgEl.src = 'https://placehold.co/250x150/e3f2fd/1565c0?text=Image+Load+Failed'; }; 
+        imgEl.onerror = () => { imgEl.src = '[https://placehold.co/250x150/e3f2fd/1565c0?text=Image+Load+Failed](https://placehold.co/250x150/e3f2fd/1565c0?text=Image+Load+Failed)'; }; 
         imgEl.src = getRegionImage(location.region); 
         imgTitleEl.textContent = location.harbor;
         imgPreview.classList.add('active');
-
-
         const staticFields = ['aiKeyFeatures', 'aiOverallOpinion'];
         const realtimeFields = [
           'aiTravelTime', 'aiPrecautions', 'safetyWind', 'safetyWave', 
           'safetyTide', 'safetyWarning', 'tideHighTime', 'tideLowTime'
         ];
-        
         const loadingSpinner = `<span class="spinner"></span> AI 분석 중...`;
         const smallSpinner = `<span class="spinner"></span> 로딩...`;
-
         staticFields.forEach(id => {
           const el = document.getElementById(id);
           el.innerHTML = loadingSpinner;
           el.classList.add('loading');
         });
-        
         realtimeFields.forEach(id => {
           const el = document.getElementById(id);
           el.innerHTML = smallSpinner;
           el.classList.add('loading');
         });
-
-        
         const userLat = userLocation ? userLocation.lat : null;
         const userLon = userLocation ? userLocation.lon : null;
         
@@ -2331,11 +2264,9 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
           btn.style.backgroundColor = config.primary_color || defaultConfig.primary_color;
         }
       });
-      
       document.querySelectorAll('.search-btn').forEach(btn => {
          btn.style.background = `linear-gradient(135deg, ${config.primary_color} 0%, ${config.accent_color} 100%)`;
       });
-
       drawMap();
     }
 
@@ -2347,24 +2278,28 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
           mapToCapabilities: (config) => ({
             recolorables: [
               {
+                
                 get: () => config.primary_color || defaultConfig.primary_color,
                 set: (value) => {
                   window.elementSdk.setConfig({ primary_color: value });
                 }
               },
               {
+           
                 get: () => config.background_color || defaultConfig.background_color,
                 set: (value) => {
                   window.elementSdk.setConfig({ background_color: value });
                 }
               },
               {
+      
                 get: () => config.surface_color || defaultConfig.surface_color,
                 set: (value) => {
                   window.elementSdk.setConfig({ surface_color: value });
                 }
               },
               {
+ 
                 get: () => config.text_color || defaultConfig.text_color,
                 set: (value) => {
                   window.elementSdk.setConfig({ text_color: value });
@@ -2381,6 +2316,7 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
             fontEditable: {
               get: () => config.font_family || defaultConfig.font_family,
               set: (value) => {
+            
                 window.elementSdk.setConfig({ font_family: value });
               }
             },
@@ -2392,10 +2328,11 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
             }
           }),
           mapToEditPanelValues: (config) => new Map([
-            ["app_title", config.app_title || defaultConfig.app_title],
-            ["subtitle", config.subtitle || defaultConfig.subtitle],
-            ["safety_title", config.safety_title || defaultConfig.safety_title],
-            ["location_label", config.location_label || defaultConfig.location_label]
+            ['app_title', config.app_title || defaultConfig.app_title],
+            ['subtitle', config.subtitle || defaultConfig.subtitle],
+            ['safety_title', config.safety_title || defaultConfig.safety_title],
+            ['location_label', config.location_label || defaultConfig.location_label]
+    
           ])
         });
         return true;
@@ -2411,7 +2348,7 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
 
         if (mapZoom >= 10 && isRegionalView) {
             isRegionalView = false;
-            detailedRegion = currentRegionFilter === 'all' ? null : regionalMarkers[currentRegionFilter]?.regionKey;
+            detailedRegion = currentRegionFilter === 'all' ? null : regionalMarkers[currentRegionFilter].regionKey;
             if (detailedRegion && !detailedRegion.includes('경남')) detailedRegion = null;
         }
         drawMap();
@@ -2444,7 +2381,6 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
 
     async function getUserLocation() {
       const gpsBtn = document.getElementById('gpsBtn');
-      
       if (!navigator.geolocation) {
         showModal('이 브라우저는 위치 서비스를 지원하지 않습니다.');
         return;
@@ -2452,19 +2388,17 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
 
       try {
         const permission = await navigator.permissions.query({ name: 'geolocation' });
-        
         if (permission.state === 'denied') {
           showModal('위치 권한이 차단되어 있습니다.');
           return;
         }
       } catch (e) {
-        console.warn('Geolocation permission query failed:', e);
+        console.warn('Geolocation permission query failed', e);
       }
 
       gpsBtn.classList.add('active');
       const originalText = gpsBtn.innerHTML;
       gpsBtn.innerHTML = '⏳';
-
       navigator.geolocation.getCurrentPosition(
         (position) => {
           userLocation = {
@@ -2476,18 +2410,21 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
 
           nearbyBreakwaters = allLocations
             .map(harbor => {
+   
               if (!harbor.lat || !harbor.lon) return null;
               const distance = calculateDistance(
                 userLocation.lat,
                 userLocation.lon,
                 harbor.lat,
                 harbor.lon
+   
               );
               return { ...harbor, distance, isNearby: distance <= 50 };
             })
             .filter(h => h && h.isNearby)
             .sort((a, b) => a.distance - b.distance);
             
+          
           isRegionalView = false;
           detailedRegion = null;
           currentRegionFilter = 'all';
@@ -2506,21 +2443,19 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
             
             selectedLocation = nearest;
             updateLocationInfo(selectedLocation);
-
-          } else {
+        } else {
             showModal('50km 반경 내에 항포구가 없습니다.');
             mapCenter = { lat: userLocation.lat, lon: userLocation.lon };
             mapZoom = 11;
             selectedLocation = null;
             updateLocationInfo(null);
-          }
+        }
 
           gpsBtn.innerHTML = '✓';
           setTimeout(() => {
             gpsBtn.innerHTML = originalText;
             gpsBtn.classList.remove('active');
           }, 2000);
-
           drawMap();
         },
         (error) => {
@@ -2552,11 +2487,9 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
     function toggleRegionSelector() {
       const selector = document.getElementById('regionSelector');
       const toggle = document.getElementById('locationToggle');
-      
       const isSmartphoneView = window.innerWidth <= 768;
 
       if (isSmartphoneView) {
-          // 스마트폰: 모달 형태로 지역 선택기 표시
           if (modalOverlay.classList.contains('active')) {
               hideModal();
               toggle.classList.remove('active');
@@ -2564,9 +2497,7 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
               showRegionModal(selector);
               toggle.classList.add('active');
           }
-          // 모바일 뷰에서는 원본 selector의 active 상태는 무시되어야 합니다. (CSS에서 display:none !important로 처리됨)
       } else {
-          // 태블릿/데스크톱: 기존 지도 내 토글 방식 유지
           if (selector.classList.contains('active')) {
               selector.classList.remove('active');
               toggle.classList.remove('active');
@@ -2594,8 +2525,6 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
         clonedSelector.style.padding = '0';
         clonedSelector.style.boxShadow = 'none';
         clonedSelector.style.background = 'transparent';
-        
-        // CSS에서 .modal-content #clonedRegionSelector 스타일이 적용되도록 합니다.
         modalContent.appendChild(clonedSelector);
 
         clonedSelector.querySelectorAll('.region-btn').forEach(btn => {
@@ -2604,7 +2533,6 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
                 hideModal();
             });
         });
-        
         const closeBtn = document.createElement('button');
         closeBtn.className = 'modal-button secondary';
         closeBtn.textContent = '닫기';
@@ -2623,13 +2551,10 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
       const center = regionCenters[region];
       mapCenter = { lat: center.lat, lon: center.lon };
       mapZoom = center.zoom;
-      
       mapCenter = clampMapCenter(mapCenter.lat, mapCenter.lon);
 
-      // 모바일 뷰에서 토글 버튼 상태를 명시적으로 해제합니다.
       document.getElementById('regionSelector').classList.remove('active');
       document.getElementById('locationToggle').classList.remove('active');
-      
       const regionNames = {
         busan: '부산',
         ulsan: '울산',
@@ -2642,7 +2567,6 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
         goseong: '고성',
         all: '전체'
       };
-      
       if (region === 'all' || mapZoom <= 9) {
           isRegionalView = true;
           detailedRegion = null;
@@ -2650,7 +2574,7 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
             `<strong>📍 ${regionNames[region]} 지역 대표 마커 보기</strong>`;
       } else {
           isRegionalView = false;
-          detailedRegion = regionNames[region]; 
+          detailedRegion = regionNames[region];
           document.getElementById('locationLabel').innerHTML = 
             `<strong>📍 ${regionNames[region]} 지역 상세 항포구</strong>`;
       }
@@ -2663,21 +2587,18 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
     function performSearch() {
       const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
       const searchResults = document.getElementById('searchResults');
-      
       if (!searchTerm) {
         searchResults.classList.remove('active');
         return;
       }
       
       const locationsToSearch = allHarbors;
-      
       const results = locationsToSearch.filter(location => {
         const harborMatch = location.harbor && location.harbor.toLowerCase().includes(searchTerm);
         const regionMatch = location.region && location.region.toLowerCase().includes(searchTerm);
         const addressMatch = location.address && location.address.toLowerCase().includes(searchTerm);
         return harborMatch || regionMatch || addressMatch;
       });
-      
       if (results.length === 0) {
         searchResults.innerHTML = '<div class="search-no-results">검색 결과가 없습니다</div>';
         searchResults.classList.add('active');
@@ -2690,7 +2611,6 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
           <span>${result.region} · ${result.address}</span>
         </div>
       `).join('');
-      
       searchResults.classList.add('active');
       
       document.querySelectorAll('.search-result-item').forEach(item => {
@@ -2709,6 +2629,7 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
           if (location) {
             selectedLocation = location;
             updateLocationInfo(selectedLocation);
+    
           }
           
           isRegionalView = false;
@@ -2717,10 +2638,10 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
               detailedRegion = location.region;
           }
           currentRegionFilter = 'all';
+        
           
           searchResults.classList.remove('active');
           document.getElementById('searchInput').value = '';
-          
           drawMap();
         });
       });
@@ -2733,13 +2654,11 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
         performSearch();
       }
     });
-    
     document.getElementById('searchInput').addEventListener('input', () => {
       if (document.getElementById('searchInput').value.trim() === '') {
         document.getElementById('searchResults').classList.remove('active');
       }
     });
-    
     document.getElementById('zoomIn').addEventListener('click', zoomIn);
     document.getElementById('zoomOut').addEventListener('click', zoomOut);
     document.getElementById('locationToggle').addEventListener('click', toggleRegionSelector);
@@ -2750,16 +2669,13 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
         copyToClipboard(selectedLocation.address);
       }
     });
-    
     document.getElementById('closePreviewBtn').addEventListener('click', () => {
       document.getElementById('mapImagePreview').classList.remove('active');
       selectedLocation = null;
       updateLocationInfo(null);
       drawMap();
     });
-
-
-    if (window.innerWidth > 768) {
+    if (window.innerWidth <= 768) {
         document.querySelectorAll('.region-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const region = e.target.dataset.region;
@@ -2774,34 +2690,33 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
         
         if (!infoPanel || !mapContainer) return;
 
-        // 모바일 환경 (768px 이하)에서만 스크롤 상호작용 적용
         if (window.innerWidth <= 768) {
             infoPanel.addEventListener('scroll', () => {
                 const scrollPercentage = infoPanel.scrollTop / (infoPanel.scrollHeight - infoPanel.clientHeight);
                 
-                // 정보 패널의 스크롤이 절반(50%) 이상 진행되면 지도 영역 숨김
                 if (scrollPercentage > 0.5) { 
                     mapContainer.style.height = '0';
                     mapContainer.style.opacity = '0';
                     infoPanel.style.maxHeight = '100%'; 
+      
                 } else {
                     mapContainer.style.height = '100%';
                     mapContainer.style.opacity = '1';
                     infoPanel.style.maxHeight = '50%';
                 }
+      
             });
         }
     }
 
 
     async function initializeSdkAndMap() {
-      // SDK 초기화 및 기본 맵 설정만 포함 (AI 분석 호출 제외)
       return new Promise(async (resolve) => {
           let elementSdkReady = false;
           
           if (window.elementSdk) {
             elementSdkReady = initElementSdk(defaultConfig);
-            await onConfigChange(window.elementSdk?.config || defaultConfig);
+            await onConfigChange(window.elementSdk.config || defaultConfig);
           }
           
           if (!elementSdkReady) {
@@ -2816,27 +2731,7 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
           resolve(true);
       });
     }
-  async function callGeminiAPI(prompt) {
-  try {
-    const response = await fetch('/api/gemini', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt })
-    });
 
-    const data = await response.json();
-
-    if (!data.success) {
-      console.error('Gemini API 오류:', data);
-      throw new Error(data.error || data.message || 'Gemini API failed');
-    }
-
-    return data.result;
-  } catch (error) {
-    console.error('API 호출 실패:', error);
-    throw error;
-  }
-}
 
     window.addEventListener('load', () => {
         const splashScreen = document.getElementById('splash-screen');
@@ -2845,10 +2740,8 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
         const splashMinTime = 2000;
         const splashTimer = new Promise(resolve => setTimeout(resolve, splashMinTime));
         
-        // 지도/SDK 초기화 Promise
         const appInitPromise = initializeSdkAndMap();
 
-        // SDK 초기화 완료 및 최소 대기 시간 2초가 지나면 앱 표시
         Promise.all([appInitPromise, splashTimer])
         .then(() => {
             splashScreen.classList.add('hidden');
@@ -2863,14 +2756,13 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
             }, 500);
         })
         .catch(err => {
-            // 초기화 중 오류가 발생해도 최소 시간 후 앱 표시를 강제합니다.
-            console.error("App initialization failed but forcing display:", err);
+            console.error('App initialization failed but forcing display', err);
             splashScreen.classList.add('hidden');
             appContainer.style.display = 'flex';
             resizeCanvas();     
         });
     });
 
-  </script>
+</script>
 </body>
 </html>
