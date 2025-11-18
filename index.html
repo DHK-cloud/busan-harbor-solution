@@ -6,7 +6,7 @@
   <title>해양 스마트 출장 솔루션</title>
   
   <style>
-    /* --- 기본 설정 --- */
+    /* --- 1. 기본 설정 --- */
     body {
       box-sizing: border-box; margin: 0; padding: 0;
       font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -27,15 +27,52 @@
 
     /* 레이아웃 */
     .container { display: none; flex-direction: column; height: 100%; max-width: 100%; margin: 0 auto; }
+    
+    /* ★ 헤더 스타일 수정 (반응형 레이아웃) ★ */
     .header {
       background: #ffffff; padding: 0.8rem 1.5rem; text-align: center;
       border-bottom: 3px solid #1565c0; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      display: flex; align-items: center; justify-content: center; gap: 1.5rem; height: 65px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; 
+      gap: 1rem; flex-shrink: 0;
     }
-    .header-logo { height: 35px; width: auto; object-fit: contain; }
+    .header-logo { height: 40px; width: auto; object-fit: contain; }
     .header h1 { margin: 0; font-size: 1.3rem; font-weight: 700; color: #1a237e; }
     .header p { margin: 0; font-size: 0.85rem; color: #616161; }
-    
+    .header-content { display: flex; flex-direction: column; }
+
+    /* 태블릿 & 데스크탑 (769px 이상): 로고 위, 제목 아래 (세로 배치) */
+    @media (min-width: 769px) {
+        .header {
+            flex-direction: column; /* 세로 배치 */
+            height: auto;
+            padding: 1.5rem 1rem;
+            gap: 0.5rem;
+        }
+        .header-logo { height: 50px; margin-bottom: 5px; }
+        .header-content { align-items: center; }
+    }
+
+    /* 모바일 (768px 이하): 로고 왼쪽, 제목 오른쪽 (가로 배치) */
+    @media (max-width: 768px) {
+        .header {
+            flex-direction: row; /* 가로 배치 */
+            height: 60px;
+            padding: 0.5rem 1rem;
+            justify-content: flex-start;
+        }
+        .header-logo { height: 35px; }
+        .header-content { align-items: flex-start; }
+        .header p { display: none; } /* 모바일 공간 절약 */
+        
+        .map-container { 
+            height: 40vh; flex: none; 
+            transition: height 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.4s ease;
+        }
+        .info-panel { max-width: 100%; flex: 1; border-top: 2px solid #1565c0; border-left: none; }
+        /* 모바일에서 미리보기 숨김 */
+        .map-image-preview { display: none !important; }
+    }
+
     .main-content { display: flex; flex: 1; overflow: hidden; position: relative; }
 
     /* 지도 영역 */
@@ -66,7 +103,7 @@
       border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;
     }
 
-    /* ★ 미리보기 이미지 복구 ★ */
+    /* 미리보기 이미지 */
     .map-image-preview {
       position: absolute; bottom: 20px; right: 20px; width: 240px;
       background: #fff; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.2);
@@ -95,18 +132,21 @@
       border-bottom: 2px solid #1565c0; padding-bottom: 0.4rem;
     }
 
-    /* ★ 텍스트 포맷 수정: 줄바꿈 허용, 박스 유동적 확장 ★ */
+    /* 텍스트 스타일 */
     .line-break-text {
-      white-space: pre-line; /* 줄바꿈 문자(\n) 인식 */
+      white-space: pre-line; 
       word-break: keep-all;
       line-height: 1.5;
       display: block;
     }
 
+    .adaptive-font { font-size: 0.9rem; }
+    .adaptive-font.small { font-size: 0.8rem; line-height: 1.3; }
+
     .analysis-section {
       margin-bottom: 0.8rem; padding: 0.7rem;
       border: 1px solid #e0e0e0; border-radius: 8px; background: #f9faff;
-      height: auto; /* 유동적 높이 */
+      height: auto; 
     }
     .analysis-section h4 {
       font-size: 0.9rem; font-weight: 700; margin: 0 0 0.5rem 0;
@@ -114,7 +154,6 @@
     }
     .analysis-section p { font-size: 0.9rem; color: #424242; margin: 0; }
 
-    /* 그리드 (가변 높이) */
     .route-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
     .safety-info-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; }
     
@@ -124,7 +163,10 @@
       min-height: 60px;
     }
     .info-block h5 { font-size: 0.75rem; color: #1565c0; margin: 0 0 0.3rem 0; font-weight: 700; }
-    .info-block p { font-size: 0.9rem; font-weight: 600; color: #333; margin: 0; word-break: keep-all;}
+    .info-block p { 
+        font-weight: 600; color: #333; margin: 0; 
+        word-break: keep-all; white-space: pre-line;
+    }
 
     .search-container { display: flex; gap: 8px; margin-bottom: 1rem; }
     #searchInput { flex: 1; padding: 10px; border: 2px solid #1a237e; border-radius: 8px; }
@@ -144,19 +186,6 @@
     .modal-overlay.active { display: flex; }
     .modal-content { background: white; padding: 20px; border-radius: 8px; max-width: 350px; width: 90%; text-align: center;}
     .modal-button { background: #1565c0; color: white; border: none; padding: 8px 20px; border-radius: 6px; margin-top: 15px; cursor: pointer; }
-
-    @media (max-width: 768px) {
-      .main-content { flex-direction: column; }
-      .header { padding: 0.5rem; justify-content: flex-start; }
-      .header p { display: none; }
-      .map-container { 
-        height: 40vh; flex: none; 
-        transition: height 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.4s ease;
-      }
-      .info-panel { max-width: 100%; flex: 1; border-top: 2px solid #1565c0; border-left: none; }
-      .map-image-preview { width: 180px; bottom: 10px; right: 10px; }
-      .map-image-preview img { height: 100px; }
-    }
   </style>
 </head>
 <body>
@@ -255,11 +284,11 @@
                 <div class="route-info-grid">
                     <div class="info-block">
                         <h5>예상 소요시간</h5>
-                        <p id="aiTravelTime" class="loading"><span class="spinner"></span>...</p>
+                        <p id="aiTravelTime" class="loading adaptive-font"><span class="spinner"></span>...</p>
                     </div>
                     <div class="info-block">
                         <h5>교통 주의</h5>
-                        <p id="aiPrecautions" class="loading line-break-text"><span class="spinner"></span>...</p>
+                        <p id="aiPrecautions" class="loading line-break-text adaptive-font"><span class="spinner"></span>...</p>
                     </div>
                 </div>
             </div>
@@ -333,7 +362,6 @@ function extractJSON(text) {
   } catch (e) { return { error: "파싱 실패" }; }
 }
 
-// 지역별 대표 이미지 (미리보기용)
 const regionImages = {
     '부산': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4bFpReu_rQ98w_C1XFq3_k5L4h6P5f5_c5A&s',
     '울산': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Ulsan_Bridge.jpg/250px-Ulsan_Bridge.jpg',
@@ -367,7 +395,7 @@ const regionalMarkers = {
 
 let allHarbors = sampleHarbors;
 let mapCenter = { lat: 35.1194, lon: 129.0447 };
-let mapZoom = 10;
+let mapZoom = 9; 
 let canvas, ctx;
 let isDragging = false;
 let dragStart = { x: 0, y: 0 };
@@ -459,7 +487,6 @@ function tileToLatLon(x, y, zoom) {
     return { lat, lon };
 }
 
-// ★ 마커 그리기 로직 복구 ★
 function drawMap() {
     if (!ctx || canvas.width === 0) return;
     
@@ -496,7 +523,6 @@ function drawMap() {
 
 function drawMarkers() {
     markers = [];
-    // 지역 마커 (줌 < 10)
     if (mapZoom < 10) {
         Object.keys(regionalMarkers).forEach(key => {
             const r = regionalMarkers[key];
@@ -506,7 +532,6 @@ function drawMarkers() {
             }
         });
     } else {
-        // 항구 마커 (줌 >= 10)
         allHarbors.forEach(h => {
             const pos = latLonToPixel(h.lat, h.lon);
             if (pos.x > -50 && pos.x < canvas.width + 50 && pos.y > -50 && pos.y < canvas.height + 50) {
@@ -517,7 +542,6 @@ function drawMarkers() {
 
     markers.forEach(m => {
         if (m.type === 'region') {
-            // 지역 대표 마커 (원형)
             ctx.beginPath();
             ctx.arc(m.x, m.y, 22, 0, Math.PI * 2);
             ctx.fillStyle = '#1565c0';
@@ -525,6 +549,7 @@ function drawMarkers() {
             ctx.lineWidth = 2;
             ctx.strokeStyle = '#ffffff';
             ctx.stroke();
+            
             ctx.fillStyle = '#ffffff';
             ctx.font = 'bold 12px sans-serif';
             ctx.textAlign = 'center';
@@ -534,35 +559,33 @@ function drawMarkers() {
             ctx.fillText(`${m.count}곳`, m.x, m.y + 8);
         } 
         else {
-            // 항구 마커 (물방울 모양 복구)
+            // ★ 마커 변경: 이중 원형 타겟 ★
             const isSelected = selectedLocation && selectedLocation.harbor === m.harbor;
             const color = isSelected ? '#ff5722' : '#1976d2';
             
             ctx.beginPath();
-            ctx.moveTo(m.x, m.y);
-            ctx.quadraticCurveTo(m.x - 12, m.y - 20, m.x, m.y - 30); // 왼쪽 곡선
-            ctx.quadraticCurveTo(m.x + 12, m.y - 20, m.x, m.y); // 오른쪽 곡선
+            ctx.arc(m.x, m.y, 12, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+            
+            ctx.beginPath();
+            ctx.arc(m.x, m.y, 10, 0, Math.PI * 2);
             ctx.fillStyle = color;
             ctx.fill();
             
-            // 머리 부분 원
             ctx.beginPath();
-            ctx.arc(m.x, m.y - 26, 8, 0, Math.PI * 2);
-            ctx.fillStyle = color;
-            ctx.fill();
-
-            // 내부 흰 점
-            ctx.beginPath();
-            ctx.arc(m.x, m.y - 26, 4, 0, Math.PI * 2);
+            ctx.arc(m.x, m.y, 4, 0, Math.PI * 2);
             ctx.fillStyle = '#ffffff';
             ctx.fill();
 
-            // 텍스트 라벨
             if (isSelected || mapZoom > 11) {
-                ctx.fillStyle = '#0d47a1';
-                ctx.font = 'bold 12px sans-serif';
+                ctx.font = 'bold 13px sans-serif';
                 ctx.textAlign = 'center';
-                ctx.fillText(m.harbor, m.x, m.y + 14);
+                ctx.lineWidth = 4;
+                ctx.strokeStyle = '#ffffff';
+                ctx.strokeText(m.harbor, m.x, m.y + 24);
+                ctx.fillStyle = '#0d47a1';
+                ctx.fillText(m.harbor, m.x, m.y + 24);
             }
         }
     });
@@ -611,10 +634,8 @@ function checkClick(e) {
     
     for (let i = markers.length - 1; i >= 0; i--) {
         const m = markers[i];
-        // 히트박스 영역 계산 (모양에 맞춰 조정)
         const yOffset = (m.type === 'region') ? 0 : -15;
         const radius = (m.type === 'region') ? 22 : 20;
-        
         const dist = Math.sqrt(Math.pow(clickX - m.x, 2) + Math.pow(clickY - (m.y + yOffset), 2));
         if (dist < radius) {
             clicked = m;
@@ -636,43 +657,40 @@ function checkClick(e) {
 }
 
 async function getAnalysis(harbor) {
-    // ★ 프롬프트 수정: 줄바꿈 허용, 시간 포맷(최소시간) ★
-    const prompt = `
+    const textPrompt = `
     역할: KCA 부산본부 선박 무선국 검사 지원 AI.
     대상: ${harbor.harbor} (${harbor.address})
     참고: "${harbor.advice || '없음'}"
+    요청: '핵심 특징'과 '검사 고려사항'만 작성.
+    규칙: 2~3줄 내외로 줄바꿈하여 작성.
+    JSON: { "keyFeatures": "- 특징1\\n- 특징2", "inspectionTips": "- 팁1\\n- 팁2" }
+    `;
     
-    [작성 규칙]
-    1. '핵심 특징', '검사 고려사항'은 읽기 편하게 줄바꿈을 적극 사용하여 2~3줄 내외로 작성. (개조식 권장)
-    2. 내용은 최대한 함축적으로 표현.
-    3. 예상 소요시간: 교통 최적화된 '최소 시간' 기준. 1시간 미만이면 "약 45분", 이상이면 "약 1시간 20분" 형식.
-    4. 교통 주의: 핵심만 단어로 나열 (예: 퇴근길 정체, 공사 구간).
-    5. 해상 정보: 숫자만.
-    
-    [JSON 포맷]
-    {
-        "keyFeatures": "- 특징1\\n- 특징2",
-        "inspectionTips": "- 주의점1\\n- 주의점2 (참고 내용 반영)",
-        "overallOpinion": "종합 의견 (1줄)",
-        "travelTime": "약 45분",
-        "precautions": "정체 구간, 진입로 주의",
-        "wind": "4m/s",
-        "wave": "0.5m",
-        "tide": "0.5kn",
-        "highTide": "09:00",
-        "lowTide": "15:00"
-    }
+    const dataPrompt = `
+    역할: 해양 데이터 AI.
+    대상: ${harbor.harbor}
+    요청: 시간, 교통, 해상날씨 수치만.
+    규칙: 시간 "약 00분", 교통은 핵심만 줄바꿈(20자 내외), 날씨는 수치만.
+    JSON: { "travelTime": "약 45분", "precautions": "공사구간\\n진입로 주의", "wind": "4m/s", "wave": "0.5m", "tide": "0.5kn", "highTide": "09:00", "lowTide": "15:00" }
     `;
 
-    try {
-        const text = await callGeminiAPI(prompt);
+    callGeminiAPI(textPrompt).then(text => {
         const data = extractJSON(text);
-        
-        document.getElementById('aiKeyFeatures').innerText = data.keyFeatures; // innerText로 줄바꿈 적용
+        document.getElementById('aiKeyFeatures').innerText = data.keyFeatures;
         document.getElementById('aiInspectionTips').innerText = data.inspectionTips;
-        document.getElementById('aiFieldAdvice').innerText = harbor.advice || '특이사항 없음';
+        document.getElementById('aiKeyFeatures').classList.remove('loading');
+        document.getElementById('aiInspectionTips').classList.remove('loading');
+    }).catch(e => console.error(e));
+
+    callGeminiAPI(dataPrompt).then(text => {
+        const data = extractJSON(text);
         document.getElementById('aiTravelTime').innerText = data.travelTime;
         document.getElementById('aiPrecautions').innerText = data.precautions;
+        
+        if (data.precautions.length > 15) {
+            document.getElementById('aiPrecautions').classList.add('small');
+        }
+
         document.getElementById('safetyWind').innerText = data.wind;
         document.getElementById('safetyWave').innerText = data.wave;
         document.getElementById('safetyTide').innerText = data.tide;
@@ -680,9 +698,7 @@ async function getAnalysis(harbor) {
         document.getElementById('tideLowTime').innerText = data.lowTide;
         
         document.querySelectorAll('.loading').forEach(el => el.classList.remove('loading'));
-    } catch (e) {
-        document.getElementById('aiKeyFeatures').innerText = "정보 로드 실패";
-    }
+    }).catch(e => console.error(e));
 }
 
 function updateLocationInfo(location) {
@@ -692,7 +708,6 @@ function updateLocationInfo(location) {
     document.getElementById('selectedHarborName').textContent = location.harbor;
     document.getElementById('harborAddress').textContent = location.address;
     
-    // ★ 미리보기 이미지 표시 ★
     const previewBox = document.getElementById('mapImagePreview');
     const previewImg = document.getElementById('previewImg');
     const regionKey = Object.keys(regionImages).find(key => location.region.includes(key)) || '부산';
@@ -705,13 +720,16 @@ function updateLocationInfo(location) {
         const el = document.getElementById(id);
         el.innerHTML = '<span class="spinner"></span> 분석 중...';
         el.classList.add('loading');
+        el.classList.remove('small');
     });
+    document.getElementById('aiFieldAdvice').innerText = location.advice || '특이사항 없음';
 
     const tmapBtn = document.getElementById('tmapBtn');
     const naverBtn = document.getElementById('naverBtn');
     const destName = encodeURIComponent(location.harbor);
     
-    if (window.innerWidth > 1024) { 
+    // 1500px 기준 길찾기 버튼 분기
+    if (window.innerWidth > 1500) { 
         tmapBtn.style.display = 'none';
         naverBtn.textContent = "네이버 지도 (길찾기)";
         let sLat = userLocation ? userLocation.lat : KCA_BUSAN_LAT;
@@ -772,6 +790,17 @@ function getUserLocation() {
     }
 }
 
+function performSearch() {
+    const val = document.getElementById('searchInput').value;
+    const found = allHarbors.find(h => h.harbor.includes(val));
+    if(found) {
+        mapCenter = { lat: found.lat, lon: found.lon };
+        mapZoom = 14;
+        drawMap();
+        setTimeout(() => { selectedLocation = found; updateLocationInfo(found); drawMap(); }, 100);
+    } else { alert('검색 결과가 없습니다.'); }
+}
+
 window.addEventListener('load', () => {
     const splash = document.getElementById('splash-screen');
     const app = document.getElementById('app-container');
@@ -795,12 +824,19 @@ window.addEventListener('load', () => {
         selector.classList.toggle('active');
     });
 
+    // ★ 지역 선택 버튼 수정 (줌/이동/리프레시) ★
     document.querySelectorAll('.region-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const r = e.target.dataset.region;
-            if (r === 'all') { mapZoom = 8; mapCenter = {lat: 35.1194, lon: 129.0447}; }
-            else if (regionalMarkers[r]) { mapZoom = 12; mapCenter = {lat: regionalMarkers[r].lat, lon: regionalMarkers[r].lon}; }
-            else if (r === 'changwon') { mapZoom = 12; mapCenter = {lat: 35.19, lon: 128.57}; }
+            if (r === 'all') { 
+                mapZoom = 9; mapCenter = {lat: 35.1194, lon: 129.0447}; 
+            }
+            else if (regionalMarkers[r]) { 
+                mapZoom = 12; mapCenter = {lat: regionalMarkers[r].lat, lon: regionalMarkers[r].lon}; 
+            }
+            else if (r === 'changwon') { 
+                mapZoom = 12; mapCenter = {lat: 35.19, lon: 128.57}; 
+            }
             document.getElementById('regionSelector').classList.remove('active');
             drawMap();
         });
@@ -809,18 +845,6 @@ window.addEventListener('load', () => {
     document.getElementById('closePreviewBtn').addEventListener('click', () => {
         document.getElementById('mapImagePreview').classList.remove('active');
     });
-
-    // 검색 엔터키 지원
-    function performSearch() {
-        const val = document.getElementById('searchInput').value;
-        const found = allHarbors.find(h => h.harbor.includes(val));
-        if(found) {
-            mapCenter = { lat: found.lat, lon: found.lon };
-            mapZoom = 14;
-            drawMap();
-            setTimeout(() => { selectedLocation = found; updateLocationInfo(found); drawMap(); }, 100);
-        } else { alert('검색 결과가 없습니다.'); }
-    }
 
     document.getElementById('searchBtn').addEventListener('click', performSearch);
     document.getElementById('searchInput').addEventListener('keypress', (e) => {
