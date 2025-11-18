@@ -1296,7 +1296,7 @@ function updateLocationInfo(location) {
         tmapBtn.style.display = 'block';
         naverBtn.textContent = "네이버지도";
         tmapBtn.href = `tmap://route?goalname=${destName}&goaly=${location.lat}&goalx=${location.lon}`;
-        naverBtn.href = `nmap://route/public?dlat=${location.lat}&dlng=${location.lon}&dname=${destName}&appname=com.kca.busan`;
+        naverBtn.href = `nmap://route/car?dlat=${location.lat}&dlng=${location.lon}&dname=${destName}&appname=com.kca.busan`;
     }
 
     getAnalysis(location);
