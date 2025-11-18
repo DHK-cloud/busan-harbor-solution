@@ -1218,6 +1218,7 @@ function checkClick(e) {
 }
 
 async function getAnalysis(harbor) {
+    // 1. 텍스트 분석 (기존 로직 유지)
     const textPrompt = `
     역할: KCA 부산본부 선박 무선국 검사 지원 AI.
     대상: ${harbor.harbor} (${harbor.address})
@@ -1226,34 +1227,78 @@ async function getAnalysis(harbor) {
     규칙: 2~3줄 내외로 줄바꿈하여 작성.
     JSON: { "keyFeatures": "- 특징1\\n- 특징2", "inspectionTips": "- 팁1\\n- 팁2" }
     `;
+
+    // 2. 데이터 분석 (★여기가 수정된 부분입니다★)
+    // 사용자의 GPS 위치가 있으면 그것을 쓰고, 없으면 KCA 부산본부 좌표를 기본값으로 사용
+    const startLat = userLocation ? userLocation.lat : KCA_BUSAN_LAT;
+    const startLon = userLocation ? userLocation.lon : KCA_BUSAN_LON;
+    const startName = userLocation ? "현재 나의 위치" : "한국방송통신전파진흥원 부산본부";
+
     const dataPrompt = `
-    역할: 해양 데이터 AI.
-    대상: ${harbor.harbor}
-    요청: 시간, 교통, 해상날씨 수치만.
-    규칙: 시간 "약 00분", 교통은 핵심만 줄바꿈(20자 내외), 날씨는 수치만.
-    JSON: { "travelTime": "약 45분", "precautions": "공사구간\\n진입로 주의", "wind": "4m/s", "wave": "0.5m", "tide": "0.5kn", "highTide": "09:00", "lowTide": "15:00" }
+    역할: 숙련된 운전자이자 해양 데이터 분석가.
+    
+    [이동 경로 정보]
+    1. 출발지: ${startName} (좌표: ${startLat}, ${startLon})
+    2. 목적지: ${harbor.harbor} (좌표: ${harbor.lat}, ${harbor.lon})
+    3. 목적지 주소: ${harbor.address}
+    
+    [요청 사항]
+    위 좌표를 기반으로 차량 이동 시 '예상 소요시간'을 추론하고, 교통 및 해상 날씨 정보를 JSON으로 반환하라.
+    
+    [작성 규칙]
+    1. travelTime: 직선거리가 아닌 실제 도로 주행을 가정한 현실적인 예상 시간 (예: "약 50분", "약 1시간 10분").
+    2. precautions: 진입로 협소, 공사 구간 등 운전 주의사항 (20자 내외 줄바꿈).
+    3. 날씨 데이터: 풍속, 파고 등은 일반적인 해상 예보 수치 추정.
+    
+    JSON 포맷: 
+    { 
+      "travelTime": "약 00분", 
+      "precautions": "내용", 
+      "wind": "0m/s", 
+      "wave": "0.0m", 
+      "tide": "0.0kn", 
+      "highTide": "00:00", 
+      "lowTide": "00:00" 
+    }
     `;
 
+    // --- API 호출 로직 (기존과 동일) ---
+
+    // 1. 텍스트 정보 호출
     callGeminiAPI(textPrompt).then(text => {
         const data = extractJSON(text);
         document.getElementById('aiKeyFeatures').innerText = data.keyFeatures;
         document.getElementById('aiInspectionTips').innerText = data.inspectionTips;
         document.getElementById('aiKeyFeatures').classList.remove('loading');
         document.getElementById('aiInspectionTips').classList.remove('loading');
-    }).catch(() => {});
+    }).catch(() => {
+        document.getElementById('aiKeyFeatures').innerText = "분석 실패";
+    });
 
+    // 2. 데이터 정보 호출
     callGeminiAPI(dataPrompt).then(text => {
         const data = extractJSON(text);
+        
+        // 시간 표시 (AI가 추론한 시간)
         document.getElementById('aiTravelTime').innerText = data.travelTime;
+        
+        // 교통 주의사항
         document.getElementById('aiPrecautions').innerText = data.precautions;
         if(data.precautions.length > 15) document.getElementById('aiPrecautions').classList.add('small');
+        
+        // 날씨 정보
         document.getElementById('safetyWind').innerText = data.wind;
         document.getElementById('safetyWave').innerText = data.wave;
         document.getElementById('safetyTide').innerText = data.tide;
         document.getElementById('tideHighTime').innerText = data.highTide;
         document.getElementById('tideLowTime').innerText = data.lowTide;
+        
+        // 로딩 제거
         document.querySelectorAll('.loading').forEach(el => el.classList.remove('loading'));
-    }).catch(() => {});
+    }).catch(() => {
+        document.getElementById('aiTravelTime').innerText = "정보 없음";
+        document.querySelectorAll('.loading').forEach(el => el.classList.remove('loading'));
+    });
 }
 
 function updateLocationInfo(location) {
