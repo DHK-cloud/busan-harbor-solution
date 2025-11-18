@@ -41,7 +41,6 @@
     /* 지도 영역 */
     .map-container {
       flex: 1; position: relative; background: #aadaff; overflow: hidden;
-      /* PC에서는 transition 제거하여 리사이징 시 즉각 반응하게 함 (불안정 해결) */
     }
     #mapCanvas { width: 100%; height: 100%; cursor: grab; touch-action: none; display: block; }
     #mapCanvas:active { cursor: grabbing; }
@@ -84,22 +83,21 @@
       border-bottom: 2px solid #1565c0; padding-bottom: 0.4rem;
     }
 
-    /* 텍스트 표시 스타일 */
-    .multi-line-truncate {
-      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
-      overflow: hidden; text-overflow: ellipsis; line-height: 1.5; word-break: keep-all;
-    }
-    .single-truncate {
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;
-    }
-    .short-truncate {
-        display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-        overflow: hidden; text-overflow: ellipsis; line-height: 1.4; word-break: break-all;
+    /* 텍스트 자동 확장 스타일 (잘림 방지) */
+    .auto-expand {
+      white-space: normal; /* 줄바꿈 허용 */
+      word-break: keep-all; /* 단어 단위 줄바꿈 */
+      overflow: visible;
+      display: block;
+      line-height: 1.5;
     }
 
     .analysis-section {
       margin-bottom: 0.8rem; padding: 0.7rem;
       border: 1px solid #e0e0e0; border-radius: 8px; background: #f9faff;
+      /* 높이 자동 조절 */
+      height: auto;
+      min-height: 60px;
     }
     .analysis-section h4 {
       font-size: 0.9rem; font-weight: 700; margin: 0 0 0.4rem 0;
@@ -112,7 +110,7 @@
     
     .info-block { background: #fff; border: 1px solid #e8e8e8; border-radius: 6px; padding: 0.5rem; text-align: center; }
     .info-block h5 { font-size: 0.75rem; color: #1565c0; margin: 0 0 0.3rem 0; font-weight: 700; }
-    .info-block p { font-size: 0.9rem; font-weight: 600; color: #333; margin: 0; }
+    .info-block p { font-size: 0.9rem; font-weight: 600; color: #333; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
 
     .search-container { display: flex; gap: 8px; margin-bottom: 1rem; }
     #searchInput { flex: 1; padding: 10px; border: 2px solid #1a237e; border-radius: 8px; }
@@ -147,8 +145,7 @@
       .main-content { flex-direction: column; }
       .header { padding: 0.5rem; justify-content: flex-start; }
       .header p { display: none; }
-      
-      /* 모바일에서만 부드러운 전환 적용 (스크롤 인터랙션용) */
+      /* 모바일에서만 부드러운 전환 적용 */
       .map-container { 
         height: 40vh; flex: none; 
         transition: height 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.4s ease;
@@ -228,17 +225,17 @@
 
             <div class="analysis-section">
                 <h4>핵심 특징</h4>
-                <p id="aiKeyFeatures" class="loading multi-line-truncate"><span class="spinner"></span> 분석 중...</p>
+                <p id="aiKeyFeatures" class="loading auto-expand"><span class="spinner"></span> 분석 중...</p>
             </div>
             
             <div class="analysis-section" style="border-left: 3px solid #ff5722;">
                 <h4 style="color:#d84315;">선박 무선국 검사 고려사항</h4>
-                <p id="aiInspectionTips" class="loading multi-line-truncate"><span class="spinner"></span> 분석 중...</p>
+                 <p id="aiInspectionTips" class="loading auto-expand"><span class="spinner"></span> 분석 중...</p>
             </div>
 
             <div class="analysis-section">
                 <h4>현장 조언</h4>
-                <p id="aiFieldAdvice" class="multi-line-truncate"></p>
+                 <p id="aiFieldAdvice" class="auto-expand"></p>
             </div>
 
             <div class="analysis-section">
@@ -246,11 +243,11 @@
                 <div class="route-info-grid">
                     <div class="info-block">
                         <h5>예상 소요시간</h5>
-                        <p id="aiTravelTime" class="loading single-truncate"><span class="spinner"></span>...</p>
+                        <p id="aiTravelTime" class="loading"><span class="spinner"></span>...</p>
                     </div>
                     <div class="info-block">
                         <h5>교통 주의</h5>
-                        <p id="aiPrecautions" class="loading short-truncate"><span class="spinner"></span>...</p>
+                        <p id="aiPrecautions" class="loading"><span class="spinner"></span>...</p>
                     </div>
                 </div>
             </div>
@@ -260,15 +257,15 @@
                 <div class="safety-info-grid">
                     <div class="info-block">
                         <h5>풍속/풍향</h5>
-                        <p id="safetyWind" class="loading single-truncate">...</p>
+                        <p id="safetyWind" class="loading">...</p>
                     </div>
                     <div class="info-block">
                         <h5>파고</h5>
-                        <p id="safetyWave" class="loading single-truncate">...</p>
+                        <p id="safetyWave" class="loading">...</p>
                     </div>
                     <div class="info-block">
                         <h5>조류</h5>
-                        <p id="safetyTide" class="loading single-truncate">...</p>
+                        <p id="safetyTide" class="loading">...</p>
                     </div>
                 </div>
             </div>
@@ -278,11 +275,11 @@
                 <div class="route-info-grid">
                     <div class="info-block">
                         <h5>만조</h5>
-                        <p id="tideHighTime" class="loading single-truncate">...</p>
+                        <p id="tideHighTime" class="loading">...</p>
                     </div>
                     <div class="info-block">
                         <h5>간조</h5>
-                        <p id="tideLowTime" class="loading single-truncate">...</p>
+                        <p id="tideLowTime" class="loading">...</p>
                     </div>
                 </div>
             </div>
@@ -344,7 +341,7 @@ const regionalMarkers = {
 };
 
 let allHarbors = sampleHarbors;
-let mapCenter = { lat: 35.1194, lon: 129.0447 }; // KCA 부산본부 좌표
+let mapCenter = { lat: 35.1194, lon: 129.0447 };
 let mapZoom = 10;
 let canvas, ctx;
 let isDragging = false;
@@ -378,7 +375,6 @@ function initMap() {
     canvas = document.getElementById('mapCanvas');
     ctx = canvas.getContext('2d');
     
-    // 디바운싱 적용된 리사이즈 이벤트 (불안정 현상 해결 핵심)
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(resizeCanvas, 100); 
@@ -438,6 +434,7 @@ function tileToLatLon(x, y, zoom) {
     return { lat, lon };
 }
 
+// ★ 마커 그리기 순서 수정 (타일 로딩 후 그리기) ★
 function drawMap() {
     if (!ctx || canvas.width === 0) return;
     
@@ -451,6 +448,7 @@ function drawMap() {
     const startX = centerTile.x - Math.floor(tilesX / 2);
     const startY = centerTile.y - Math.floor(tilesY / 2);
 
+    // 타일 그리기
     for (let i = 0; i < tilesX; i++) {
         for (let j = 0; j < tilesY; j++) {
             const tx = startX + i, ty = startY + j;
@@ -459,15 +457,30 @@ function drawMap() {
                 const img = new Image();
                 img.crossOrigin = 'anonymous';
                 img.src = OSM_TILE_URL.replace('{z}', mapZoom).replace('{x}', tx).replace('{y}', ty);
-                img.onload = () => {
-                    const tLatLon = tileToLatLon(tx, ty, mapZoom);
-                    const pos = latLonToPixel(tLatLon.lat, tLatLon.lon);
-                    ctx.drawImage(img, pos.x, pos.y, TILE_SIZE, TILE_SIZE);
-                };
+                // 이미지가 캐시에 있거나 로드되면 그리기
+                if (img.complete) {
+                     const tLatLon = tileToLatLon(tx, ty, mapZoom);
+                     const pos = latLonToPixel(tLatLon.lat, tLatLon.lon);
+                     ctx.drawImage(img, pos.x, pos.y, TILE_SIZE, TILE_SIZE);
+                } else {
+                    img.onload = () => {
+                        // 로드 완료 시 다시 그리기 (전체 리프레시)
+                        // drawMap()을 호출하면 무한루프 가능성이 있으므로 해당 타일만 그리는게 효율적이나,
+                        // 마커 가시성을 위해 전체 다시 그리기가 안전함 (디바운스 필요없음, 브라우저 캐시 활용됨)
+                         drawMap(); 
+                    };
+                }
             }
         }
     }
 
+    // ★ 마커는 타일 그리기 로직과 별도로 항상 마지막에 그림 ★
+    // (requestAnimationFrame을 사용하여 타일이 그려진 다음 프레임에 그리는 것도 방법이나,
+    // 여기서는 동기적으로 마지막에 실행하여 덮어쓰기 유도)
+    drawMarkers();
+}
+
+function drawMarkers() {
     markers = [];
     if (mapZoom < 10) {
         Object.keys(regionalMarkers).forEach(key => {
@@ -598,22 +611,23 @@ function checkClick(e) {
 }
 
 async function getAnalysis(harbor) {
+    // ★ 수정된 프롬프트: 단답형 개조식, 축약 강조 ★
     const prompt = `
     역할: KCA 부산본부 선박 무선국 검사 지원 AI.
-    대상 항구: ${harbor.harbor} (${harbor.address})
-    참고 현장 조언: "${harbor.advice || '없음'}"
+    대상: ${harbor.harbor} (${harbor.address})
+    참고: "${harbor.advice || '없음'}"
     
     [작성 규칙]
-    1. '핵심 특징'은 이 항구의 지리적, 물리적 특성을 2~3문장(약 50~80자)으로 구체적으로 서술하세요.
-    2. '선박 무선국 검사 고려사항'은 위 '참고 현장 조언' 내용을 반드시 포함하여, 검사관이 현장에서 주의해야 할 안전 및 운영 사항을 2~3문장으로 구체적으로 작성하세요. (관광 정보 절대 금지)
-    3. 시간은 반드시 "약 0시간 00분" 형식.
-    4. 교통 주의사항은 핵심만 간결하게(20자 이내).
-    5. 해상 정보(풍속, 파고, 조류)는 수치와 단위만(예: 4.2m/s).
+    1. '핵심 특징', '검사 고려사항'은 개조식(- 형태)으로 작성. 절대 짤리지 않게 초단축.
+    2. 내용이 길어지면 박스가 늘어나므로 걱정말고 핵심 내용을 다 담을 것.
+    3. '검사 고려사항'은 참고 내용을 바탕으로 구체적 행동 지침 작성.
+    4. 시간: "약 0시간 00분".
+    5. 해상 정보: 숫자+단위만(예: 4.2m/s).
     
-    [JSON 출력 포맷]
+    [JSON 포맷]
     {
-        "keyFeatures": "항구 특징 설명 (2~3문장)",
-        "inspectionTips": "현장 조언을 반영한 구체적 검사 가이드 (2~3문장)",
+        "keyFeatures": "- 특징1 (짧게)\\n- 특징2 (짧게)",
+        "inspectionTips": "- 팁1 (구체적)\\n- 팁2 (안전 위주)",
         "overallOpinion": "종합 안전 의견 (1줄)",
         "travelTime": "약 1시간 20분",
         "precautions": "교통 주의사항 (간결하게)",
@@ -725,6 +739,18 @@ function getUserLocation() {
     }
 }
 
+// 검색 함수 (엔터키 지원을 위해 분리)
+function performSearch() {
+    const val = document.getElementById('searchInput').value;
+    const found = allHarbors.find(h => h.harbor.includes(val));
+    if(found) {
+        mapCenter = { lat: found.lat, lon: found.lon };
+        mapZoom = 14;
+        drawMap();
+        setTimeout(() => { selectedLocation = found; updateLocationInfo(found); drawMap(); }, 100);
+    } else { alert('검색 결과가 없습니다.'); }
+}
+
 window.addEventListener('load', () => {
     const splash = document.getElementById('splash-screen');
     const app = document.getElementById('app-container');
@@ -759,15 +785,10 @@ window.addEventListener('load', () => {
         });
     });
 
-    document.getElementById('searchBtn').addEventListener('click', () => {
-        const val = document.getElementById('searchInput').value;
-        const found = allHarbors.find(h => h.harbor.includes(val));
-        if(found) {
-            mapCenter = { lat: found.lat, lon: found.lon };
-            mapZoom = 14;
-            drawMap();
-            setTimeout(() => { selectedLocation = found; updateLocationInfo(found); drawMap(); }, 100);
-        } else { alert('검색 결과가 없습니다.'); }
+    // ★ 검색 버튼 및 엔터키 이벤트 연결 ★
+    document.getElementById('searchBtn').addEventListener('click', performSearch);
+    document.getElementById('searchInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') performSearch();
     });
 });
 </script>
