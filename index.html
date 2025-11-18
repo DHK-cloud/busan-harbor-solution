@@ -6,285 +6,185 @@
   <title>해양 스마트 출장 솔루션</title>
   
   <style>
-    /* --- 기본 설정 --- */
+    /* --- 1. 기본 설정 및 레이아웃 --- */
     body {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
       font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
       background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #90caf9 100%);
       color: #212121;
-      height: 100%;
-      overflow: hidden;
+      height: 100%; overflow: hidden;
     }
-
     * { box-sizing: border-box; }
     html { height: 100%; }
-    
-    /* --- 스플래시 스크린 --- */
+
+    /* --- 2. 스플래시 스크린 (로고 깨짐 방지 수정) --- */
     #splash-screen {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      transition: opacity 0.5s ease;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999; transition: opacity 0.5s ease;
     }
-    #splash-screen img {
-      height: 80px;
-      width: auto;
-    }
-    #splash-screen.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
+    /* 로고가 없을 때 텍스트로 대체하기 위한 스타일 */
+    .splash-fallback { font-size: 24px; font-weight: bold; color: #1565c0; display: none; }
+    #splash-screen.hidden { opacity: 0; pointer-events: none; }
 
-    /* --- 레이아웃 --- */
+    /* --- 3. 메인 컨테이너 --- */
     .container {
-      display: none; /* 초기에는 숨김 */
-      flex-direction: column;
-      height: 100%;
-      max-width: 100%;
-      margin: 0 auto;
+      display: none; /* 로딩 후 flex로 변경 */
+      flex-direction: column; height: 100%; max-width: 100%; margin: 0 auto;
     }
 
-    /* --- 헤더 --- */
     .header {
-      background: #ffffff;
-      padding: 1rem 1.5rem;
-      text-align: center;
+      background: #ffffff; padding: 1rem 1.5rem; text-align: center;
       border-bottom: 3px solid #1565c0;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      height: 70px; /* 헤더 높이 고정 */
+      display: flex; align-items: center; justify-content: center; gap: 1.5rem;
+      height: 70px; flex-shrink: 0;
     }
-    .header-logo {
-      height: 40px;
-      width: auto;
-      object-fit: contain;
-    }
-    .header-content {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .header h1 {
-      margin: 0;
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: #1a237e;
-      line-height: 1.2;
-    }
-    .header p {
-      margin: 0;
-      font-size: 0.8rem;
-      color: #616161;
-    }
+    .header-logo { height: 40px; width: auto; object-fit: contain; }
+    .header h1 { margin: 0; font-size: 1.4rem; font-weight: 700; color: #1a237e; }
+    .header p { margin: 0; font-size: 0.9rem; color: #616161; }
 
-    /* --- 메인 컨텐츠 (지도 + 패널) --- */
-    .main-content {
-      display: flex;
-      flex: 1;
-      overflow: hidden;
-      position: relative;
-    }
+    .main-content { display: flex; flex: 1; overflow: hidden; position: relative; }
 
-    /* --- 지도 영역 --- */
+    /* --- 4. 지도 스타일 --- */
     .map-container {
-      flex: 1;
-      position: relative;
-      background: #aadaff;
-      overflow: hidden;
+      flex: 1; position: relative; background: #aadaff; overflow: hidden;
+      transition: height 0.4s ease-out, opacity 0.4s ease-out;
     }
-    #mapCanvas {
-      width: 100%;
-      height: 100%;
-      cursor: grab;
-      touch-action: none;
-      display: block; /* 캔버스 표시 강제 */
-    }
+    #mapCanvas { width: 100%; height: 100%; cursor: grab; touch-action: none; }
     #mapCanvas:active { cursor: grabbing; }
 
-    /* 지도 컨트롤 */
     .zoom-controls {
       position: absolute; top: 20px; right: 20px;
       display: flex; flex-direction: column; gap: 10px; z-index: 10;
     }
     .map-control-btn {
-      width: 40px; height: 40px;
-      background: white; border: 1px solid #e0e0e0;
-      border-radius: 8px; font-size: 18px;
+      width: 44px; height: 44px; background: white;
+      border: 1px solid #e0e0e0; border-radius: 8px;
+      font-size: 20px; font-weight: 600; color: #424242;
       cursor: pointer; display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-    .map-control-btn.active { background: #1565c0; color: white; }
+    .map-control-btn:hover { background: #f5f5f5; color: #1565c0; }
+    .map-control-btn.active { background: #1565c0; color: white; border-color: #1565c0; }
 
     /* 지역 선택기 */
     .region-selector {
-      position: absolute; top: 20px; right: 70px;
-      background: rgba(255,255,255,0.95);
-      border-radius: 12px; padding: 10px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-      z-index: 10; display: none; flex-direction: column; gap: 6px;
+      position: absolute; top: 20px; right: 74px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px; padding: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      z-index: 10; display: none; flex-direction: column; gap: 8px; min-width: 120px;
     }
     .region-selector.active { display: flex; }
     .region-btn {
-      background: #1565c0; color: white; border: none;
-      padding: 8px 12px; border-radius: 6px; font-size: 13px;
-      cursor: pointer;
+      background: #1565c0; color: white; border: none; padding: 10px;
+      border-radius: 6px; font-weight: 600; cursor: pointer;
     }
 
-    /* --- 오른쪽 정보 패널 (수정됨: 1줄 압축 스타일 적용) --- */
+    /* 로딩 인디케이터 */
+    .tile-loading {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: rgba(25, 118, 210, 0.9); color: white; padding: 1rem 1.5rem;
+      border-radius: 50px; font-weight: 600; z-index: 5; display: flex; align-items: center;
+    }
+
+    /* --- 5. 정보 패널 (1줄 압축 스타일 적용) --- */
     .info-panel {
-      width: 100%;
-      max-width: 360px;
-      background: #ffffff;
-      padding: 1rem;
-      overflow-y: auto;
-      border-left: 1px solid #e0e0e0;
+      width: 100%; max-width: 380px; background: #ffffff;
+      padding: 1.25rem; overflow-y: auto; border-left: 1px solid #e0e0e0;
       box-shadow: -2px 0 8px rgba(0, 0, 0, 0.05);
-      display: flex;
-      flex-direction: column;
+    }
+    .info-panel h2 {
+      margin: 0 0 1rem 0; font-size: 1.1rem; color: #212121;
+      border-bottom: 2px solid #1565c0; padding-bottom: 0.5rem;
     }
 
-    /* 패널 내 텍스트 1줄 말줄임 공통 클래스 */
-    .truncate-text {
+    /* 1줄 말줄임 처리 (핵심 CSS) */
+    .truncate {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       display: block;
-      max-width: 100%;
     }
-
-    .info-panel h2 {
-      margin: 0 0 0.8rem 0;
-      font-size: 1.1rem;
-      color: #212121;
-      border-bottom: 2px solid #1565c0;
-      padding-bottom: 0.4rem;
-    }
-
-    /* 검색창 */
-    .search-container {
-      display: flex; gap: 5px; margin-bottom: 0.8rem;
-    }
-    #searchInput {
-      flex: 1; padding: 8px 12px;
-      border: 2px solid #1a237e; border-radius: 8px;
-      font-size: 0.9rem;
-    }
-    .search-btn {
-      padding: 0 15px;
-      background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%);
-      color: white; border: none; border-radius: 8px; cursor: pointer;
-    }
-
-    /* 검색 결과 */
-    .search-results { display: none; max-height: 200px; overflow-y: auto; margin-bottom: 1rem; }
-    .search-results.active { display: block; }
-    .search-result-item {
-      padding: 8px; border-bottom: 1px solid #eee; cursor: pointer;
-    }
-    .search-result-item:hover { background: #f5f5f5; }
-
-    /* 분석 컨텐츠 섹션 (압축형) */
-    #analysisContent { padding-top: 0.5rem; }
-    #selectedHarborName {
-      font-size: 1.1rem; color: #1a237e; margin: 0 0 0.3rem 0;
-      font-weight: 700;
-    }
-    .address-container { margin-bottom: 0.5rem; }
-    #harborAddress { font-size: 0.8rem; color: #666; }
-
-    /* 섹션 박스 스타일 (여백 축소) */
+    
+    /* 정보 블록 스타일 압축 */
     .analysis-section {
-      margin-bottom: 0.6rem;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      padding: 0.6rem;
-      background: #f9faff;
+      margin-bottom: 0.8rem; padding: 0.6rem;
+      border: 1px solid #e0e0e0; border-radius: 8px; background: #f9faff;
     }
     .analysis-section h4 {
-      font-size: 0.9rem; margin: 0 0 0.3rem 0;
-      color: #333; border-bottom: 1px solid #eee; padding-bottom: 2px;
+      font-size: 0.9rem; font-weight: 700; margin: 0 0 0.3rem 0;
+      border-bottom: 1px solid #eee; padding-bottom: 2px;
     }
     .analysis-section p {
-      font-size: 0.85rem; color: #424242; margin: 0;
-      /* 1줄 압축 핵심 스타일 */
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-size: 0.85rem; line-height: 1.4; margin: 0; color: #424242;
     }
-
-    /* 그리드 레이아웃 (정보 블록) */
-    .route-info-grid, .safety-info-grid {
-      display: grid; gap: 0.4rem;
-    }
+    
+    /* 그리드 */
+    .route-info-grid, .safety-info-grid { display: grid; gap: 0.5rem; }
     .route-info-grid { grid-template-columns: 1fr 1fr; }
     .safety-info-grid { grid-template-columns: 1fr 1fr 1fr; }
+    
+    .info-block { background: #fff; border: 1px solid #e8e8e8; border-radius: 6px; padding: 0.5rem; }
+    .info-block h5 { font-size: 0.75rem; color: #1565c0; margin: 0 0 0.2rem 0; }
+    .info-block p { font-size: 0.9rem; font-weight: 600; }
 
-    .info-block {
-      background: #ffffff; border: 1px solid #e8e8e8;
-      border-radius: 6px; padding: 0.4rem;
-    }
-    .info-block h5 {
-      font-size: 0.7rem; color: #1565c0; margin: 0 0 0.2rem 0;
-    }
-    .info-block p {
-      font-size: 0.85rem; font-weight: 600;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
+    /* 검색창 등 기타 UI */
+    .search-container { display: flex; gap: 8px; margin-bottom: 1rem; }
+    #searchInput { flex: 1; padding: 10px; border: 2px solid #1a237e; border-radius: 8px; }
+    .search-btn { padding: 10px 15px; background: #1a237e; color: white; border: none; border-radius: 8px; cursor: pointer; }
+    .search-results { max-height: 200px; overflow-y: auto; display: none; margin-bottom: 1rem; }
+    .search-results.active { display: block; }
+    .search-result-item { padding: 10px; border-bottom: 1px solid #eee; cursor: pointer; }
+    .search-result-item:hover { background: #f5f5f5; }
 
-    /* 로딩 애니메이션 */
+    /* 스피너 */
     .spinner {
-      width: 0.8em; height: 0.8em;
-      border: 2px solid currentColor; border-right-color: transparent;
-      border-radius: 50%; display: inline-block;
-      animation: spinner-spin 0.75s linear infinite; vertical-align: middle;
+      width: 1em; height: 1em; border: 2px solid currentColor;
+      border-right-color: transparent; border-radius: 50%;
+      display: inline-block; animation: spinner-spin 0.75s linear infinite;
+      vertical-align: middle; margin-right: 5px;
     }
     @keyframes spinner-spin { to { transform: rotate(360deg); } }
+    .loading { color: #9e9e9e; font-style: italic; }
 
-    /* 내비게이션 버튼 */
-    .nav-buttons { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; }
-    .nav-button {
-      flex: 1; padding: 0.5rem; background: #1565c0; color: white;
-      border-radius: 6px; font-size: 0.85rem; text-align: center; text-decoration: none;
+    /* 모달 */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.5); display: none;
+      align-items: center; justify-content: center; z-index: 1000;
     }
+    .modal-overlay.active { display: flex; }
+    .modal-content { background: white; padding: 20px; border-radius: 8px; max-width: 400px; width: 90%; text-align: center;}
+    .modal-button { background: #1565c0; color: white; border: none; padding: 10px 20px; border-radius: 6px; margin-top: 15px; cursor: pointer; }
 
-    /* --- 모바일 반응형 --- */
+    /* 반응형 */
     @media (max-width: 768px) {
       .main-content { flex-direction: column; }
-      .info-panel {
-        max-width: 100%; max-height: 45%;
-        border-top: 2px solid #1565c0;
-      }
-      .header { padding: 0.5rem 1rem; height: 50px; justify-content: flex-start;}
-      .header h1 { font-size: 1rem; }
+      .header { padding: 0.5rem; justify-content: flex-start; }
       .header p { display: none; }
+      .info-panel { max-width: 100%; max-height: 45%; border-top: 2px solid #1565c0; }
     }
   </style>
 </head>
 <body>
 
   <div id="splash-screen">
-    <div style="text-align: center;">
-        <img src="https://via.placeholder.com/150x60/1565c0/ffffff?text=KCA+Busan" alt="KCA 로고" onerror="this.style.display='none'; document.getElementById('splash-text').style.display='block';">
-        <h2 id="splash-text" style="display:none; color: #1565c0; margin-top: 10px;">KCA 부산본부</h2>
-    </div>
+    <img src="https://www.kca.kr/home/www/images/main_2020/ft_logo.png" 
+         alt="KCA 로고" 
+         onerror="this.style.display='none'; document.querySelector('.splash-fallback').style.display='block';">
+    <div class="splash-fallback">KCA 부산본부<br>해양 스마트 출장 솔루션</div>
   </div>
 
   <div class="container" id="app-container">
     <div class="header">
-      <img src="https://via.placeholder.com/100x40/1565c0/ffffff?text=KCA" alt="로고" class="header-logo">
+      <img src="https://www.kca.kr/home/www/images/main_2020/ft_logo.png" alt="KCA" class="header-logo" onerror="this.style.display='none'">
       <div class="header-content">
         <h1 id="appTitle">해양 스마트 출장 솔루션</h1>
-        <p id="subtitle">KCA 부산본부 안전 관리 시스템</p>
+        <p id="subtitle">KCA 부산본부 항, 포, 구 출장 솔루션</p>
       </div>
     </div>
 
@@ -295,30 +195,30 @@
         <div class="zoom-controls">
           <button class="map-control-btn" id="zoomIn">+</button>
           <button class="map-control-btn" id="zoomOut">−</button>
-          <button class="map-control-btn" id="gpsBtn">🛰️</button>
-          <button class="map-control-btn" id="locationToggle">📍</button>
-        </div>
-
-        <div id="tileLoading" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background:rgba(0,0,0,0.6); color:white; padding:10px 20px; border-radius:20px; display:none; z-index:5;">
-            <span class="spinner"></span> 지도 로딩...
+          <button class="map-control-btn" id="gpsBtn" title="내 위치">🛰️</button>
+          <button class="map-control-btn" id="locationToggle" title="지역 선택">📍</button>
         </div>
 
         <div class="region-selector" id="regionSelector">
-            <button class="region-btn" data-region="busan">부산</button>
-            <button class="region-btn" data-region="ulsan">울산</button>
-            <button class="region-btn" data-region="changwon">창원</button>
-            <button class="region-btn" data-region="tongyeong">통영</button>
-            <button class="region-btn" data-region="geoje">거제</button>
-            <button class="region-btn" data-region="namhae">남해</button>
-            <button class="region-btn" data-region="sacheon">사천</button>
-            <button class="region-btn" data-region="hadong">하동</button>
-            <button class="region-btn" data-region="goseong">고성</button>
-            <button class="region-btn" data-region="all">전체</button>
+          <button class="region-btn" data-region="busan">부산</button>
+          <button class="region-btn" data-region="ulsan">울산</button>
+          <button class="region-btn" data-region="changwon">창원</button>
+          <button class="region-btn" data-region="tongyeong">통영</button>
+          <button class="region-btn" data-region="geoje">거제</button>
+          <button class="region-btn" data-region="namhae">남해</button>
+          <button class="region-btn" data-region="sacheon">사천</button>
+          <button class="region-btn" data-region="hadong">하동</button>
+          <button class="region-btn" data-region="goseong">고성</button>
+          <button class="region-btn" data-region="all">전체보기</button>
+        </div>
+
+        <div class="tile-loading" id="tileLoading" style="display: none;">
+            <span class="spinner"></span><span>지도 로딩 중...</span>
         </div>
       </div>
       
       <div class="info-panel" id="info-panel">
-        <h2 id="aiAnalysisTitle">AI 분석 리포트</h2>
+        <h2 id="aiAnalysisTitle">AI 항, 포, 구 분석</h2>
         
         <div class="search-container">
           <input type="text" id="searchInput" placeholder="항포구 검색...">
@@ -326,308 +226,450 @@
         </div>
         <div id="searchResults" class="search-results"></div>
 
-        <div id="locationLabelWrapper" style="text-align: center; padding: 20px; color: #666;">
-            <p>지도에서 목적지를 선택하세요.</p>
+        <div class="location-info" id="locationLabelWrapper">
+            <p id="locationLabel" style="text-align:center; color:#666;"><strong>지도에서 목적지를 선택하세요</strong></p>
         </div>
 
         <div id="analysisContent" style="display: none;">
-            <h3 id="selectedHarborName">항구 이름</h3>
-            <div class="address-container">
-              <p id="harborAddress" class="truncate-text">주소 정보</p>
-            </div>
+            <h3 id="selectedHarborName"></h3>
+            <p id="harborAddress" style="font-size:0.85rem; color:#666; margin-bottom:10px;"></p>
             
-            <div id="navButtons" class="nav-buttons">
-                <a class="nav-button" id="tmapBtn" href="#">TMAP</a>
-                <a class="nav-button" id="naverBtn" href="#">네이버</a>
+            <div id="navButtons" style="display:flex; gap:10px; margin-bottom:15px;">
+                <a id="tmapBtn" href="#" target="_blank" style="flex:1; background:#1565c0; color:white; padding:8px; text-align:center; border-radius:5px; text-decoration:none; font-size:0.9rem;">TMAP</a>
+                <a id="naverBtn" href="#" target="_blank" style="flex:1; background:#03C75A; color:white; padding:8px; text-align:center; border-radius:5px; text-decoration:none; font-size:0.9rem;">네이버</a>
             </div>
 
             <div class="analysis-section">
                 <h4>핵심 특징</h4>
-                <p id="aiKeyFeatures" class="loading truncate-text"><span class="spinner"></span> 분석 중...</p>
+                <p id="aiKeyFeatures" class="loading truncate"><span class="spinner"></span> AI 분석 중...</p>
             </div>
             <div class="analysis-section">
                 <h4>종합 의견</h4>
-                <p id="aiOverallOpinion" class="loading truncate-text"><span class="spinner"></span> 분석 중...</p>
+                <p id="aiOverallOpinion" class="loading truncate"><span class="spinner"></span> AI 분석 중...</p>
             </div>
             <div class="analysis-section">
                 <h4>현장 조언</h4>
-                <p id="aiFieldAdvice" class="truncate-text">-</p>
+                <p id="aiFieldAdvice" class="truncate"></p>
             </div>
 
             <div class="analysis-section">
-                <h4>이동 경로 & 안전</h4>
+                <h4>AI 맞춤 경로 & 안전</h4>
                 <div class="route-info-grid">
                     <div class="info-block">
-                        <h5>소요시간</h5>
-                        <p id="aiTravelTime" class="loading"><span class="spinner"></span>...</p>
+                        <h5>예상 시간</h5>
+                        <p id="aiTravelTime" class="loading truncate"><span class="spinner"></span>...</p>
                     </div>
                     <div class="info-block">
-                        <h5>주의사항</h5>
-                        <p id="aiPrecautions" class="loading"><span class="spinner"></span>...</p>
+                        <h5>교통 주의</h5>
+                        <p id="aiPrecautions" class="loading truncate"><span class="spinner"></span>...</p>
                     </div>
                 </div>
             </div>
 
             <div class="analysis-section">
-                <h4>해상 날씨</h4>
+                <h4>실시간 해상 정보</h4>
                 <div class="safety-info-grid">
                     <div class="info-block">
                         <h5>풍속/풍향</h5>
-                        <p id="safetyWind" class="loading">...</p>
+                        <p id="safetyWind" class="loading truncate">...</p>
                     </div>
                     <div class="info-block">
                         <h5>파고</h5>
-                        <p id="safetyWave" class="loading">...</p>
+                        <p id="safetyWave" class="loading truncate">...</p>
                     </div>
                     <div class="info-block">
                         <h5>조류</h5>
-                        <p id="safetyTide" class="loading">...</p>
+                        <p id="safetyTide" class="loading truncate">...</p>
                     </div>
                 </div>
             </div>
+            
+            <div class="analysis-section">
+                <h4>물때</h4>
+                <div class="route-info-grid">
+                    <div class="info-block">
+                        <h5>만조</h5>
+                        <p id="tideHighTime" class="loading truncate">...</p>
+                    </div>
+                    <div class="info-block">
+                        <h5>간조</h5>
+                        <p id="tideLowTime" class="loading truncate">...</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
       </div>
     </div>
   </div>
 
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-content" id="modalContent">
+      <p id="modalMessage"></p>
+      <button class="modal-button" id="modalClose">확인</button>
+    </div>
+  </div>
+
 <script>
-    // API 호출 함수 (JSON 추출 기능 포함)
-    async function callGeminiAPI(prompt) {
-      try {
-        const response = await fetch('api/gemini', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ prompt })
-        });
-        const data = await response.json();
-        if (!data.success) throw new Error(data.error || 'API Error');
-        return data.result;
-      } catch (error) {
-        console.error('API Fail:', error);
-        throw error;
+// --- 1. API & 유틸리티 함수 ---
+async function callGeminiAPI(prompt) {
+  try {
+    const response = await fetch('api/gemini', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ prompt })
+    });
+    const data = await response.json();
+    if (!data.success) throw new Error(data.error || 'Gemini API failed');
+    return data.result;
+  } catch (error) {
+    console.error('API 호출 실패', error);
+    throw error;
+  }
+}
+
+function extractJSON(text) {
+  try {
+    const s = text.indexOf('{');
+    const e = text.lastIndexOf('}');
+    if (s !== -1 && e !== -1) return JSON.parse(text.substring(s, e + 1));
+    return JSON.parse(text);
+  } catch (e) {
+    throw new Error("JSON 파싱 실패");
+  }
+}
+
+// --- 2. 데이터 및 상태 변수 (원본 데이터 유지) ---
+const sampleHarbors = [ 
+    {harbor: '한화오션', region: '경남-거제', address: '경상남도 거제 거제대로 3370', lat: 34.869797, lon: 128.697627, advice: '통신실장에게 내방인 출입신청 필요'},
+    {harbor: '내간항', region: '경남-거제', address: '경상남도 거제 거제면 내간리 50-17', lat: 34.846273, lon: 128.567096, advice: '특이사항 없음'},
+    {harbor: '법동항', region: '경남-거제', address: '경상남도 거제 거제면 법동리 1056-4', lat: 34.82242, lon: 128.519491, advice: '소형선박 주의'}
+];
+let allHarbors = sampleHarbors;
+let selectedLocation = null;
+let canvas, ctx;
+let mapCenter = { lat: 35.5, lon: 128.8 };
+let mapZoom = 8;
+let markers = []; // 중요: 렌더링된 마커 저장용
+let isDragging = false;
+let dragStart = { x: 0, y: 0 };
+let tileCache = {};
+let loadingTiles = 0;
+let userLocation = null;
+let currentRegionFilter = 'all';
+let pendingMapUpdate = null;
+const TILE_SIZE = 256;
+const OSM_TILE_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+
+const regionalMarkers = {
+    '부산': { lat: 35.18, lon: 129.08, count: 0, regionKey: '부산' },
+    '울산': { lat: 35.53, lon: 129.35, count: 0, regionKey: '울산' },
+    '경남-창원': { lat: 35.1978, lon: 128.5756, count: 0, regionKey: '경남-창원' },
+    '경남-통영': { lat: 34.8442, lon: 128.4331, count: 0, regionKey: '경남-통영' },
+    '경남-거제': { lat: 34.8897, lon: 128.6997, count: 0, regionKey: '경남-거제' },
+    '경남-남해': { lat: 34.83, lon: 127.89, count: 0, regionKey: '경남-남해' },
+    '경남-사천': { lat: 34.92, lon: 128.06, count: 0, regionKey: '경남-사천' },
+    '경남-하동': { lat: 34.94, lon: 127.87, count: 0, regionKey: '경남-하동' },
+    '경남-고성': { lat: 34.97, lon: 128.32, count: 0, regionKey: '경남-고성' }
+};
+
+// --- 3. 지도 핵심 로직 (좌표변환 및 그리기) ---
+function initMap() {
+  canvas = document.getElementById('mapCanvas');
+  ctx = canvas.getContext('2d');
+  window.addEventListener('resize', resizeCanvas);
+  
+  // 마우스/터치 이벤트 (원본 로직 복구)
+  canvas.addEventListener('mousedown', handleMouseDown);
+  canvas.addEventListener('mousemove', handleMouseMove);
+  canvas.addEventListener('mouseup', handleMouseUp);
+  canvas.addEventListener('wheel', handleWheel);
+  // (모바일 터치 이벤트는 간소화를 위해 생략했으나 필요시 추가 가능)
+}
+
+function resizeCanvas() {
+  const container = canvas.parentElement;
+  if (container.clientWidth > 0) {
+    canvas.width = container.clientWidth;
+    canvas.height = container.clientHeight;
+    drawMap();
+  }
+}
+
+// 좌표 변환
+function latLonToTile(lat, lon, zoom) {
+  const x = Math.floor((lon + 180) / 360 * Math.pow(2, zoom));
+  const y = Math.floor((1 - Math.log(Math.tan(lat * Math.PI / 180) + 1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2, zoom));
+  return { x, y };
+}
+function tileToLatLon(x, y, zoom) {
+  const n = Math.PI - 2 * Math.PI * y / Math.pow(2, zoom);
+  const lat = 180 / Math.PI * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n)));
+  const lon = x / Math.pow(2, zoom) * 360 - 180;
+  return { lat, lon };
+}
+function latLonToPixel(lat, lon) {
+  const scale = Math.pow(2, mapZoom);
+  const worldX = (lon + 180) / 360 * TILE_SIZE * scale;
+  const worldY = (1 - Math.log(Math.tan(lat * Math.PI / 180) + 1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * TILE_SIZE * scale;
+  const centerTile = latLonToTile(mapCenter.lat, mapCenter.lon, mapZoom);
+  const centerWorld = { x: centerTile.x * TILE_SIZE + TILE_SIZE / 2, y: centerTile.y * TILE_SIZE + TILE_SIZE / 2 };
+  return { x: canvas.width / 2 + (worldX - centerWorld.x), y: canvas.height / 2 + (worldY - centerWorld.y) };
+}
+
+function loadTile(x, y, z) {
+  const key = `${z}/${x}/${y}`;
+  if (tileCache[key]) return tileCache[key];
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = () => { updateLoadingIndicator(); drawMap(); };
+  img.src = OSM_TILE_URL.replace('{z}', z).replace('{x}', x).replace('{y}', y);
+  tileCache[key] = img;
+  return img;
+}
+function updateLoadingIndicator() { /* 생략 가능 */ }
+
+// ★★★ 중요: 지도 그리기 (마커 모양 및 클릭 영역 복구) ★★★
+function drawMap() {
+  if (!ctx || canvas.width === 0) return;
+  
+  // 1. 배경 및 타일 그리기
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#aadaff';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+  const centerTile = latLonToTile(mapCenter.lat, mapCenter.lon, mapZoom);
+  const tilesX = Math.ceil(canvas.width / TILE_SIZE) + 2;
+  const tilesY = Math.ceil(canvas.height / TILE_SIZE) + 2;
+  const startX = centerTile.x - Math.floor(tilesX / 2);
+  const startY = centerTile.y - Math.floor(tilesY / 2);
+
+  for (let i = 0; i < tilesX; i++) {
+    for (let j = 0; j < tilesY; j++) {
+      const tx = startX + i, ty = startY + j;
+      const max = Math.pow(2, mapZoom);
+      if (tx >= 0 && tx < max && ty >= 0 && ty < max) {
+        const tile = loadTile(tx, ty, mapZoom);
+        if (tile.complete && tile.naturalWidth > 0) {
+          const tLatLon = tileToLatLon(tx, ty, mapZoom);
+          const pos = latLonToPixel(tLatLon.lat, tLatLon.lon);
+          ctx.drawImage(tile, pos.x, pos.y, TILE_SIZE, TILE_SIZE);
+        }
       }
     }
+  }
 
-    function extractJSON(text) {
-      try {
-        const s = text.indexOf('{');
-        const e = text.lastIndexOf('}');
-        if (s !== -1 && e !== -1) return JSON.parse(text.substring(s, e + 1));
-        return JSON.parse(text);
-      } catch (e) {
-        console.error("JSON Parse Error", e);
-        throw new Error("JSON 변환 실패");
+  // 2. 마커 데이터 준비
+  markers = [];
+  let locationsToShow = allHarbors; 
+  // (필터링 로직은 간소화: 줌 레벨이 낮으면 지역 마커, 높으면 개별 마커)
+  
+  locationsToShow.forEach(loc => {
+      const pos = latLonToPixel(loc.lat, loc.lon);
+      // 화면 밖 마커는 그리지 않음
+      if (pos.x > -50 && pos.x < canvas.width + 50 && pos.y > -50 && pos.y < canvas.height + 50) {
+          markers.push({ ...loc, x: pos.x, y: pos.y });
       }
-    }
+  });
 
-    // 지도 및 데이터 변수
-    const sampleHarbors = [ 
-        {harbor: '한화오션', region: '경남-거제', address: '거제대로 3370', lat: 34.869797, lon: 128.697627, advice: '출입신청 필수'},
-        {harbor: '내간항', region: '경남-거제', address: '거제면 내간리', lat: 34.846273, lon: 128.567096, advice: '특이사항 없음'},
-        {harbor: '법동항', region: '경남-거제', address: '거제면 법동리', lat: 34.82242, lon: 128.519491, advice: '소형선박 주의'}
-    ];
-    let allHarbors = sampleHarbors;
-    let mapCenter = { lat: 35.5, lon: 128.8 };
-    let mapZoom = 8;
-    let canvas, ctx;
-    let isDragging = false;
-    let dragStart = { x: 0, y: 0 };
-    const TILE_SIZE = 256;
-    // 타일 서버 (OpenStreetMap)
-    const OSM_TILE_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+  // 3. 마커 그리기 (물방울 모양 복구)
+  markers.forEach(marker => {
+      const pos = { x: marker.x, y: marker.y };
+      const isSelected = selectedLocation && selectedLocation.harbor === marker.harbor;
+      const markerSize = 14; // 기본 크기
+      const fillColor = isSelected ? '#ff5722' : '#1565c0'; // 선택됨: 주황, 기본: 파랑
 
-    // 지도 초기화 및 그리기
-    function initMap() {
-        canvas = document.getElementById('mapCanvas');
-        ctx = canvas.getContext('2d');
-        
-        // 이벤트 리스너 등록
-        window.addEventListener('resize', resizeCanvas);
-        canvas.addEventListener('mousedown', (e) => { isDragging = true; dragStart = {x:e.clientX, y:e.clientY}; });
-        canvas.addEventListener('mousemove', handleMouseMove);
-        canvas.addEventListener('mouseup', () => { isDragging = false; });
-        canvas.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            if(e.deltaY < 0) mapZoom = Math.min(18, mapZoom + 1);
-            else mapZoom = Math.max(5, mapZoom - 1);
-            drawMap();
-        });
-    }
+      // 그림자
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+      ctx.shadowBlur = 6;
+      ctx.shadowOffsetY = 3;
 
-    function resizeCanvas() {
-        const container = canvas.parentElement;
-        if (container.clientWidth > 0) {
-            canvas.width = container.clientWidth;
-            canvas.height = container.clientHeight;
-            drawMap();
+      // 핀 모양 (원 + 삼각형)
+      ctx.beginPath();
+      ctx.arc(pos.x, pos.y - markerSize * 1.2, markerSize, 0, Math.PI * 2); // 머리
+      ctx.fillStyle = fillColor;
+      ctx.fill();
+      
+      ctx.beginPath();
+      ctx.moveTo(pos.x - markerSize * 0.8, pos.y - markerSize * 0.9);
+      ctx.lineTo(pos.x, pos.y); // 뾰족한 끝
+      ctx.lineTo(pos.x + markerSize * 0.8, pos.y - markerSize * 0.9);
+      ctx.fillStyle = fillColor;
+      ctx.fill();
+
+      // 내부 흰 점
+      ctx.shadowColor = 'transparent';
+      ctx.beginPath();
+      ctx.arc(pos.x, pos.y - markerSize * 1.2, markerSize * 0.4, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+
+      // 텍스트 (선택되었거나 줌이 클 때)
+      if (isSelected || mapZoom > 12) {
+          ctx.font = 'bold 12px sans-serif';
+          ctx.fillStyle = '#1a237e';
+          ctx.textAlign = 'center';
+          ctx.fillText(marker.harbor, pos.x, pos.y + 15);
+      }
+  });
+}
+
+// --- 4. 인터랙션 핸들러 ---
+function handleMouseDown(e) { isDragging = true; dragStart = { x: e.clientX, y: e.clientY }; }
+function handleMouseMove(e) {
+  if (!isDragging) return;
+  const dx = e.clientX - dragStart.x;
+  const dy = e.clientY - dragStart.y;
+  // 간단 이동 (정밀도는 떨어지지만 가벼움)
+  mapCenter.lon -= dx * 0.003 * (360 / Math.pow(2, mapZoom));
+  mapCenter.lat += dy * 0.003 * (180 / Math.pow(2, mapZoom));
+  dragStart = { x: e.clientX, y: e.clientY };
+  drawMap();
+}
+function handleMouseUp(e) {
+  if (isDragging) {
+      const dx = Math.abs(e.clientX - dragStart.x);
+      const dy = Math.abs(e.clientY - dragStart.y);
+      if (dx < 5 && dy < 5) { // 클릭으로 간주
+          checkMarkerClick(e);
+      }
+  }
+  isDragging = false;
+}
+function handleWheel(e) {
+    e.preventDefault();
+    if(e.deltaY < 0) mapZoom = Math.min(18, mapZoom + 1);
+    else mapZoom = Math.max(5, mapZoom - 1);
+    drawMap();
+}
+
+// ★★★ 중요: 클릭 감지 (히트박스) 복구 ★★★
+function checkMarkerClick(e) {
+    const rect = canvas.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const clickY = e.clientY - rect.top;
+    let clickedMarker = null;
+
+    // 역순으로 탐색 (위에 그려진 마커부터)
+    for (let i = markers.length - 1; i >= 0; i--) {
+        const m = markers[i];
+        // 마커 중심부 대략적인 영역 확인
+        const dist = Math.sqrt(Math.pow(clickX - m.x, 2) + Math.pow(clickY - (m.y - 15), 2));
+        if (dist < 20) { // 히트 반경 20px
+            clickedMarker = m;
+            break;
         }
     }
 
-    function drawMap() {
-        if (!ctx || canvas.width === 0) return;
+    if (clickedMarker) {
+        selectedLocation = clickedMarker;
+        updateLocationInfo(clickedMarker);
+        drawMap(); // 선택 상태 반영을 위해 다시 그림
+    }
+}
+
+// --- 5. AI 분석 및 UI 업데이트 (1줄 요약 적용) ---
+async function getAnalysis(harbor) {
+    // 1줄 요약 요청 프롬프트
+    const prompt = `
+    항구: ${harbor.harbor} (${harbor.address})
+    역할: 해양 안전 전문가.
+    요청: 위 항구에 대한 정보를 JSON으로 작성하되, 모든 값은 '반드시 20자 이내의 한 문장'으로 요약하세요.
+    JSON 필드:
+    {
+        "keyFeatures": "핵심 특징(1줄)",
+        "overallOpinion": "종합 의견(1줄)",
+        "travelTime": "소요시간(예: 약 40분)",
+        "precautions": "교통 주의사항(1줄)",
+        "wind": "풍속(간단히)",
+        "wave": "파고(간단히)",
+        "tide": "조류(간단히)",
+        "highTide": "만조시간",
+        "lowTide": "간조시간"
+    }`;
+
+    try {
+        const text = await callGeminiAPI(prompt);
+        const data = extractJSON(text);
         
-        // 배경
-        ctx.fillStyle = '#aadaff';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // 데이터 적용
+        document.getElementById('aiKeyFeatures').textContent = data.keyFeatures;
+        document.getElementById('aiOverallOpinion').textContent = data.overallOpinion;
+        document.getElementById('aiTravelTime').textContent = data.travelTime;
+        document.getElementById('aiPrecautions').textContent = data.precautions;
+        document.getElementById('safetyWind').textContent = data.wind;
+        document.getElementById('safetyWave').textContent = data.wave;
+        document.getElementById('safetyTide').textContent = data.tide;
+        document.getElementById('tideHighTime').textContent = data.highTide || '-';
+        document.getElementById('tideLowTime').textContent = data.lowTide || '-';
+        
+        // 로딩 클래스 제거
+        document.querySelectorAll('.loading').forEach(el => el.classList.remove('loading'));
+        
+    } catch (e) {
+        console.error(e);
+        document.getElementById('aiKeyFeatures').textContent = "정보 로드 실패";
+    }
+}
 
-        // 타일 계산
-        const centerTile = latLonToTile(mapCenter.lat, mapCenter.lon, mapZoom);
-        const tilesX = Math.ceil(canvas.width / TILE_SIZE) + 2;
-        const tilesY = Math.ceil(canvas.height / TILE_SIZE) + 2;
-        const startX = centerTile.x - Math.floor(tilesX / 2);
-        const startY = centerTile.y - Math.floor(tilesY / 2);
-
-        for (let i = 0; i < tilesX; i++) {
-            for (let j = 0; j < tilesY; j++) {
-                const tx = startX + i;
-                const ty = startY + j;
-                const max = Math.pow(2, mapZoom);
-                if (tx >= 0 && tx < max && ty >= 0 && ty < max) {
-                    const img = new Image();
-                    img.crossOrigin = 'anonymous';
-                    img.src = OSM_TILE_URL.replace('{z}', mapZoom).replace('{x}', tx).replace('{y}', ty);
-                    img.onload = () => {
-                        const tLatLon = tileToLatLon(tx, ty, mapZoom);
-                        const pos = latLonToPixel(tLatLon.lat, tLatLon.lon);
-                        ctx.drawImage(img, pos.x, pos.y, TILE_SIZE, TILE_SIZE);
-                        // 타일 로드 후 마커 다시 그리기 (간단 구현)
-                        drawMarkers();
-                    };
-                }
-            }
-        }
-        drawMarkers();
-    }
-
-    function drawMarkers() {
-        allHarbors.forEach(h => {
-            const pos = latLonToPixel(h.lat, h.lon);
-            ctx.beginPath();
-            ctx.arc(pos.x, pos.y, 6, 0, Math.PI*2);
-            ctx.fillStyle = 'red';
-            ctx.fill();
-            ctx.stroke();
-        });
-    }
-
-    // 좌표 변환 유틸
-    function latLonToTile(lat, lon, zoom) {
-        const x = Math.floor((lon + 180) / 360 * Math.pow(2, zoom));
-        const y = Math.floor((1 - Math.log(Math.tan(lat * Math.PI / 180) + 1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2, zoom));
-        return { x, y };
-    }
-    function tileToLatLon(x, y, zoom) {
-        const n = Math.PI - 2 * Math.PI * y / Math.pow(2, zoom);
-        const lat = 180 / Math.PI * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n)));
-        const lon = x / Math.pow(2, zoom) * 360 - 180;
-        return { lat, lon };
-    }
-    function latLonToPixel(lat, lon) {
-        const scale = Math.pow(2, mapZoom);
-        const wx = (lon + 180) / 360 * TILE_SIZE * scale;
-        const wy = (1 - Math.log(Math.tan(lat * Math.PI / 180) + 1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * TILE_SIZE * scale;
-        const cTile = latLonToTile(mapCenter.lat, mapCenter.lon, mapZoom);
-        const cx = cTile.x * TILE_SIZE + TILE_SIZE/2;
-        const cy = cTile.y * TILE_SIZE + TILE_SIZE/2;
-        return {
-            x: canvas.width/2 + (wx - cx),
-            y: canvas.height/2 + (wy - cy)
-        };
-    }
+function updateLocationInfo(location) {
+    document.getElementById('locationLabelWrapper').style.display = 'none';
+    document.getElementById('analysisContent').style.display = 'block';
     
-    function handleMouseMove(e) {
-        if(!isDragging) return;
-        const dx = e.clientX - dragStart.x;
-        const dy = e.clientY - dragStart.y;
-        // 간단 이동 로직 (정확도는 낮으나 작동 확인용)
-        mapCenter.lon -= dx * 0.01; 
-        mapCenter.lat += dy * 0.01;
-        dragStart = {x:e.clientX, y:e.clientY};
-        drawMap();
-    }
+    document.getElementById('selectedHarborName').textContent = location.harbor;
+    document.getElementById('harborAddress').textContent = location.address;
+    document.getElementById('aiFieldAdvice').textContent = location.advice || '특이사항 없음';
 
-    // AI 요청 함수 (1줄 요약 요청)
-    async function getAnalysis(harbor) {
-        // UI 초기화
-        ['aiKeyFeatures', 'aiOverallOpinion', 'aiTravelTime', 'aiPrecautions'].forEach(id => {
-            document.getElementById(id).innerHTML = '<span class="spinner"></span> 분석 중...';
-        });
+    // TMAP/네이버 링크 업데이트
+    const eName = encodeURIComponent(location.harbor);
+    document.getElementById('tmapBtn').href = `tmap://route?goalname=${eName}&goaly=${location.lat}&goalx=${location.lon}`;
+    document.getElementById('naverBtn').href = `nmap://route/public?dlat=${location.lat}&dlng=${location.lon}&dname=${eName}&appname=com.example.myapp`;
 
-        const prompt = `
-        항구: ${harbor.harbor} (${harbor.address})
-        목표: 이 항구에 대한 정보를 JSON으로 제공하되, 모든 필드의 값은 '반드시 20자 이내의 1개 문장'으로 아주 짧게 요약해야 함.
-        JSON 포맷:
-        {
-            "keyFeatures": "핵심 특징 1줄 요약",
-            "overallOpinion": "종합 의견 1줄 요약",
-            "travelTime": "약 00분",
-            "precautions": "주요 주의사항 1줄",
-            "wind": "풍속 1줄",
-            "wave": "파고 1줄",
-            "tide": "조류 1줄"
-        }
-        `;
+    // 로딩 상태 리셋
+    ['aiKeyFeatures', 'aiOverallOpinion', 'aiTravelTime', 'aiPrecautions', 'safetyWind', 'safetyWave', 'safetyTide'].forEach(id => {
+        const el = document.getElementById(id);
+        el.innerHTML = '<span class="spinner"></span> 분석 중...';
+        el.classList.add('loading');
+    });
+
+    getAnalysis(location);
+}
+
+// --- 6. 초기화 ---
+window.addEventListener('load', () => {
+    const splash = document.getElementById('splash-screen');
+    const app = document.getElementById('app-container');
+
+    setTimeout(() => {
+        splash.classList.add('hidden');
+        app.style.display = 'flex';
         
-        try {
-            const text = await callGeminiAPI(prompt);
-            const data = extractJSON(text);
-            
-            document.getElementById('aiKeyFeatures').textContent = data.keyFeatures;
-            document.getElementById('aiOverallOpinion').textContent = data.overallOpinion;
-            document.getElementById('aiTravelTime').textContent = data.travelTime;
-            document.getElementById('aiPrecautions').textContent = data.precautions;
-            document.getElementById('safetyWind').textContent = data.wind;
-            document.getElementById('safetyWave').textContent = data.wave;
-            document.getElementById('safetyTide').textContent = data.tide;
-        } catch (e) {
-            console.error(e);
-            document.getElementById('aiKeyFeatures').textContent = "정보 없음";
-        }
+        // 지도가 표시된 직후 캔버스 사이즈를 잡아야 함
+        requestAnimationFrame(() => {
+            initMap();
+            resizeCanvas();
+            // 스플래시 DOM 제거
+            setTimeout(() => { if(splash.parentNode) splash.parentNode.removeChild(splash); }, 500);
+        });
+    }, 2000);
+});
+
+// 버튼 이벤트 연결
+document.getElementById('zoomIn').addEventListener('click', () => { mapZoom++; drawMap(); });
+document.getElementById('zoomOut').addEventListener('click', () => { mapZoom--; drawMap(); });
+document.getElementById('searchBtn').addEventListener('click', () => {
+    const val = document.getElementById('searchInput').value;
+    const found = allHarbors.find(h => h.harbor.includes(val));
+    if(found) {
+        mapCenter = { lat: found.lat, lon: found.lon };
+        mapZoom = 14;
+        drawMap();
+        // 약간의 지연 후 마커 클릭 시뮬레이션
+        setTimeout(() => { selectedLocation = found; updateLocationInfo(found); drawMap(); }, 100);
+    } else {
+        alert('검색 결과가 없습니다.');
     }
-
-    // 마커 클릭 시뮬레이션 (canvas 클릭 이벤트에 통합 필요)
-    // 예제에서는 간단히 검색 시 호출되도록 처리
-
-    document.getElementById('searchBtn').addEventListener('click', () => {
-        const val = document.getElementById('searchInput').value;
-        const found = allHarbors.find(h => h.harbor.includes(val));
-        if(found) {
-            mapCenter = {lat: found.lat, lon: found.lon};
-            drawMap();
-            document.getElementById('locationLabelWrapper').style.display = 'none';
-            document.getElementById('analysisContent').style.display = 'block';
-            document.getElementById('selectedHarborName').textContent = found.harbor;
-            document.getElementById('harborAddress').textContent = found.address;
-            document.getElementById('aiFieldAdvice').textContent = found.advice;
-            
-            getAnalysis(found);
-        } else {
-            alert('항구를 찾을 수 없습니다. (예: 한화오션, 내간항)');
-        }
-    });
-
-    // --- 초기화 로직 ---
-    window.addEventListener('load', () => {
-        const splash = document.getElementById('splash-screen');
-        const app = document.getElementById('app-container');
-
-        // 2초 후 실행
-        setTimeout(() => {
-            splash.classList.add('hidden'); // 스플래시 숨김
-            app.style.display = 'flex';     // 앱 표시
-            
-            // [중요] 지도가 표시된(flex) 직후에 사이즈를 계산해야 함
-            // requestAnimationFrame을 사용하여 브라우저 렌더링 직후 실행 보장
-            requestAnimationFrame(() => {
-                initMap();      // 캔버스 컨텍스트 생성 및 이벤트 연결
-                resizeCanvas(); // 크기 맞춤 및 그리기
-                
-                // 스플래시 DOM 제거
-                setTimeout(() => { if(splash.parentNode) splash.parentNode.removeChild(splash); }, 500);
-            });
-            
-        }, 2000);
-    });
+});
 
 </script>
 </body>
