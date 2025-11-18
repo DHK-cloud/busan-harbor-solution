@@ -28,57 +28,21 @@
     /* 레이아웃 */
     .container { display: none; flex-direction: column; height: 100%; max-width: 100%; margin: 0 auto; }
     
-    /* ★ 헤더 스타일 수정 (반응형 레이아웃) ★ */
     .header {
-      background: #ffffff; padding: 0.8rem 1.5rem; text-align: center;
+      background: #ffffff; padding: 0.8rem 2rem; text-align: left;
       border-bottom: 3px solid #1565c0; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      display: flex; align-items: center; justify-content: center; 
-      gap: 1rem; flex-shrink: 0;
+      display: flex; flex-direction: row; align-items: center; justify-content: center; 
+      gap: 1.5rem; height: 90px; flex-shrink: 0;
     }
-    .header-logo { height: 40px; width: auto; object-fit: contain; }
-    .header h1 { margin: 0; font-size: 1.3rem; font-weight: 700; color: #1a237e; }
-    .header p { margin: 0; font-size: 0.85rem; color: #616161; }
-    .header-content { display: flex; flex-direction: column; }
-
-    /* 태블릿 & 데스크탑 (769px 이상): 로고 위, 제목 아래 (세로 배치) */
-    @media (min-width: 769px) {
-        .header {
-            flex-direction: column; /* 세로 배치 */
-            height: auto;
-            padding: 1.5rem 1rem;
-            gap: 0.5rem;
-        }
-        .header-logo { height: 50px; margin-bottom: 5px; }
-        .header-content { align-items: center; }
-    }
-
-    /* 모바일 (768px 이하): 로고 왼쪽, 제목 오른쪽 (가로 배치) */
-    @media (max-width: 768px) {
-        .header {
-            flex-direction: row; /* 가로 배치 */
-            height: 60px;
-            padding: 0.5rem 1rem;
-            justify-content: flex-start;
-        }
-        .header-logo { height: 35px; }
-        .header-content { align-items: flex-start; }
-        .header p { display: none; } /* 모바일 공간 절약 */
-        
-        .map-container { 
-            height: 40vh; flex: none; 
-            transition: height 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.4s ease;
-        }
-        .info-panel { max-width: 100%; flex: 1; border-top: 2px solid #1565c0; border-left: none; }
-        /* 모바일에서 미리보기 숨김 */
-        .map-image-preview { display: none !important; }
-    }
+    .header-logo { height: 60px; width: auto; object-fit: contain; }
+    .header-content { display: flex; flex-direction: column; justify-content: center; }
+    .header h1 { margin: 0; font-size: 1.5rem; font-weight: 700; color: #1a237e; }
+    .header p { margin: 0; font-size: 0.95rem; color: #616161; }
 
     .main-content { display: flex; flex: 1; overflow: hidden; position: relative; }
 
     /* 지도 영역 */
-    .map-container {
-      flex: 1; position: relative; background: #aadaff; overflow: hidden;
-    }
+    .map-container { flex: 1; position: relative; background: #aadaff; overflow: hidden; }
     #mapCanvas { width: 100%; height: 100%; cursor: grab; touch-action: none; display: block; }
     #mapCanvas:active { cursor: grabbing; }
 
@@ -105,20 +69,20 @@
 
     /* 미리보기 이미지 */
     .map-image-preview {
-      position: absolute; bottom: 20px; right: 20px; width: 240px;
-      background: #fff; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      position: absolute; bottom: 30px; right: 30px; width: 300px; 
+      background: #fff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
       z-index: 20; overflow: hidden; display: none;
     }
     .map-image-preview.active { display: block; }
-    .map-image-preview img { width: 100%; height: 140px; object-fit: cover; display: block; }
+    .map-image-preview img { width: 100%; height: 180px; object-fit: cover; display: block; }
     .preview-title {
       position: absolute; bottom: 0; left: 0; right: 0;
-      background: rgba(0,0,0,0.6); color: white; padding: 6px 10px;
-      font-size: 0.9rem; font-weight: 600;
+      background: rgba(0,0,0,0.7); color: white; padding: 8px 12px;
+      font-size: 1rem; font-weight: 600;
     }
     .preview-close {
       position: absolute; top: 5px; right: 10px; color: white;
-      font-size: 24px; font-weight: bold; cursor: pointer; text-shadow: 0 0 3px rgba(0,0,0,0.8);
+      font-size: 28px; font-weight: bold; cursor: pointer; text-shadow: 0 0 3px rgba(0,0,0,0.8);
     }
 
     /* 정보 패널 */
@@ -132,14 +96,40 @@
       border-bottom: 2px solid #1565c0; padding-bottom: 0.4rem;
     }
 
-    /* 텍스트 스타일 */
-    .line-break-text {
-      white-space: pre-line; 
-      word-break: keep-all;
-      line-height: 1.5;
-      display: block;
+    /* ★ 항구 이름 및 구분선 디자인 수정 ★ */
+    #selectedHarborName {
+        color: #1565c0; /* 파란색 강조 */
+        font-size: 1.4rem;
+        font-weight: 800;
+        margin: 0 0 10px 0;
+        padding-bottom: 10px;
+        border-bottom: 3px solid #1565c0; /* 파란색 구분선 */
     }
 
+    /* ★ 주소 및 복사 버튼 컨테이너 ★ */
+    .address-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #f5f5f5;
+        padding: 8px 12px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+    #harborAddress {
+        font-size: 0.9rem; color: #424242; margin: 0; flex: 1;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .copy-btn {
+        background: #e0e0e0; color: #333; border: 1px solid #ccc;
+        padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;
+        cursor: pointer; margin-left: 8px; flex-shrink: 0;
+    }
+    .copy-btn:hover { background: #d5d5d5; }
+
+
+    /* 텍스트 스타일 */
+    .line-break-text { white-space: pre-line; word-break: keep-all; line-height: 1.5; display: block; }
     .adaptive-font { font-size: 0.9rem; }
     .adaptive-font.small { font-size: 0.8rem; line-height: 1.3; }
 
@@ -163,10 +153,7 @@
       min-height: 60px;
     }
     .info-block h5 { font-size: 0.75rem; color: #1565c0; margin: 0 0 0.3rem 0; font-weight: 700; }
-    .info-block p { 
-        font-weight: 600; color: #333; margin: 0; 
-        word-break: keep-all; white-space: pre-line;
-    }
+    .info-block p { font-weight: 600; color: #333; margin: 0; word-break: keep-all; white-space: pre-line; }
 
     .search-container { display: flex; gap: 8px; margin-bottom: 1rem; }
     #searchInput { flex: 1; padding: 10px; border: 2px solid #1a237e; border-radius: 8px; }
@@ -186,6 +173,17 @@
     .modal-overlay.active { display: flex; }
     .modal-content { background: white; padding: 20px; border-radius: 8px; max-width: 350px; width: 90%; text-align: center;}
     .modal-button { background: #1565c0; color: white; border: none; padding: 8px 20px; border-radius: 6px; margin-top: 15px; cursor: pointer; }
+
+    @media (max-width: 768px) {
+      .main-content { flex-direction: column; }
+      .header { padding: 0.5rem 1rem; justify-content: flex-start; height: 60px; gap: 0.8rem; }
+      .header-logo { height: 35px; } 
+      .header h1 { font-size: 1.1rem; }
+      .header p { display: none; }
+      .map-container { height: 40vh; flex: none; transition: height 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.4s ease; }
+      .info-panel { max-width: 100%; flex: 1; border-top: 2px solid #1565c0; border-left: none; }
+      .map-image-preview { display: none !important; }
+    }
   </style>
 </head>
 <body>
@@ -257,7 +255,10 @@
 
         <div id="analysisContent" style="display: none;">
             <h3 id="selectedHarborName"></h3>
-            <p id="harborAddress" style="font-size:0.85rem; color:#666; margin-bottom:10px;"></p>
+            <div class="address-row">
+                <p id="harborAddress"></p>
+                <button class="copy-btn" onclick="copyAddress()">주소복사</button>
+            </div>
             
             <div id="navButtons" style="display:flex; gap:8px; margin-bottom:15px;">
                 <a id="tmapBtn" href="#" target="_blank" style="flex:1; background:#1565c0; color:white; padding:10px; text-align:center; border-radius:6px; text-decoration:none; font-size:0.9rem; font-weight:600;">TMAP</a>
@@ -384,13 +385,27 @@ const sampleHarbors = [
 const regionalMarkers = {
     '부산': { lat: 35.18, lon: 129.08, count: 0, regionKey: '부산' },
     '울산': { lat: 35.53, lon: 129.35, count: 0, regionKey: '울산' },
-    '창원': { lat: 35.19, lon: 128.57, count: 0, regionKey: '경남-창원' },
-    '통영': { lat: 34.84, lon: 128.43, count: 0, regionKey: '경남-통영' },
-    '거제': { lat: 34.88, lon: 128.69, count: 0, regionKey: '경남-거제' },
-    '남해': { lat: 34.83, lon: 127.89, count: 0, regionKey: '경남-남해' },
-    '사천': { lat: 34.92, lon: 128.06, count: 0, regionKey: '경남-사천' },
-    '하동': { lat: 34.94, lon: 127.87, count: 0, regionKey: '경남-하동' },
-    '고성': { lat: 34.97, lon: 128.32, count: 0, regionKey: '경남-고성' }
+    '경남-창원': { lat: 35.19, lon: 128.57, count: 0, regionKey: '경남-창원' },
+    '경남-통영': { lat: 34.84, lon: 128.43, count: 0, regionKey: '경남-통영' },
+    '경남-거제': { lat: 34.88, lon: 128.69, count: 0, regionKey: '경남-거제' },
+    '경남-남해': { lat: 34.83, lon: 127.89, count: 0, regionKey: '경남-남해' },
+    '경남-사천': { lat: 34.92, lon: 128.06, count: 0, regionKey: '경남-사천' },
+    '경남-하동': { lat: 34.94, lon: 127.87, count: 0, regionKey: '경남-하동' },
+    '경남-고성': { lat: 34.97, lon: 128.32, count: 0, regionKey: '경남-고성' }
+};
+
+// 정확한 좌표 매핑을 위한 객체
+const regionCoordinates = {
+    'all': { lat: 35.1194, lon: 129.0447, zoom: 9 },
+    'busan': { lat: 35.18, lon: 129.08, zoom: 11 },
+    'ulsan': { lat: 35.53, lon: 129.35, zoom: 11 },
+    'changwon': { lat: 35.19, lon: 128.57, zoom: 11 },
+    'tongyeong': { lat: 34.84, lon: 128.43, zoom: 11 },
+    'geoje': { lat: 34.88, lon: 128.69, zoom: 11 },
+    'namhae': { lat: 34.83, lon: 127.89, zoom: 11 },
+    'sacheon': { lat: 34.92, lon: 128.06, zoom: 11 },
+    'hadong': { lat: 34.94, lon: 127.87, zoom: 11 },
+    'goseong': { lat: 34.97, lon: 128.32, zoom: 11 }
 };
 
 let allHarbors = sampleHarbors;
@@ -559,7 +574,6 @@ function drawMarkers() {
             ctx.fillText(`${m.count}곳`, m.x, m.y + 8);
         } 
         else {
-            // ★ 마커 변경: 이중 원형 타겟 ★
             const isSelected = selectedLocation && selectedLocation.harbor === m.harbor;
             const color = isSelected ? '#ff5722' : '#1976d2';
             
@@ -634,8 +648,8 @@ function checkClick(e) {
     
     for (let i = markers.length - 1; i >= 0; i--) {
         const m = markers[i];
-        const yOffset = (m.type === 'region') ? 0 : -15;
-        const radius = (m.type === 'region') ? 22 : 20;
+        const yOffset = (m.type === 'region') ? 0 : 0;
+        const radius = (m.type === 'region') ? 22 : 15;
         const dist = Math.sqrt(Math.pow(clickX - m.x, 2) + Math.pow(clickY - (m.y + yOffset), 2));
         if (dist < radius) {
             clicked = m;
@@ -646,7 +660,7 @@ function checkClick(e) {
     if (clicked) {
         if (clicked.type === 'region') {
             mapCenter = { lat: clicked.lat, lon: clicked.lon };
-            mapZoom = 12; 
+            mapZoom = 11; 
             drawMap();
         } else {
             selectedLocation = clicked;
@@ -728,7 +742,6 @@ function updateLocationInfo(location) {
     const naverBtn = document.getElementById('naverBtn');
     const destName = encodeURIComponent(location.harbor);
     
-    // 1500px 기준 길찾기 버튼 분기
     if (window.innerWidth > 1500) { 
         tmapBtn.style.display = 'none';
         naverBtn.textContent = "네이버 지도 (길찾기)";
@@ -745,6 +758,20 @@ function updateLocationInfo(location) {
     }
 
     getAnalysis(location);
+}
+
+function copyAddress() {
+    const address = document.getElementById('harborAddress').innerText;
+    if (!address) return;
+    
+    const tempInput = document.createElement("textarea");
+    tempInput.value = address;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand("copy");
+    document.body.removeChild(tempInput);
+    
+    alert("주소가 복사되었습니다: " + address);
 }
 
 function setupScrollInteraction() {
@@ -824,18 +851,12 @@ window.addEventListener('load', () => {
         selector.classList.toggle('active');
     });
 
-    // ★ 지역 선택 버튼 수정 (줌/이동/리프레시) ★
     document.querySelectorAll('.region-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const r = e.target.dataset.region;
-            if (r === 'all') { 
-                mapZoom = 9; mapCenter = {lat: 35.1194, lon: 129.0447}; 
-            }
-            else if (regionalMarkers[r]) { 
-                mapZoom = 12; mapCenter = {lat: regionalMarkers[r].lat, lon: regionalMarkers[r].lon}; 
-            }
-            else if (r === 'changwon') { 
-                mapZoom = 12; mapCenter = {lat: 35.19, lon: 128.57}; 
+            if (regionCoordinates[r]) {
+                mapCenter = { lat: regionCoordinates[r].lat, lon: regionCoordinates[r].lon };
+                mapZoom = regionCoordinates[r].zoom;
             }
             document.getElementById('regionSelector').classList.remove('active');
             drawMap();
