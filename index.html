@@ -360,17 +360,18 @@ function extractJSON(text) {
   } catch (e) { return { error: "파싱 실패" }; }
 }
 
-const regionImages = {
-    '부산': 'https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F001%2F2024%2F07%2F25%2FPCM20231118000008051_P4_20240725184131104.jpg&type=l340_165',
-    '울산': 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Ulsan_Bridge.jpg/250px-Ulsan_Bridge.jpg',
-    '경남-창원': 'https://www.changwon.go.kr/cwportal/10310/10429/10433.web?gcode=1011&idx=167', 
-    '경남-통영': 'https://www.tongyeong.go.kr/images/tour/contents/P0400000/img_01.jpg',
-    '경남-거제': 'https://tour.geoje.go.kr/images/tour/main/img_visual01.jpg',
-    '경남-남해': 'https://www.namhae.go.kr/res/tour/img/main/visual_01.jpg',
-    '경남-사천': 'https://www.sacheon.go.kr/res/tour/img/main/visual_img01.jpg',
-    '경남-하동': 'https://www.hadong.go.kr/images/tour/sub/sub01_01_01_img01.jpg',
-    '경남-고성': 'https://www.goseong.go.kr/res/tour/img/main/visual_01.jpg'
-};
+  const regionImages = {
+      '부산': 'https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F001%2F2024%2F07%2F25%2FPCM20231118000008051_P4_20240725184131104.jpg&type=l340_165',
+      '울산': 'https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F5277%2F2018%2F11%2F14%2F0000155402_003_20181114221331811.jpg&type=a340',
+      '경남-거제': 'https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F5217%2F2023%2F01%2F02%2F0000232921_004_20230102003605996.jpg&type=l340_165',
+      '경남-고성': 'https://search.pstatic.net/sunny/?src=https%3A%2F%2Fimg1.daumcdn.net%2Fthumb%2FR1280x0.fwebp%2F%3Ffname%3Dhttp%3A%2F%2Ft1.daumcdn.net%2Fbrunch%2Fservice%2Fuser%2FwlQ%2Fimage%2FvO85k5zfAXrRGA9dRapdflKcTc8&type=a340',
+      '경남-남해': 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNDExMDVfNTUg%2FMDAxNzMwNzY5Mjc3Mzc4.UvfopuyZSkpS8geZ2z0Mp00Rk3J0omIXRfL-jehuC7sg.WsbCqTEQ8wmmuigHJ9zXrVMu_Swk_046JB14PAea0UUg.JPEG%2F1730723049942.jpg&type=a340',
+      '경남-사천': 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxNzEyMzFfMjIw%2FMDAxNTE0NzA2ODUxNDYw.NFN3QeevzrFFkQADD69H8WfmIjDatgPdZgKF6iaIfTYg.gPpyGtOUU92Vs_lNgch4y8f-DDE7AINop5v8W5hDRbsg.JPEG.bolikeme%2F%25B0%25AD%25B8%25AA%25BF%25A9%25C7%25E0IMG_3456-20171203.jpg&type=a340',
+      '경남-창원': 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNTA3MjNfMjk1%2FMDAxNzUzMjM4MDA5NTU1.FcNZWPDyLX1fDkS-8XcPKTMXn5oSFpihWwSnZLNs5YYg.KV-FxcwmfRSva7_qygX6JZTx1sxDe69jwwZ8d6JoCs4g.JPEG%2F14.jpg&type=a340',
+     '경남-통영': 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzA0MTNfMTEg%2FMDAxNjgxMzU3NjY3Njk3.eHfMmbpy0RssGWVORuaQvOvk515bhhJ6aMDxiXlv_50g.oc-Lta20lYiA4CMRrx3YEUu6OByKEi83g7CjIsZqwW0g.JPEG.hgkim3%2F25991%25A3%25DF41271%25A3%25DF5233.jpg&type=a340',
+      '경남-하동': 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzAyMTJfNDAg%2FMDAxNjc2MTk5NjkzNjgz.lsNEBado0DCaXjagjkOrQ_zWvU8JQlxWo7fT_ZFs_gkg.3_nYICUhx2OlbTAtjopaqc9D3rQF9nUod8j2pc1wJqAg.JPEG.jhmspark00%2F20230205-IMGL3595.jpg&type=a340',
+      '경남': 'https://placehold.co/250x150/0d47a1/ffffff?text=경남+대표+이미지'
+    };
 
 const regionKeyMap = {
     'busan': '부산', 'ulsan': '울산', 'changwon': '경남-창원',
