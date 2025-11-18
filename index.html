@@ -1365,7 +1365,15 @@ function performSearch() {
         return;
     }
 
-    const matched = allHarbors.filter(h => h.harbor.includes(val));
+const matched = allHarbors.filter(h => {
+  const q = val.trim().toLowerCase();
+  // 데이터의 실제 속성명인 harbor와 address를 사용해야 합니다.
+  const name = (h.harbor || "").toLowerCase(); 
+  const addr = (h.address || "").toLowerCase(); 
+
+  return name.includes(q) || addr.includes(q);
+});
+
     if (matched.length === 0) {
         alert('검색 결과가 없습니다.');
         resultsDiv.style.display = 'none';
@@ -1452,7 +1460,12 @@ window.addEventListener('load', () => {
         const resultsDiv = document.getElementById('searchResults');
         
         if(val.length > 0) {
-             const matched = allHarbors.filter(h => h.harbor.includes(val));
+             const matched = allHarbors.filter(h => {
+    const name = (h.harbor || "").toLowerCase();
+    const addr = (h.address || "").toLowerCase();
+    const searchVal = val.toLowerCase(); // 검색어도 소문자로 변환
+    return name.includes(searchVal) || addr.includes(searchVal);
+});
              if(matched.length > 0) {
                  resultsDiv.innerHTML = '';
                  matched.forEach(h => {
