@@ -195,10 +195,8 @@
 
     .region-selector {
       position: absolute;
-      /* --- 수정된 위치 --- */
       top: 20px; 
       right: 74px; 
-      /* --- 수정된 위치 --- */
       background: rgba(255, 255, 255, 0.95);
       border-radius: 12px;
       padding: 12px;
@@ -2077,7 +2075,7 @@ async function getStaticAnalysis(harbor) {
     const text = await callGeminiAPI(prompt);
 
     let jsonText = text
-      .replace(/^```
+      .replace(/^```json\s*/,'')
       .replace(/\n?```$/, '')
       .trim();
 
