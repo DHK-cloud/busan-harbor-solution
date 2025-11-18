@@ -2054,32 +2054,29 @@ function checkMarkerClick(x, y) {
 
 
 async function getStaticAnalysis(harbor) {
-  const prompt = `
-당신은 KCA(한국방송통신전파진흥원)의 베테랑 무선국 검사관을 돕는 AI 어시스턴트입니다.
-
-[분석 대상 항구]
-- 이름: ${harbor.harbor}
-- 주소: ${harbor.address}
-- 기존 조언: ${harbor.advice || ''}
-
-[요청]
-위 정보만을 바탕으로, 다음 항목을 JSON 형식으로 작성하세요.
-
-{
-  "keyFeatures": "무선국 검사/선박 안전 관점에서 이 항·포·구의 핵심 특징을 2~3문장으로 요약",
-  "overallOpinion": "검사관을 위한 종합 의견을 1문장으로 요약"
-}
-`.trim();
+  const prompt = `...`.trim();
 
   try {
     const text = await callGeminiAPI(prompt);
 
     let jsonText = text
       .replace(/^```json\s*/,'')
+      .replace(/^```
       .replace(/\n?```$/, '')
       .trim();
 
-    const aiData = JSON.parse(jsonText);
+    let aiData;
+
+    try {
+      aiData = JSON.parse(jsonText);
+    } catch (e) {
+      console.error('Static JSON 파싱 실패, 원문 사용:', jsonText);
+      aiData = {
+        keyFeatures: jsonText,
+        overallOpinion: jsonText
+      };
+    }
+
     return aiData;
   } catch (error) {
     console.error('Gemini (Static) 분석 중 오류:', error);
@@ -2096,41 +2093,36 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
     departurePoint = `현재 GPS 위치 (위도: ${userLat}, 경도: ${userLon})`;
   }
 
-  const prompt = `
-당신은 KCA 부산본부 검사관의 출장을 돕는 AI 항해 플래너입니다.
-
-[출발지]
-- ${departurePoint}
-
-[도착지]
-- 항만명: ${harbor.harbor}
-- 주소: ${harbor.address}
-
-[요청]
-출발지에서 도착지까지 이동과 현장 작업을 고려하여,
-다음 항목을 JSON 형식으로 작성하세요.
-
-{
-  "travelTime": "예: 약 1시간 20분",
-  "precautions": "예: 출퇴근 시간대 북항대교 정체, 항만 진입로 공사 구간 서행 등",
-  "wind": "예: 북동풍 4m/s",
-  "wave": "예: 파고 0.5~1.0m",
-  "tide": "예: 조류 1~2kn",
-  "warning": "예: 특보 없음 / 풍랑주의보 등",
-  "highTide": "예: 09:10 / 21:25",
-  "lowTide": "예: 03:40 / 15:50"
-}
-`.trim();
+  const prompt = `...위에서 수정한 프롬프트...`.trim();
 
   try {
     const text = await callGeminiAPI(prompt);
 
     let jsonText = text
-      .replace(/^```/, '')
-      .replace(/\n?```$/, '')
+      .replace(/^```
+      .replace(/^```/,'')
+      .replace(/\n?```
       .trim();
 
-    const aiData = JSON.parse(jsonText);
+    let aiData;
+
+    try {
+      aiData = JSON.parse(jsonText);
+    } catch (e) {
+      console.error('JSON 파싱 실패, 원문 사용:', jsonText);
+      // JSON이 아니면 단일 문자열로 취급
+      aiData = {
+        travelTime: jsonText,
+        precautions: jsonText,
+        wind: jsonText,
+        wave: jsonText,
+        tide: jsonText,
+        warning: jsonText,
+        highTide: jsonText,
+        lowTide: jsonText
+      };
+    }
+
     return aiData;
   } catch (error) {
     console.error('Gemini (Realtime) 분석 중 오류:', error);
@@ -2199,8 +2191,8 @@ async function getRealtimeAnalysis(harbor, userLat, userLon) {
             const naverUrl = `nmap://route/car?dlat=${destLat}&dlng=${destLon}&dname=${encodedDestinationName}&appname=${URL_NAME}`;
             
             // NOTE: 모바일 환경에서 <a> 태그의 href를 딥링크로 설정하면 
-            // 앱이 설치되어 있을 경우 바로 실행되고, 설치되어 있지 않을 경우 오류가 발생합니다.
-            // 여기서는 웹페이지 폴백 없이 단순 딥링크만 설정합니다. (복사본.html의 기존 로직)
+            // 앱이 설치되어 있을 경우 바로 실행되고, 설치되어 있지 않을 경우 오류가 발생
+            // 여기서는 웹페이지 폴백 없이 단순 딥링크만 설정합니다.
             tmapBtn.href = tmapUrl;
             naverBtn.href = naverUrl;
 
