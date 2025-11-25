@@ -1359,7 +1359,7 @@ function updateLocationInfo(location) {
         let sLon = userLocation ? userLocation.lon : KCA_BUSAN_LON;
         let sName = userLocation ? "현재위치" : KCA_BUSAN_NAME;
         const sNameEnc = encodeURIComponent(sName);
-        naverBtn.href = `https://map.naver.com/p/directions/${sLat},${sLon},${sNameEnc}/${location.lat},${location.lon},${destName}/-/car`;
+        naverBtn.href = `https://map.naver.com/p/directions/${sLon},${sLat},${sNameEnc}/${location.lon},${location.lat},${destName}/-/car`;
     } else { 
         tmapBtn.style.display = 'block';
         naverBtn.textContent = "네이버지도";
